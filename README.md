@@ -16,3 +16,9 @@ Gérald Oster <<gerald.oster@telecomnancy.eu>>
 ## Description du projet
 
 À compléter
+
+## Crédits
+
+Template LaTeX de l'état de l'art : <<https://www.overleaf.com/latex/templates/rapport-stage-iut-de-lille-departement-informatique/ghpxjcmfgdxj>>
+
+Générateur de la documentation de l'API : <<https://apidocjs.com>>
