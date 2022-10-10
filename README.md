@@ -8,10 +8,10 @@ Gérald Oster <<gerald.oster@telecomnancy.eu>>
 ## Titre du projet
 
 **Membres du groupe** :
-- À compléter
-- À compléter
-- À compléter
-- À compléter
+- Aurand-Augier Mathias
+- Marcel Alexis
+- Laurent Lucas
+- Steiner Noé
 
 ## Description du projet
 
