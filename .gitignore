@@ -323,4 +323,11 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# LaTeX temporary files
+*.aux
+*.fdb_latexmk
+*.fls
+*.synctex.gz
+*.synctex(busy)
+
 # End of https://www.toptal.com/developers/gitignore/api/python,osx,windows,linux,visualstudiocode,pycharm
