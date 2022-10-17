@@ -1,4 +1,6 @@
 \documentclass[french,a4paper]{article}
+\usepackage{graphicx}
+\graphicspath{{img/}}
 \title{PPII}
 \usepackage[bottom=2.5cm,top=2.5cm,left=2.5cm,right=2.5cm]{geometry}
 \author{Noé Steiner - Alexis Marcel - Lucas Laurent - Mathias Aurand-Augier}
@@ -17,8 +19,15 @@ Lorem  ipsum  dolor  sit  amet,  consectetuer  adipiscing
 elit.   Etiam  lobortisfacilisis sem.  Nullam nec mi et 
 neque pharetra sollicitudin.  Praesent imperdietmi nec ante. 
 Donec ullamcorper, felis non sodales...
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.75\textwidth]{img/one.png}
+    \caption{A nice plot.}
+    \label{fig:mesh1}
+\end{figure}
        
-\section*{Unnumbered Section}
+\section{Unnumbered Section}
 \addcontentsline{toc}{section}{Unnumbered Section}
 
 Lorem ipsum dolor sit amet, consectetuer adipiscing elit.  
