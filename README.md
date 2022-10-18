@@ -5,7 +5,7 @@ Anne-Claure Heurtel <<anne-claire.heurtel@telecomnancy.eu>>
 Gérald Oster <<gerald.oster@telecomnancy.eu>>  
 
 
-## Titre du projet
+## TheSharedGarden
 
 **Membres du groupe** :
 - Aurand-Augier Mathias
@@ -18,7 +18,5 @@ Gérald Oster <<gerald.oster@telecomnancy.eu>>
 À compléter
 
 ## Crédits
-
-Template LaTeX de l'état de l'art : <<https://www.overleaf.com/latex/templates/rapport-stage-iut-de-lille-departement-informatique/ghpxjcmfgdxj>>
 
 Générateur de la documentation de l'API : <<https://apidocjs.com>>
