@@ -331,3 +331,10 @@ $RECYCLE.BIN/
 *.synctex(busy)
 
 # End of https://www.toptal.com/developers/gitignore/api/python,osx,windows,linux,visualstudiocode,pycharm
+/.idea/.gitignore
+/.idea/discord.xml
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/inspectionProfiles/profiles_settings.xml
+/.idea/pvcc-grp_18.iml
+/.idea/vcs.xml
