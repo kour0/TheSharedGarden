@@ -1,7 +1,14 @@
-\contentsline {section}{\numberline {1}Introduction}{3}{}%
+\contentsline {section}{\numberline {1}Contexte du projet}{3}{}%
 \contentsline {section}{\numberline {2}Etat de l'art}{4}{}%
-\contentsline {section}{\numberline {3}Gestion de projet}{5}{}%
-\contentsline {section}{\numberline {4}Application proposée}{6}{}%
-\contentsline {subsection}{\numberline {4.1}Définitions}{6}{}%
-\contentsline {subsection}{\numberline {4.2}Application}{6}{}%
-\contentsline {subsection}{\numberline {4.3}Fonctionnalités principales}{6}{}%
+\contentsline {subsection}{\numberline {2.1}Introduction}{4}{}%
+\contentsline {subsection}{\numberline {2.2}Définition d’un circuit court et d’un jardin partagé}{4}{}%
+\contentsline {subsubsection}{\numberline {2.2.1}Qu’est ce qu’un circuit court ?}{4}{}%
+\contentsline {subsubsection}{\numberline {2.2.2}Qu’est ce qu’un jardin partagé ?}{4}{}%
+\contentsline {subsection}{\numberline {2.3}Les jardins partagés et les technologies}{5}{}%
+\contentsline {section}{\numberline {3}Gestion de projet}{7}{}%
+\contentsline {subsection}{\numberline {3.1}Équipe de projet}{7}{}%
+\contentsline {subsection}{\numberline {3.2}Organisation au sein de l’équipe projet}{7}{}%
+\contentsline {section}{\numberline {4}Application proposée}{8}{}%
+\contentsline {subsection}{\numberline {4.1}Définitions}{8}{}%
+\contentsline {subsection}{\numberline {4.2}Fonctionnalités de l'application}{8}{}%
+\contentsline {section}{\numberline {5}Conclusion}{9}{}%
