@@ -1,21 +1,21 @@
-\contentsline {section}{\numberline {1}Contexte du projet}{2}{}%
-\contentsline {section}{\numberline {2}Etat de l'art}{3}{}%
-\contentsline {subsection}{\numberline {2.1}Introduction}{3}{}%
-\contentsline {subsection}{\numberline {2.2}Définition d’un circuit court et d’un jardin partagé}{3}{}%
-\contentsline {subsubsection}{\numberline {2.2.1}Qu’est ce qu’un circuit court ?}{3}{}%
-\contentsline {subsubsection}{\numberline {2.2.2}Qu’est ce qu’un jardin partagé ?}{3}{}%
-\contentsline {subsubsection}{\numberline {2.2.3}L'émergence des jardins partagés ?}{4}{}%
-\contentsline {subsection}{\numberline {2.3}Les jardins partagés et les technologies}{4}{}%
-\contentsline {section}{\numberline {3}Gestion de projet}{6}{}%
-\contentsline {subsection}{\numberline {3.1}Équipe de projet}{6}{}%
-\contentsline {subsection}{\numberline {3.2}Organisation au sein de l’équipe projet}{6}{}%
-\contentsline {subsection}{\numberline {3.3}Triangle qualité-cout-délai}{7}{}%
-\contentsline {subsection}{\numberline {3.4}Matrice SWOT}{7}{}%
-\contentsline {subsection}{\numberline {3.5}Profil de projet}{8}{}%
-\contentsline {subsection}{\numberline {3.6}WBS\nobreakspace {}: comment concrétiser l’application}{8}{}%
-\contentsline {subsection}{\numberline {3.7}Diagramme de Gantt\nobreakspace {}: planification}{9}{}%
-\contentsline {subsection}{\numberline {3.8}Matrice RACI}{9}{}%
-\contentsline {section}{\numberline {4}Application proposée}{11}{}%
-\contentsline {subsection}{\numberline {4.1}Définitions}{11}{}%
-\contentsline {subsection}{\numberline {4.2}Fonctionnalités de l'application}{11}{}%
-\contentsline {section}{\numberline {5}Conclusion}{12}{}%
+\contentsline {section}{\numberline {1}Contexte du projet}{2}{section.1}%
+\contentsline {section}{\numberline {2}Etat de l'art}{3}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Introduction}{3}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Définition d’un circuit court et d’un jardin partagé}{3}{subsection.2.2}%
+\contentsline {subsubsection}{\numberline {2.2.1}Qu’est ce qu’un circuit court ?}{3}{subsubsection.2.2.1}%
+\contentsline {subsubsection}{\numberline {2.2.2}Qu’est ce qu’un jardin partagé ?}{3}{subsubsection.2.2.2}%
+\contentsline {subsubsection}{\numberline {2.2.3}L'émergence des jardins partagés ?}{4}{subsubsection.2.2.3}%
+\contentsline {subsection}{\numberline {2.3}Les jardins partagés et les technologies}{4}{subsection.2.3}%
+\contentsline {section}{\numberline {3}Gestion de projet}{6}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Équipe de projet}{6}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Organisation au sein de l’équipe projet}{6}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Triangle qualité-cout-délai}{7}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}Matrice SWOT}{7}{subsection.3.4}%
+\contentsline {subsection}{\numberline {3.5}Profil de projet}{8}{subsection.3.5}%
+\contentsline {subsection}{\numberline {3.6}WBS\nobreakspace {}: comment concrétiser l’application}{8}{subsection.3.6}%
+\contentsline {subsection}{\numberline {3.7}Diagramme de Gantt\nobreakspace {}: planification}{9}{subsection.3.7}%
+\contentsline {subsection}{\numberline {3.8}Matrice RACI}{9}{subsection.3.8}%
+\contentsline {section}{\numberline {4}Application proposée}{11}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Définitions}{11}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Fonctionnalités de l'application}{11}{subsection.4.2}%
+\contentsline {section}{\numberline {5}Conclusion}{12}{section.5}%
