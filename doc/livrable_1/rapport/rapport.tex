@@ -18,37 +18,37 @@
 \newpage
 \section{Contexte du projet}
 Ce rapport rend compte du Projet Pluridisciplinaire d’Informatique Intégrative dans le cadre de la première année du cycle ingénieur à TELECOM Nancy.
-L’objectif de ce projet est de concevoir une application dédiée à l’optimisation des ressources dans les vergers et potagers partagés du territoire.
+L’objectif de ce projet est de concevoir, en groupe,  une application dédiée à l’optimisation des ressources dans les vergers et potagers partagés du territoire.
 
 \newpage
 \section{Etat de l'art}
 \subsection{Introduction}
 Les enjeux climatiques n’ont jamais été aussi élevés. Notre planète arrive à la fin de ses énergies fossiles. Les ressources deviennent rares, les changements climatiques provoquent des pénuries, des sécheresses et des catastrophes naturelles. Le mode de vie que nous connaissons aujourd’hui doit changer et devenir plus écoresponsable. L’objectif est de changer les habitudes de consommation de produits venants du monde entier en se restreignant à une zone géographique bien plus petite. La politique actuelle serait de privilégier les produits de notre pays mais essayons d’aller plus loin…
 
-En effet, un mode de vie plus judicieux écologiquement serait de revenir à des productions locales en passant directement par les producteurs. Certaines personnes ont une surface de production( jardin, verger) mais n’ont pas le temps ou les moyens de s’en occuper. Tandis que d’autres personnes, n’ont pas de terrain mais sont prêtes à donner de leur temps pour pouvoir consommer localement.
+En effet, un mode de vie plus judicieux écologiquement serait de revenir à des productions locales en passant directement par les producteurs. Certaines personnes ont une surface de production ( jardin, verger) mais n’ont pas le temps ou les moyens de s’en occuper. Tandis que d’autres personnes, n’ont pas de terrain mais sont prêtes à donner de leur temps pour pouvoir consommer localement.
 
-Notre solution : utiliser les technologies modernes du web pour proposer une application permettant à n’importe qui de créer/rejoindre un jardin mais surtout de pouvoir gérer facilement un jardin sur lequel vont agir plusieurs personnes.
+Notre solution~: utiliser les technologies modernes du web pour proposer une application permettant à n’importe qui de créer/rejoindre un jardin mais surtout de pouvoir gérer facilement un jardin sur lequel plusieurs personnes vont agir.
 
 \subsection{Définition d’un circuit court et d’un jardin partagé}
 \subsubsection{Qu’est ce qu’un circuit court ?}
 
-Le circuit court est une pratique de commercialisation des produits agricoles consistant à limiter au maximum le nombre d’intermédiaires (en général 0 ou 1) entre le producteur et le consommateur. Il établit donc une proximité à la fois géographique et relationnelle entre le producteur et le consommateur.
+\textbf{Le circuit court est une pratique de commercialisation des produits agricoles consistant à limiter au maximum le nombre d’intermédiaires (en général 0 ou 1) entre le producteur et le consommateur.} Il établit donc une proximité à la fois géographique, mais également relationnelle entre le producteur et le consommateur.
 
-Si aucun intermédiaire n’existe, on parle alors de vente directe. Elle permet notamment à l’agriculteur de mener son activité en toute indépendance, de fixer les prix qu’il désire sans laisser de commission à un quelconque intermédiaire.
+Si aucun intermédiaire n’existe, on parle alors de vente directe. Elle permet notamment à l’agriculteur de mener son activité en toute indépendance, de fixer les prix qu’il désire sans laisser de commission à un quelconque tiers.
 
 Dans l’optique de vendre leurs produits, les agriculteurs d’une même région peuvent créer un partenariat de type AMAP (Association pour le Maintien de l'Agriculture Paysanne) basé sur un système de distribution de paniers  composés des produits de la ferme (éventuellement fromage, viande, légume, fruit, oeuf) et ainsi offrir une diversité importante de produit de saison. Ils peuvent également utiliser d'autres réseaux tels que la Ruche qui Dit Oui, ou encore Bienvenue à la ferme. Mais il existe également d’autres alternatives de vente tels que les drives fermiers qui consistent pour les agriculteurs à proposer leurs produits fermiers en ligne, avec le retrait de la commande dans un point de retrait. Il peut également vendre ses produits par l’intermédiaire de coopératives ou de magasins bio (directement en contact avec le producteur) ou simplement stand dans les marchés du dimanche.
 
 Durant le printemps 2020 et le confinement, les producteurs ont été de plus en plus nombreux à vendre en circuits courts. Malgré cela, la vente directe ne représente aujourd’hui que 5 à 10\% de la consommation alimentaire totale en France.
 \subsubsection{Qu’est ce qu’un jardin partagé ?}
-\textbf{Un jardin partagé est un jardin conçu, construit et cultivé collectivement par les habitants d’un quartier.} Le but étant que chaque membre du jardin participe quotidiennement à sa gestion.
+\textbf{Un jardin partagé est un jardin conçu, construit et cultivé collectivement par les habitants d’un quartier.} La création de jardin partagé repose aujourd’hui sur l’initiative des habitants. C’est un projet de quartier associant confiance, convivialité et entraide. Le but étant que chaque membre du jardin participe quotidiennement à sa gestion. Ce procédé rentre ainsi directement dans le principe de circuit court. 
 
-L’émergence des jardins partagés remonte au 19ème siècle lors de la révolution industrielle. En effet, les populations essentiellement rurales se sont dirigées vers les villes pour trouver du travail. Cependant, les conditions de vie étaient précaires et les jardins partagés appelés  “jardins ouvriers” étaient un moyen de survie. De ce fait, lors de la première guerre mondiale, les jardins partagés ont connu un essor conséquent du fait des conditions précaires, du manque de nourriture.  Dans les années 1970, suite au développement économique, les jardins partagés connaissent un déclin majeur, la population n'en éprouvant plus le besoin.
+L’émergence des jardins partagés remonte au 19ème siècle lors de la révolution industrielle. En effet, les populations essentiellement rurales se sont dirigées vers les villes pour trouver du travail. Cependant, les conditions de vie y étaient précaires et les jardins partagés appelés  “jardins ouvriers” étaient un moyen de survie. De ce fait, lors de la première guerre mondiale, les jardins partagés ont connu un essor conséquent. Dans les années 1970, suite au développement économique, les jardins partagés connaissent un déclin majeur, la population n'en éprouvant plus le besoin.
 
-Cependant, au fil le temps, le développement de la mondialisation a favorisé l’importation au détriment de la production à l’échelle locale. Les produits importés ont ainsi pris de plus en plus de place dans les rayons de nos grandes surfaces. La plupart des français ont ainsi recommencé à privilégier les circuits courts tels que les jardins partagés.
+Au fil le temps, le développement de la mondialisation a favorisé l’importation en grande quantité au détriment de la production à l’échelle locale favorisant la qualité des produits. Ce mode de fonctionnement en circuit long a pris de plus en plus de place dans notre quotidien. 
 
-La création de jardin partagé repose aujourd’hui sur l’initiative des habitants. C’est un projet de quartier. La notion de “jardin partagé” est cependant à distinguer de celle de “jardin familial”.  Un jardin familial est un terrain divisé en parcelles. Chaque habitant dispose de sa propre parcelle qu’il cultive individuellement.
+Cependant, les conditions climatiques et le manque de qualité sont en train d'inciter les citoyens recommencer à privilégier les circuits courts tels que les jardins partagés.
 
-Il existe également une autre manière d’exploiter le concept de jardin partagé : le co-jardinage. En effet, si une personne dispose d’un jardin qu’elle n’exploite pas, elle peut le prêter à une personne qui rêve de faire du jardinage. Il s’agit ici un échange gagnant-gagnant basé sur la confiance, la convivialité, et l'entraide entre le propriétaire du jardin et le jardinier. Le propriétaire prête gracieusement un bout de son jardin, et en échange, le jardinier fait profiter d'une partie de ses récoltes.
+\subsubsection{L'émergence des jardins partagés ?}
 
 En 2021, le gouvernement a lancé un appel aux projets de jardins partagés dans le cadre du programme France Relance. Par cet appel, le gouvernement propose des aides financières aux organismes voulant mettre en place des jardins partagés. De nombreux projets de jardins partagés ont déjà été mis en place grâce à cet appel.
 \begin{figure}[H]
@@ -56,18 +56,20 @@ En 2021, le gouvernement a lancé un appel aux projets de jardins partagés dans
     \includegraphics[width=0.5\textwidth]{img/francerelance_carte.png}
     \caption{Jardins partagés en France}
 \end{figure}
-Le concept de jardin partagé est aujourd’hui en développement et la population s’investit de plus en plus dans une démarche de consommation en circuit court. Le but de ce projet est ainsi de développer une application permettant la gestion d’un jardin partagé.
+Le concept de jardin partagé est aujourd’hui en plein essor et la population, soutenue par le gouvernement, s’investit de plus en plus dans une démarche de consommation en circuit court. 
 
-C’est pourquoi notre projet s’inscrit précisément dans la tendance actuelle en favorisant les circuits courts et en permettant à des personnes de faire le pas dans le monde des jardins partagés.
+C’est pourquoi notre projet s’inscrit précisément dans la tendance actuelle en favorisant les circuits courts et en permettant à des personnes de faire le pas dans le monde des jardins partagés. Le but de ce projet est notamment de  permettre la gestion d’un tel jardin partagé.
+
 \subsection{Les jardins partagés et les technologies}
-La plupart des applications déjà existantes permettent en général soient : de gérer son propre jardin, soit de créer ou rejoindre des jardins partagés mais peu d’application ne propose d’aide pour le gérer (planning, todo list des taches à faire dans le jardin).
+De nombreuses applications conernant les jardins existent. 
+Cependant, elles permettent en général soient~: de gérer les plantes de son jardin, soit de créer/rejoindre des jardins partagés.
 
-Nous avons ainsi répertorié plusieurs applications existente sur le sujet. Nous avons classé leurs fonctionnalités principales dans un tableau :
+Nous avons ainsi répertorié ces applications existente en classant leurs fonctionnalités principales dans un tableau~:
 
 \begin{center}
     \begin{tabular}{ |l| p{3cm} | p{3cm} | p{3cm} | p{3cm} | }
         \hline
-                         & \raggedright création de jardin public(visible sur la carte) & \raggedright Création de jardin privée ( disponible sur lien d’invitation) & \raggedright Gestion globale du jardin & Gestion précise du jardin en organisation de tâche par parcelle \\
+                         & \raggedright création de jardin public (visible sur la carte) & \raggedright Création de jardin privée (disponible sur lien d’invitation) & \raggedright Gestion globale du jardin & Gestion précise du jardin en organisation de tâche par parcelle \\
         \hline
         Groww            &                                                              &                                                                            & x                                      &                                                                 \\
         \hline
@@ -87,44 +89,50 @@ Groww est une application de gestion de jardin qui permet d’avoir une liste de
 
 Les autres applications centrées sur le principe de jardin partagé permettent seulement de créer un jardin qui sera affiché sur une carte à l’adresse du jardin. N’importe qui peut alors faire une demande pour rejoindre le jardin en cliquant directement sur la carte. Cependant ces applications n’incluent pas la gestion du jardin, ce qui peut être très complexe à partir du moment où le jardin est partagé avec plusieurs personnes.
 
-C’est pourquoi notre application permettra non seulement de créer et de rejoindre des jardins mais comprendra la gestion détaillée du jardin. De plus, créer un jardin n’engendrera pas forcément un point sur la carte à l’adresse du jardin (jardin public). En effet, un jardin pourra être privé et les utilisateurs pourront rejoindre le jardin seulement grâce à un lien d’invitation envoyé par le créateur du jardin.
+En effet, un jardin inclus plusieurs tâches à faire différentes en fonction de la période de l'année. De plus, il est souvent séparé en plusieurs compartiments correspondant à un type de culture séparé par des passages pour se déplacer. Un jardin géré par plusieurs personnes s'avèrent donc être un travail délicat au même titre qu'un projet de groupe sans gestion de projet. 
+
+C’est pourquoi notre application permet non seulement de créer et de rejoindre des jardins mais également de gérer de façon détaillée le jardin. De plus, créer un jardin n’engendre pas forcément une localisation public sur la carte mais à la possibilité d'être privé et les utilisateurs peuvent le rejoindre grâce à un lien d’invitation envoyé par le créateur du jardin.
 
 
 \newpage
 \section{Gestion de projet}
 \subsection{Équipe de projet}
-Ce projet est un projet local réalisé en groupe de 4 personnes :
+Ce projet est un projet local réalisé en groupe de 4 personnes~:
 \begin{itemize}
     \item Alexis MARCEL
     \item Lucas LAURENT
     \item Noé STEINER
     \item Mathias AURAND-AUGIER
 \end{itemize}
-Le comité de pilotage est constitué de :
+Le comité de pilotage est constitué de~:
 \begin{itemize}
     \item Anne-Claire HEURTEL
     \item Olivier FESTOR
     \item Gérald OSTER
 \end{itemize}
-Ces personnes constituent les parties prenantes de notre projet ainsi que les acteurs influents sur le livrables :
+Ces personnes constituent les parties prenantes de notre projet ainsi que les acteurs influents sur le livrables.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.75\textwidth]{img/parties_prenantes.png}
     \caption{Parties prenantes}
 \end{figure} 
 \subsection{Organisation au sein de l’équipe projet}
-Nous avons réalisé plusieurs réunions en présentiel dans les locaux de Télécom Nancy mais également sur Discord. Ces réunions nous ont permis de mettre en commun nos avancés régulièrement, de partager nos connaissances sur des problématiques et de nous organiser de manière optimale.
-
-De plus, dès le début de notre projet nous avons mis en place un projet Trello. Trello est une application permettant d’organiser facilement un projet en reposant sur une organisation en planches listant des cartes, chacune représentant des tâches. Ces tâches peuvent ensuite être déplacées permettant de découper notre projet en plusieurs jalons dynamiquement.
-
+Nous avons réalisé plusieurs réunions, en présentiel dans les locaux de Télécom Nancy mais également sur en visio-conférence sur Discord. Ces réunions nous ont permis de mettre en commun nos avancés régulièrement, de partager nos connaissances sur des problématiques et de nous organiser de manière optimale.
 Les comptes rendus des réunions réalisés sont présents dans l’Annexe 1.
 
-Enfin pour partager notre code, nous avons utilisé GitLab.
+De plus, dès le début de notre projet nous avons mis en place un projet Trello. Trello est une application permettant d’organiser facilement un projet en reposant sur une organisation en planches listant des cartes, chacune représentant des tâches. Ces tâches peuvent ensuite être déplacées permettant de découper notre projet en plusieurs jalons dynamiquement.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{img/trello.png}
+    \caption{Organisation Trello}
+\end{figure} 
 
-Ce rapport a été rédigé en \LaTeX.
+Ensuite, nous avons utilisé GitLab pour gérer les différentes versions du développement de notre application, ainsi que les différentes branches nous permettant de travailler simultanément sans conflit.
+
+Enfin, la rédaction des differents comptes rendu de réunion et des rapports ont été rédigé en \LaTeX.
 
 \subsection{Triangle qualité-cout-délai}
-Afin d’établir des objectifs cohérents, et réalisables dans les délais, nous avons réalisé le triangle qualité-coût-délai (mettre le triangle). On remarque ainsi, les délais étant relativement courts, que nous avons tout intérêt à se fixer des objectifs pas trop ambitieux sous peine de renoncer à certaines fonctionnalités faute de temps. 
+Afin d’établir des objectifs cohérents, et réalisables dans les délais, nous avons réalisé le triangle qualité-coût-délai. On remarque ainsi, les délais étant courts, que nous avons tout intérêt à ne pas se fixer des objectifs trop ambitieux sous peine de devoir renoncer à certaines fonctionnalités et de ne pas rendre le livrable annoncé initialement.
 
 \begin{figure}[H]
     \centering
@@ -133,7 +141,7 @@ Afin d’établir des objectifs cohérents, et réalisables dans les délais, no
 \end{figure} 
 
 \subsection{Matrice SWOT}
-Afin d’avoir une vision plus globale de nos ressources et des facteurs interne et externe agissant sur le projet, nous avons ensuite réalisé la matrice SWOT de notre projet.
+Afin d’avoir une vision plus globale de nos ressources et des facteurs interne et externe agissant sur le projet, nous avons ensuite réalisé la matrice SWOT (Strengths, Weaknesses, Opportunities, Threats) de notre projet.
 
 \begin{figure}[H]
     \centering
@@ -141,35 +149,43 @@ Afin d’avoir une vision plus globale de nos ressources et des facteurs interne
     \caption{Matrice SWOT}
 \end{figure} 
 
-On a ainsi remarqué que notre projet présentait de nombreux points fort notamment grâce aux connaissances acquises grâce aux cours de Télécom Nancy et à l’expérience forte de deux des membres de l’équipe projet.  Cependant, plusieurs facteurs internes constituent nos faiblesses notamment les courts délais du projet qui nous obligeront à être concis et efficaces dans notre travail, ou encore le faible bagage informatique de deux des membres de l’équipe. Néanmoins, ces lacunes constituent pour eux l’opportunité d’apprendre, et de progresser avec l’aide des membres expérimentés de l’équipe.
+On peut ainsi remarquer que notre projet présente de nombreux points fort notamment grâce aux connaissances acquises lors des cours de Télécom Nancy mais également de part l’expérience forte de deux des membres de l’équipe projet qui ont déjà réalisé des applications similaires.  Cependant, plusieurs facteurs internes constituent nos faiblesses notamment les courts délais qui nous oblige à être concis et efficaces dans notre travail, ou encore le faible bagage informatique de deux des membres de l’équipe. Néanmoins, ces lacunes constituent pour eux l’opportunité d’apprendre, et de progresser avec l’aide des membres expérimentés de l’équipe.
+
+De plus, nous devons anticiper les charges de travail dans le cadre de notre formation à Télécom Nancy qui s'avèrent être plus élevée en décembre lors des partiels de fin d'année. Nous allons donc devoir prendre cela en compte dans notre gestion des tâches. 
 
 \subsection{Profil de projet}
-Afin d’avoir une vision plus globale sur notre projet, nous avons également réalisé le profil du projet (le budget étant égal à 0, nous avons choisi de ne pas le représenter dans notre profil). On remarque ainsi du fait des nombreuses fonctionnalités que nous avons l’intention d’implémenter dans notre application que notre projet est plutôt de taille moyenne et de complexité élevée bien que les enjeux soient peu importants (en dehors de la note finale qui compte dans notre moyenne). Au vu de l’état de l’art établi, l’innovation du projet semble assez importante puisque nous avons choisi de compiler différentes fonctionnalités de plusieurs applications en une et d’en rajouter de nouvelles si possibles. Par ailleurs, les délais du projet sont relativement courts.
+Afin d’avoir une vision plus globale sur notre projet, nous avons également réalisé le profil du projet (le budget étant égal à 0, nous avons choisi de ne pas le représenter dans notre profil). On remarque que, du fait des nombreuses fonctionnalités que nous avons l’intention d’implémenter dans notre application, que notre projet est de taille moyenne mais de complexité élevée.
+
+Cependant, les enjeux du projet ne sont pas très importants (en dehors de la note finale qui compte dans notre moyenne) car l'échec du projet n'engendra pas la chute d'une organisation et le budget est négligeable.
+
+De plus, au vu de l’état de l’art établi, l’innovation du projet est importante puisque nous avons choisi de combiner différentes fonctionnalités existantes de plusieurs applications et d’en rajouter de nouvelles.
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.75\textwidth]{img/profil_projet.png}
     \caption{Profil du projet}
 \end{figure} 
 
-\subsection{WBS : comment concrétiser l’application}
-Ceci étant fait, nous avons maintenant choisi de détailler les lots de travail à effectuer pour fabriquer notre application. Nous avons ainsi réalisé le WBS de notre application : il apparait ainsi les grandes étapes de notre projet que sont : definition du cadre de l’application, développement des fonctionnalités de l’application et écriture du rapport.
+\subsection{WBS~: comment concrétiser l’application}
+Ceci étant fait, nous avons maintenant choisi de détailler les lots de travail à effectuer pour fabriquer notre application. Nous avons ainsi réalisé le WBS (Work Breakdown Structure) de notre application~: il apparait ainsi les grandes étapes de notre projet que sont~: definition du cadre de l’application, développement des fonctionnalités de l’application et écriture du rapport.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.75\textwidth]{img/WBS.png}
     \caption{WBS}
 \end{figure} 
 
-\subsection{Diagramme de Gantt : planification}
+\subsection{Diagramme de Gantt~: planification}
 Maintenant que nous avons un détail des lots de travail qui constitue notre application, il faut maintenant les mettre en relation pour créer un planning efficace où chaque tâche est effectuée dans l’ordre.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{img/gantt.png}
     \caption{Diagramme de GANTT}
 \end{figure} 
-Il est clair que la partie conception doit précéder la partie programmation. La partie serveur, html, CSS étant effectué en parallèle.
+Ce diagramme est une première version générale des tâches à effectuer, il sera modifié et détaillé davantage une fois la conception et les maquettes du projet réalisé.
 
 \subsection{Matrice RACI}
-Maintenant que toutes les étapes sont planifiées, il manque à répartir le travail entre les membres de l’équipe. On utilise ainsi une matrice RACI.
+Maintenant que toutes les étapes sont planifiées, nous devons répartir le travail entre les membres de l’équipe. On utilise ainsi une matrice RACI synthétisant les rôles de chacun.
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.75\textwidth]{img/RACI.png}
@@ -179,39 +195,48 @@ Maintenant que toutes les étapes sont planifiées, il manque à répartir le tr
 \newpage
 \section{Application proposée}
 \subsection{Définitions}
-Idée générale : les jardins partagés / privés. Les jardins partagés sont des jardins gérés à plusieurs (une communauté, association de personnes), les terrains appartiennent à la commune dans lesquels ils se trouvent. Il faut s’inscrire sur les listes pour y accéder. Ils sont souvent liés à un quartier, il s’agit donc d’un environnement local. Ils permettent pour la plupart de cultiver des légumes, des fruits, des arbres fruitiers, des épices, du miel (avec des ruches). Ils ont pour vocation d’être des endroits conviviaux et orientés vers un certain respect de la nature (récupération de l’eau de la pluie, se soucier des produits utilisés, mettre en place des systèmes.
-Les jardins privés, c’est la même chose, mais le terrain est géré par un particulier.
+\textbf{Objectif général~: concevoir et d’implémenter une application innovante dédiées à l’optimisation des ressources dans les vergers et potagers du territoire.}
+
+Notre application permet à un utilisateur de partager son jardin ou bien de rejoindre un jardin. Pour accéder aux fonctionnalités de l'application, l'utilisateur doit préalablement créer un compte.
+Pour rejoindre un jardin, l'utilisateur a accès à une carte sur laquelle est affichée les jardins alentour.
+
+Pour créer un jardin, l'utilisateur doit renseigner le nom et l'adresse du jardin. Il pourra ensuite rajouter diverses informations telles qu'une description et une photo par exemple. Un jardin a deux états possibles : public ou privé. Un jardin public apparait sur la carte et une demande pour rejoindre le jardin peut être faite par n'importe qui. A l'inverse un jardin privé peut seulement être rejoint via un lien d'invitation envoyé par le créateur.
+
+Sur la page d'accueil, l'utilisateur a accès à tous ses jardins et peut accéder à la gestion de chacun d'entre eux. La gestion d'un jardin se fait principalement autour de la création d'une modélisation du plan réel du jardin par l'utilisateur. Sur cette modélisation, le créateur du jardin peut le séparer en plusieurs parties. Chaque partie est accompagnée d'un état, par exemple~: à semer, à labourer... Une partie est également accompagnée d'une liste des tâches à réaliser établis préalablement par les membres du jardin. Chaque tâche peut être validé par n'importe qui dans le jardin. De plus, on peut retrouver l'historique des tâches réalisées et par qui elles ont été réalisées.
+
+Ces fonctionnalités permettent à un groupe de plusieurs personnes de s'organiser de manière dynamique et efficace.
+
 \subsection{Fonctionnalités de l'application}
 \begin{itemize}
-    \item Compte :
+    \item Compte~:
           \begin{itemize}
               \item Pour accéder aux fonctionnalités de l’application, une inscription sera nécessaire
           \end{itemize}
-    \item Interactions d’un utilisateur avec les autres :
+    \item Interactions d’un utilisateur avec les autres~:
           \begin{itemize}
-              \item créer un jardin :
+              \item créer un jardin~:
                     \begin{itemize}
                         \item nom + adresse du jardin au minimum
-                        \item deux états :
+                        \item deux états~:
                               \begin{itemize}
-                                  \item public : tout le monde peut voir le jardin sur la carte globale
-                                  \item privé : seul les membres du jardin peuvent le voir sur la carte globale
+                                  \item public~: tout le monde peut voir le jardin sur la carte globale
+                                  \item privé~: seul les membres du jardin peuvent le voir sur la carte globale
                               \end{itemize}
                     \end{itemize}
-              \item rejoindre un jardin :
+              \item rejoindre un jardin~:
                     \begin{itemize}
-                        \item public : tout le monde peut directement faire une demande qui sera accepter ou non par le créateur du jardin
-                        \item privé : un lien d’invitation envoyé par le créateur est nécessaire
+                        \item public~: tout le monde peut directement faire une demande qui sera accepter ou non par le créateur du jardin
+                        \item privé~: un lien d’invitation envoyé par le créateur est nécessaire
                     \end{itemize}
 
           \end{itemize}
-    \item fonctionnalités dans un jardin :
+    \item fonctionnalités dans un jardin~:
           \begin{itemize}
-              \item création d’une modélisation du plan réel du jardin : création d’un jardin visuel suivant la forme du jardin réel
+              \item création d’une modélisation du plan réel du jardin~: création d’un jardin visuel suivant la forme du jardin réel
               \item  possibilité de diviser le jardin en plusieurs sous parties
-              \item chaque partie du jardin a :
+              \item chaque partie du jardin a~:
                     \begin{itemize}
-                        \item état (labouré, semé : tomate, jachère…)
+                        \item état (labouré, semé~: tomate, jachère…)
                         \item un liste des tâches à faire
                               \begin{itemize}
                                   \item intitulé de la tâche
