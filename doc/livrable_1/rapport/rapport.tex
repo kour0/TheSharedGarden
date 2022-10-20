@@ -3,7 +3,10 @@
 \setcounter{secnumdepth}{4}
 \usepackage{float}
 \usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{pdfpages}
 \newcommand{\tabitem}{\textbullet~~}
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
 \usepackage{multirow}
 \graphicspath{{img/}}
 \title{PPII}
@@ -12,7 +15,43 @@
 \date{Octobre 2022}
 \begin{document}
 
-\maketitle
+%\maketitle
+
+\begin{titlepage}
+    \begin{center}
+
+    \includegraphics[width=0.5\textwidth]{tele_univ.png}
+
+    \textsc{\Large Rapport de Projet Pluridisciplinaire d'Informatique Intégrative}\\[1.5cm]
+
+    \HRule \\[0.4cm]
+    { \huge \bfseries Les jardins partagés\\[0.4cm] }
+
+    \HRule \\[2cm]
+
+    \begin{minipage}{0.4\textwidth}
+      \begin{flushleft} \large
+        Alexis MARCEL\\
+        Lucas LAURENT\\
+        Noé STEINER\\
+        Mathias AURAND-AUGIER\\
+      \end{flushleft}
+    \end{minipage}
+    \begin{minipage}{0.4\textwidth}
+      \begin{flushright} \large
+        \emph{Responsable du module :}\\
+        Olivier FESTOR\\
+        Anne-Claire HEURTEL\\
+        Gerald OSTER\\
+      \end{flushright}
+    \end{minipage}
+
+    \vfill
+
+    {\large 5 octobre 2022 — 6 Janvier 2023}
+
+  \end{center}
+\end{titlepage}
 \newpage
 \tableofcontents
 \newpage
@@ -44,7 +83,7 @@ Durant le printemps 2020 et le confinement, les producteurs ont été de plus en
 
 L’émergence des jardins partagés remonte au 19ème siècle lors de la révolution industrielle. En effet, les populations essentiellement rurales se sont dirigées vers les villes pour trouver du travail. Cependant, les conditions de vie y étaient précaires et les jardins partagés appelés  “jardins ouvriers” étaient un moyen de survie. De ce fait, lors de la première guerre mondiale, les jardins partagés ont connu un essor conséquent. Dans les années 1970, suite au développement économique, les jardins partagés connaissent un déclin majeur, la population n'en éprouvant plus le besoin.
 
-Au fil le temps, le développement de la mondialisation a favorisé l’importation en grande quantité au détriment de la production à l’échelle locale favorisant la qualité des produits. Ce mode de fonctionnement en circuit long a pris de plus en plus de place dans notre quotidien. 
+Au fil le temps, le développement de la mondialisation a favorisé l’importation en grande quantité au détriment de la production à l’échelle locale dénigrant la qualité des produits. Ce mode de fonctionnement en circuit long a pris de plus en plus de place dans notre quotidien. 
 
 Cependant, les conditions climatiques et le manque de qualité sont en train d'inciter les citoyens recommencer à privilégier les circuits courts tels que les jardins partagés.
 
@@ -118,7 +157,7 @@ Ces personnes constituent les parties prenantes de notre projet ainsi que les ac
 \end{figure} 
 \subsection{Organisation au sein de l’équipe projet}
 Nous avons réalisé plusieurs réunions, en présentiel dans les locaux de Télécom Nancy mais également sur en visio-conférence sur Discord. Ces réunions nous ont permis de mettre en commun nos avancés régulièrement, de partager nos connaissances sur des problématiques et de nous organiser de manière optimale.
-Les comptes rendus des réunions réalisés sont présents dans l’Annexe 1.
+Les comptes rendus des réunions réalisés sont présents dans l’\hyperlink{annexe1}{Annexe 1}.
 
 De plus, dès le début de notre projet nous avons mis en place un projet Trello. Trello est une application permettant d’organiser facilement un projet en reposant sur une organisation en planches listant des cartes, chacune représentant des tâches. Ces tâches peuvent ensuite être déplacées permettant de découper notre projet en plusieurs jalons dynamiquement.
 \begin{figure}[H]
@@ -256,4 +295,9 @@ De même pour gérer l’état d’une partie, l’utilisateur pourra choisir le
 
 \section{Conclusion}
 
+\section{Annexe}
+\subsection[Annexe1]{Annexe 1\hypertarget{annexe1}{}}
+
+\includepdf[pages=1]{../../cr_reu/octobre/16/cr_16_octobre.pdf}
+\includepdf[pages=1]{../../cr_reu/octobre/18/cr_18_octobre.pdf}
 \end{document}
