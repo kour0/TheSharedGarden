@@ -9,12 +9,14 @@
 \contentsline {section}{\numberline {3}Gestion de projet}{6}{section.3}%
 \contentsline {subsection}{\numberline {3.1}Équipe de projet}{6}{subsection.3.1}%
 \contentsline {subsection}{\numberline {3.2}Organisation au sein de l’équipe projet}{6}{subsection.3.2}%
-\contentsline {subsection}{\numberline {3.3}Triangle qualité-cout-délai}{7}{subsection.3.3}%
-\contentsline {subsection}{\numberline {3.4}Matrice SWOT}{7}{subsection.3.4}%
-\contentsline {subsection}{\numberline {3.5}Profil de projet}{8}{subsection.3.5}%
-\contentsline {subsection}{\numberline {3.6}WBS\nobreakspace {}: comment concrétiser l’application}{8}{subsection.3.6}%
-\contentsline {subsection}{\numberline {3.7}Diagramme de Gantt\nobreakspace {}: planification}{9}{subsection.3.7}%
-\contentsline {subsection}{\numberline {3.8}Matrice RACI}{9}{subsection.3.8}%
+\contentsline {subsection}{\numberline {3.3}Objectifs SMART}{7}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}Matrice des objectifs}{7}{subsection.3.4}%
+\contentsline {subsection}{\numberline {3.5}Triangle qualité-cout-délai}{7}{subsection.3.5}%
+\contentsline {subsection}{\numberline {3.6}Matrice SWOT}{8}{subsection.3.6}%
+\contentsline {subsection}{\numberline {3.7}Profil de projet}{9}{subsection.3.7}%
+\contentsline {subsection}{\numberline {3.8}WBS\nobreakspace {}: comment concrétiser l’application}{9}{subsection.3.8}%
+\contentsline {subsection}{\numberline {3.9}Diagramme de Gantt\nobreakspace {}: planification}{10}{subsection.3.9}%
+\contentsline {subsection}{\numberline {3.10}Matrice RACI}{10}{subsection.3.10}%
 \contentsline {section}{\numberline {4}Application proposée}{11}{section.4}%
 \contentsline {subsection}{\numberline {4.1}Définitions}{11}{subsection.4.1}%
 \contentsline {subsection}{\numberline {4.2}Fonctionnalités de l'application}{11}{subsection.4.2}%
