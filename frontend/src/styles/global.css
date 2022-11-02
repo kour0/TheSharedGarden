@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html {
+    @apply h-full;
+  }
+
+  body {
+    @apply h-full bg-white text-slate-900 text-sm;
+  }
+
+  #root {
+    @apply h-full;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  button,
+  span,
+  strong,
+  p,
+  li,
+  ul,
+  input,
+  textarea,
+  label,
+  a,
+  div {
+    @apply tracking-tight;
+  }
+
+  button,
+  a {
+    @apply focus:outline-none;
+  }
+
+  ul {
+    list-style-type: disc;
+  }
+
+  ol {
+    list-style-type: decimal;
+  }
+}
+
+@layer components {
+  @keyframes rotate {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .loader {
+    box-sizing: border-box;
+    border-radius: 100%;
+    border-color: #fff;
+    border-right-color: transparent;
+    animation: rotate 1s linear infinite;
+  }
+}
