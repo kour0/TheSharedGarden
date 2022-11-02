@@ -1,1 +1,3 @@
-# resellers-app
+# ppii
+
+frontend (react)
