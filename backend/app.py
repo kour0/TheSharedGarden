@@ -1,9 +1,15 @@
 import json
+import random
 from flask import g
 from flask import Flask
+from flask import request
+from flask_cors import CORS
 import sqlite3
 
 app = Flask(__name__)
+CORS(app)
+
+BASE_URL = '/api/'
 
 DATABASE = ''
 
@@ -31,5 +37,10 @@ def page_not_found(e):
 def status():
     return 'running'
 
+@app.post(BASE_URL + '/signin')
+def signin():
+    body = request.get_json()
+    rand = random.random()
+    return {'token': rand}
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5454, debug=True)
