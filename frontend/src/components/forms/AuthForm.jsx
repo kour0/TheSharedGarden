@@ -1,6 +1,7 @@
 import { LockClosedIcon } from '@heroicons/react/20/solid';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import axios from 'axios';
 
 export default function AuthForm() {
   const {
@@ -8,7 +9,10 @@ export default function AuthForm() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const onSubmit = async (data) => console.log(data);
+  const onSubmit = async (data) => {
+    const response = await axios.post('http://127.0.0.1:5454/api/signin', data);
+    console.log(response.data);
+  };
 
   return (
     <>
