@@ -1,8 +1,8 @@
-import json
-import random
-import subprocess
-
+from middlewares import auth
+from decouple import config
+from flask import request
 from flask import g
+import jwt
 from flask import Flask
 from flask import request
 from flask import send_from_directory
@@ -45,9 +45,19 @@ def status():
 @app.post(BASE_URL + '/signin')
 def signin():
     body = request.get_json()
-    rand = random.random()
-    return {'token': rand}
+    email = body['email']
+    password = body['password']
+    jwtEncryption = jwt.encode({'email': email, 'password': password}, config('JWT_SECRET'), algorithm='HS256')
 
+    return {'token': jwtEncryption}
+
+@app.get(BASE_URL + '/authtest')
+def authtest():
+    try:
+        res = auth.authenticate(request)
+    except Exception as e:
+        return {'error': str(e)}, 401
+    return res
 
 # Serve React App
 @app.route('/', defaults={'path': ''})
@@ -65,4 +75,4 @@ def hook_root():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5454)
+    app.run(host='0.0.0.0', port=5454, debug=True)
