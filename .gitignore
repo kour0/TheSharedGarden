@@ -340,3 +340,7 @@ $RECYCLE.BIN/
 /.idea/vcs.xml
 /doc/livrable_1/rapport/templates/~$OT + RACI.docx
 /doc/livrable_1/rapport/templates/~WRL2930.tmp
+
+
+
+/frontend/node_modules/
