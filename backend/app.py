@@ -1,14 +1,12 @@
-from middlewares import auth
-from decouple import config
-from flask import request
-from flask import g
-import jwt
+import os
+import sqlite3
+
 from flask import Flask
-from flask import request
+from flask import g
 from flask import send_from_directory
 from flask_cors import CORS
-import sqlite3
-import os
+
+from routes import authentication
 
 app = Flask(__name__)
 CORS(app)
@@ -16,6 +14,8 @@ CORS(app)
 BASE_URL = '/api/'
 
 DATABASE = ''
+
+app.register_blueprint(authentication.authentication)
 
 
 def get_db():
@@ -41,23 +41,6 @@ def page_not_found(e):
 def status():
     return 'Bonsoir Giga Chad'
 
-
-@app.post(BASE_URL + '/signin')
-def signin():
-    body = request.get_json()
-    email = body['email']
-    password = body['password']
-    jwtEncryption = jwt.encode({'email': email, 'password': password}, config('JWT_SECRET'), algorithm='HS256')
-
-    return {'token': jwtEncryption}
-
-@app.get(BASE_URL + '/authtest')
-def authtest():
-    try:
-        res = auth.authenticate(request)
-    except Exception as e:
-        return {'error': str(e)}, 401
-    return res
 
 # Serve React App
 @app.route('/', defaults={'path': ''})

@@ -35,5 +35,3 @@ CREATE TABLE dispose(
     parcelle_id INTEGER
     task_id INTEGER
 )
-
-CREATE TABLE
