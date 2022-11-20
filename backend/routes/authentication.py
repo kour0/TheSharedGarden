@@ -8,15 +8,20 @@ from middlewares import auth
 authentication = Blueprint('authentication', __name__)
 
 BASE_URL = '/api/'
+
+
 @authentication.post(BASE_URL + '/signin')
 def signin():
-    body = request.get_json()
-    email = body['email']
-    account = Accounts.query.filter_by(email=email).first()
-    if not account:
-        return 'Not registered.', 401
-    encryption = jwt.encode({'email': email}, config('JWT_SECRET'), algorithm='HS256')
-    return {'token': encryption}
+    try:
+        body = request.get_json()
+        email = body['email']
+        account = Accounts.query.filter_by(email=email).first()
+        if not account:
+            return {'message': 'Not registered.'}, 401
+        encryption = jwt.encode({'email': email}, config('JWT_SECRET'), algorithm='HS256')
+        return {'token': encryption}
+    except Exception as e:
+        return {'message': str(e)}, 500
 
 
 @authentication.post(BASE_URL + '/signup')
