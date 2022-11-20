@@ -29,7 +29,7 @@ export function NavBar({navigation}) {
                     </div>
                     <div className="hidden md:ml-10 md:block md:space-x-10">
                         {navigation.map((item) => (
-                            <NavBar.Link key={item.name} href={item.href} className="font-medium text-gray-500 hover:text-gray-900">{item.name}</NavBar.Link>
+                            <NavBar.Link key={item.name} to={item.href} path='path' className="font-medium text-gray-500 hover:text-gray-900">{item.name}</NavBar.Link>
                         ))}
                     </div>
                 </div>
@@ -73,7 +73,7 @@ export function NavBar({navigation}) {
                         </div>
                         <div className="space-y-1 px-2 pt-2 pb-3">
                             {navigation.map((item) => (
-                                 <NavBar.Link key={item.name} href={item.href}  className="block rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900">{item.name}</NavBar.Link>
+                                 <NavBar.Link key={item.name} to={item.href} relative='path' className="block rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900">{item.name}</NavBar.Link>
                             ))}
                         </div>
                         <Link to="/login" relative='path' className="block w-full bg-gray-50 px-5 py-3 text-center font-medium text-teal-700 hover:bg-gray-100">

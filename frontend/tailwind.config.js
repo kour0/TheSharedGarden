@@ -13,5 +13,8 @@ module.exports = {
       },
     },
   },
-  plugins: [typography, forms],
+  plugins: [
+    typography,
+    forms
+  ],
 };

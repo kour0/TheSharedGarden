@@ -2,6 +2,7 @@ import { ChevronRightIcon } from '@heroicons/react/20/solid'
 import { NavBar } from '../components/NavBar'
 
 const navigation = [
+    { name: 'Rejoingnez un jardin', href: '/join'},
     { name: 'Qui sommes nous ?', href: '/' },
     { name: 'Le projet', href: '/' },
 ]
@@ -190,7 +191,7 @@ export default function Index() {
                                     <p className="text-xs leading-5 text-gray-500">
                                         En vous inscrivant, vous acceptez les{" "}
                                         <a href="#" className="font-medium text-gray-900 hover:underline">
-                                            Conditions d'utilisation
+                                            Conditions d'utilisations
                                         </a>
                                         ,{' '}
                                         <a href="#" className="font-medium text-gray-900 hover:underline">
