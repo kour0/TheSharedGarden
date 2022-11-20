@@ -5,12 +5,12 @@ from flask import Flask
 from flask import g
 from flask import send_from_directory
 from flask_cors import CORS
+import folium
 
 from routes import authentication
 
 app = Flask(__name__)
 CORS(app)
-
 
 app.register_blueprint(authentication.authentication)
 
@@ -25,6 +25,16 @@ def page_not_found(e):
 @app.get('/status')
 def status():
     return 'Bonsoir Giga Chad'
+
+
+@app.route('/map')
+def render_map():
+    # create map object
+    m = folium.Map(location=[48.6689443, 6.1552047], zoom_start=16, tiles="Stamen Terrain")
+    # create marker
+    folium.Marker(location=[48.6689443, 6.1552047], popup="Giga Chad", tooltip="Giga Chad").add_to(m)
+    carte = m._repr_html_()
+    return carte
 
 
 # Serve React App

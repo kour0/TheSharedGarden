@@ -1,8 +1,8 @@
 export function UniqueFieldForm({ form }) {
   return (
-    <div className="bg-white py-16 sm:py-24">
-      <div className="relative sm:py-16">
-        <div aria-hidden="true" className="hidden sm:block">
+    <div className="py-16 sm:my-0">
+      <div className="relative sm:my-5">
+        {/* <div aria-hidden="true" className="hidden sm:block">
           <div className="absolute inset-y-0 left-0 w-1/2 rounded-r-3xl bg-gray-50" />
           <svg className="absolute top-8 left-1/2 -ml-3" width={404} height={392} fill="none" viewBox="0 0 404 392">
             <defs>
@@ -19,10 +19,10 @@ export function UniqueFieldForm({ form }) {
             </defs>
             <rect width={404} height={392} fill="url(#8228f071-bcee-4ec8-905a-2a059a2cc4fb)" />
           </svg>
-        </div>
+        </div> */}
         <div className="mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:max-w-7xl lg:px-8">
           <div className="relative overflow-hidden rounded-2xl bg-indigo-600 px-6 py-10 shadow-xl sm:px-12 sm:py-20">
-            <div aria-hidden="true" className="absolute inset-0 -mt-72 sm:-mt-32 md:mt-0">
+            {/*<div aria-hidden="true" className="absolute inset-0 -mt-72 sm:-mt-32 md:mt-0">
               <svg
                 className="absolute inset-0 h-full w-full"
                 preserveAspectRatio="xMidYMid slice"
@@ -41,7 +41,7 @@ export function UniqueFieldForm({ form }) {
                   d="M-217.088 544.086L1544.761 72l134.327 501.316-1761.849 472.086z"
                 />
               </svg>
-            </div>
+            </div>*/}
             <div className="relative">
               <div className="sm:text-center">
                 <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
