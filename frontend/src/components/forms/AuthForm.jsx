@@ -1,10 +1,11 @@
 import { LockClosedIcon } from '@heroicons/react/20/solid';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
 export default function AuthForm() {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -13,7 +14,9 @@ export default function AuthForm() {
   const onSubmit = async (data) => {
     try {
       const response = await axios.post('http://127.0.0.1:5454/api/signin', data);
-      toast.success(response.data.message);
+      const token = response.data.token;
+      localStorage.setItem('token', token);
+      navigate('/');
     } catch (error) {
       toast.error(error.response.data.message);
     }
