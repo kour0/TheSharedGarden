@@ -11,7 +11,7 @@ Gérald Oster <<gerald.oster@telecomnancy.eu>>
 - Aurand-Augier Mathias <<mathias.aurand-augier@telecomnancy.eu>>
 - Marcel Alexis <<alexis.marcel@telecomnancy.eu>>
 - Laurent Lucas <<lucas.laurent@telecomnancy.eu>>
-- Steiner Noé <<noe.steiner@telecomnancy.eu>>
+- Steiner Noé <<noe.steiner@telecomnancy.eu>> A.K.A unshade <<72690981+unshade@users.noreply.github.com>>
 
 ## Description du projet
 
