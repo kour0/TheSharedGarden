@@ -3,12 +3,11 @@ from decouple import config
 from flask import Blueprint, request
 
 from models.Accounts import Accounts
-from ..app import BASE_URL
-from ..middlewares import auth
+from middlewares import auth
 
 authentication = Blueprint('authentication', __name__)
 
-
+BASE_URL = '/api/'
 @authentication.post(BASE_URL + '/signin')
 def signin():
     body = request.get_json()

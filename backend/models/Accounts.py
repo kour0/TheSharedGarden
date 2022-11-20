@@ -1,22 +1,29 @@
-import os
+from sqlalchemy import create_engine, Column
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.types import Integer, String
 
-basedir = os.path.abspath(os.path.dirname(__file__))
-SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'app.db')
+SQLALCHEMY_DATABASE_URL = "sqlite:///./test.db"
 
-from flask_sqlalchemy import SQLAlchemy
-import logging as lg
-from ..app import app
+engine = create_engine(
+    SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
+)
 
-db = SQLAlchemy(app)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-class Accounts:
-    username = db.Column(db.String(300), primary_key=True)
-    name = db.Column(db.String(200), nullable=False)
-    password = db.Column(db.String(), nullable=False)
-    email = db.Column(db.String(600), primary_key=True)
-    telephone = db.Column(db.Integer(), nullable=False)
-    adress = db.Column(db.String(), nullable=False)
-    profile_picture = db.Column(db.img(), nullable = True)
+Base = declarative_base()
+
+class Accounts():
+
+    __tablename__ = 'accounts'
+
+    username = Column('username', String(300), primary_key=True)
+    name = Column('name', String(200), nullable=False)
+    password = Column('password', String(), nullable=False)
+    email = Column('email', String(600), primary_key=True)
+    telephone = Column('telephone', Integer(), nullable=False)
+    address = Column('address', String(), nullable=False)
+    profile_picture = Column('profile_picture', String(200), nullable = True)
 
     def __init__(self, name, password, email, telephone, adress, profile_picture):
         self.name = name
@@ -26,15 +33,16 @@ class Accounts:
         self.adress = adress
         self.profile_picture = profile_picture
 
-db.create_all()
 
-def init_db():
-    db.drop_all()
-    db.create_all()
-    db.session.add(Accounts("Sac à merde", "Noé Steiner", "noe.steiner@telecomnancy.eu", "1234", 0, "dans ton cul"))
-    db.session.commit()
+
+
+""" def init_):
+    drop_all()
+    create_all()
+    session.add(Accounts("Sac à merde", "Noé Steiner", "noe.steiner@telecomnancy.eu", "1234", 0, "dans ton cul"))
+    session.commit()
     lg.warning('Database initialized!')
-
+ """
 
 
 

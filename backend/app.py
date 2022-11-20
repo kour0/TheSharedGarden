@@ -11,25 +11,10 @@ from routes import authentication
 app = Flask(__name__)
 CORS(app)
 
-BASE_URL = '/api/'
-
-DATABASE = ''
 
 app.register_blueprint(authentication.authentication)
 
-
-def get_db():
-    db = getattr(g, '_database', None)
-    if db is None:
-        db = g._database = sqlite3.connect(DATABASE)
-    return db
-
-
-@app.teardown_appcontext
-def close_connection(exception):
-    db = getattr(g, '_database', None)
-    if db is not None:
-        db.close()
+basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 @app.errorhandler(404)

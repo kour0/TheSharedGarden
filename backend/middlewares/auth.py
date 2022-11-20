@@ -1,8 +1,7 @@
 import jwt
 from decouple import config
 
-from ..models.Accounts import Accounts
-
+from models.Accounts import Accounts
 
 def authenticate(request):
     token = request.headers.get('Authorization')
