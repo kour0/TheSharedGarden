@@ -3,9 +3,8 @@ import { UniqueFieldForm } from '../components/forms/UniqueFieldForm'
 import { Map } from '../components/Map'
 
 const navigation = [
+  { name : "Créer un jardin", href : "/create"},
   { name: 'Rejoignez un jardin', href: '/join'},
-  { name: 'Qui sommes nous ?', href: '/' },
-  { name: 'Le projet', href: '/' },
 ]
 
 const form =

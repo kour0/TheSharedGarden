@@ -2,11 +2,9 @@ import { GardenCard } from "../components/GardenCard"
 import { NavBar } from "../components/NavBar"
 
 const navigation = [
+  { name : "Créer un jardin", href : "/create"},
   { name: 'Rejoignez un jardin', href: '/join'},
-  { name: 'Qui sommes nous ?', href: '/' },
-  { name: 'Le projet', href: '/' },
 ]
-
 
 const gardens = [
     {

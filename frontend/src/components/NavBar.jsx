@@ -3,7 +3,21 @@ import { Fragment } from 'react'
 import { Popover, Transition } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 
-export function NavBar({navigation}) {
+import { isAuthenticated } from '../utils/auth'
+
+const navigationGuest = [
+    { name: 'Rejoignez un jardin', href: '/join' },
+    { name: 'Qui sommes nous ?', href: '/' },
+    { name: 'Le projet', href: '/' },
+]
+
+const navigationAuth = [
+    { name: "Créer un jardin", href: "/create" },
+    { name: 'Rejoignez un jardin', href: '/join' },
+]
+
+
+export function NavBar() {
     return (
         <Popover>
             <nav
@@ -28,9 +42,17 @@ export function NavBar({navigation}) {
                         </div>
                     </div>
                     <div className="hidden md:ml-10 md:block md:space-x-10">
-                        {navigation.map((item) => (
-                            <NavBar.Link key={item.name} to={item.href} path='path' className="font-medium text-gray-500 hover:text-gray-900">{item.name}</NavBar.Link>
-                        ))}
+
+                        {
+                            isAuthenticated() ?
+                                navigationAuth.map((item) => (
+                                    <NavBar.Link key={item.name} to={item.href} path='path' className="font-medium text-gray-500 hover:text-gray-900">{item.name}</NavBar.Link>
+                                ))
+                                :
+                                navigationGuest.map((item) => (
+                                    <NavBar.Link key={item.name} to={item.href} path='path' className="font-medium text-gray-500 hover:text-gray-900">{item.name}</NavBar.Link>
+                                ))
+                        }
                     </div>
                 </div>
                 <div className="hidden text-right md:block">
@@ -72,9 +94,16 @@ export function NavBar({navigation}) {
                             </div>
                         </div>
                         <div className="space-y-1 px-2 pt-2 pb-3">
-                            {navigation.map((item) => (
-                                 <NavBar.Link key={item.name} to={item.href} relative='path' className="block rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900">{item.name}</NavBar.Link>
-                            ))}
+                        {
+                            isAuthenticated() ?
+                                navigationAuth.map((item) => (
+                                    <NavBar.Link key={item.name} to={item.href} path='path' className="font-medium text-gray-500 hover:text-gray-900">{item.name}</NavBar.Link>
+                                ))
+                                :
+                                navigationGuest.map((item) => (
+                                    <NavBar.Link key={item.name} to={item.href} path='path' className="font-medium text-gray-500 hover:text-gray-900">{item.name}</NavBar.Link>
+                                ))
+                        }
                         </div>
                         <Link to="/login" relative='path' className="block w-full bg-gray-50 px-5 py-3 text-center font-medium text-teal-700 hover:bg-gray-100">
                             Connexion
