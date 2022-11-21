@@ -4,9 +4,9 @@ CREATE TABLE account (
     name VARCHAR,
     password VARCHAR,
     telephone INTEGER,
-    adress VARCHAR,
-    profile_picture image 
-)
+    address VARCHAR,
+    profile_picture TEXT
+);
 
 CREATE TABLE garden (
     owner VARCHAR PRIMARY KEY NOT NULL,
