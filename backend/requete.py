@@ -5,10 +5,13 @@ from bdd import Session
 
 session = Session()
 
+def getEmail(email):
+  return session.query(Accounts).filter_by(email=email).first()
+
 def testAccounts():
   #session.add(Accounts("username", "name", "password", "email", 90, "adress", "profile_picture")) 
   #session.commit()
   accounts = session.query(Accounts).all()
 
   for account in accounts:
-    print(f'{account.name}')
+    print(f'{account.email}')

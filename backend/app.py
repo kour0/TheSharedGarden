@@ -10,6 +10,7 @@ import folium
 from sqlalchemy import create_engine, Column
 from sqlalchemy.orm import sessionmaker
 from requete import *
+from models.Accounts import Accounts
 from sqlalchemy.ext.declarative import declarative_base
 from routes import authentication
 
@@ -61,6 +62,7 @@ def hook_root():
 @app.get("/database_test")
 def test_base():
     testAccounts()
+    print(getEmail("email"))
     return "coucou"
 
 if __name__ == '__main__':

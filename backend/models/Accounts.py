@@ -5,9 +5,6 @@ from sqlalchemy.types import Integer, String
 from flask_sqlalchemy import SQLAlchemy
 from bdd import Base
 
-from bdd import Session
-
-session = Session()
 class Accounts(Base):
     __tablename__ = 'account'
 
@@ -27,9 +24,6 @@ class Accounts(Base):
         self.telephone = telephone
         self.adress = adress
         self.profile_picture = profile_picture
-
-    def getEmail(email):
-        return Accounts.query.filter_by(email=email).first()
 
 #"""def init_db():
  #   db.drop_all()

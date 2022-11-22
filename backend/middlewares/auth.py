@@ -1,6 +1,7 @@
 import jwt
 from decouple import config
 from models.Accounts import Accounts
+from requete import *
 
 def authenticate(request):
     token = request.headers.get('Authorization')
@@ -10,7 +11,7 @@ def authenticate(request):
 
     decoded = jwt.decode(token, config('JWT_SECRET'), algorithms=['HS256'])
     email = decoded['email']
-    account = Accounts.getEmail(email)
+    account = getEmail(email)
     if not account:
         raise Exception('Not registered.')
     return account
