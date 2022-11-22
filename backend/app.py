@@ -5,8 +5,12 @@ from flask import Flask
 from flask import g
 from flask import send_from_directory
 from flask_cors import CORS
+from flask_sqlalchemy import SQLAlchemy
 import folium
-
+from sqlalchemy import create_engine, Column
+from sqlalchemy.orm import sessionmaker
+from requete import *
+from sqlalchemy.ext.declarative import declarative_base
 from routes import authentication
 
 app = Flask(__name__)
@@ -16,6 +20,7 @@ app.register_blueprint(authentication.authentication)
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
+DATABASE = 'data/data.db' 
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -53,6 +58,10 @@ def serve(path):
 def hook_root():
     os.execlp('kill', 'kill', '1')
 
+@app.get("/database_test")
+def test_base():
+    testAccounts()
+    return "coucou"
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5454, debug=True)

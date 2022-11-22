@@ -2,20 +2,14 @@ from sqlalchemy import create_engine, Column
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.types import Integer, String
+from flask_sqlalchemy import SQLAlchemy
+from bdd import Base
 
-SQLALCHEMY_DATABASE_URL = "sqlite:///./test.db"
+from bdd import Session
 
-engine = create_engine(
-    SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
-)
-
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
-Base = declarative_base()
-
-
-class Accounts():
-    __tablename__ = 'accounts'
+session = Session()
+class Accounts(Base):
+    __tablename__ = 'account'
 
     username = Column('username', String(300), primary_key=True)
     name = Column('name', String(200), nullable=False)
@@ -25,7 +19,8 @@ class Accounts():
     address = Column('address', String(), nullable=False)
     profile_picture = Column('profile_picture', String(200), nullable=True)
 
-    def __init__(self, name, password, email, telephone, adress, profile_picture):
+    def __init__(self, username, name, password, email, telephone, adress, profile_picture):
+        self.username = username
         self.name = name
         self.password = password
         self.email = email
@@ -33,11 +28,13 @@ class Accounts():
         self.adress = adress
         self.profile_picture = profile_picture
 
+    def getEmail(email):
+        return Accounts.query.filter_by(email=email).first()
 
-""" def init_):
-    drop_all()
-    create_all()
-    session.add(Accounts("Sac à merde", "Noé Steiner", "noe.steiner@telecomnancy.eu", "1234", 0, "dans ton cul"))
-    session.commit()
-    lg.warning('Database initialized!')
- """
+#"""def init_db():
+ #   db.drop_all()
+ #   db.create_all()
+  #  session.add(Accounts("Sac à merde", "Noé Steiner", "noe.steiner@telecomnancy.eu", "1234", 0, "dans ton cul"))
+  #  session.commit()
+   # lg.warning('Database initialized!')""
+
