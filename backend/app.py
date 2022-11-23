@@ -29,8 +29,8 @@ def status():
 
 @app.route('/map')
 def render_map():
-    # create map object
-    m = folium.Map(location=[48.6689443, 6.1552047], zoom_start=16, tiles="Stamen Terrain")
+    # Create a map
+    m = folium.Map(location=[48.6689443, 6.1552047], zoom_start=12)
     # create marker
     folium.Marker(location=[48.6689443, 6.1552047], popup="Giga Chad", tooltip="Giga Chad").add_to(m)
 
