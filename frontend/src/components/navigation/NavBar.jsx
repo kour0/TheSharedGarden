@@ -2,20 +2,12 @@ import { Link } from 'react-router-dom'
 import { Fragment } from 'react'
 import { Popover, Transition } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
+import { Logo } from './Logo'
 
-import { isAuthenticated } from '../utils/auth'
-
-const navigationGuest = [
-    { name: 'Rejoignez un jardin', href: '/join' },
+const navigation = [
     { name: 'Qui sommes nous ?', href: '/' },
     { name: 'Le projet', href: '/' },
 ]
-
-const navigationAuth = [
-    { name: "Créer un jardin", href: "/create" },
-    { name: 'Rejoignez un jardin', href: '/join' },
-]
-
 
 export function NavBar() {
     return (
@@ -26,14 +18,9 @@ export function NavBar() {
             >
                 <div className="flex flex-1 items-center">
                     <div className="flex w-full items-center justify-between md:w-auto">
-                        <a href="#">
-                            <span className="sr-only">Your Company</span>
-                            <img
-                                className="h-8 w-auto sm:h-10"
-                                src="https://tailwindui.com/img/logos/mark.svg?color=teal&shade=700"
-                                alt=""
-                            />
-                        </a>
+                        <Link to='/' relative='path'>
+                            <Logo></Logo>
+                        </Link>
                         <div className="-mr-2 flex items-center md:hidden">
                             <Popover.Button className="inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-teal-700">
                                 <span className="sr-only">Open main menu</span>
@@ -44,17 +31,16 @@ export function NavBar() {
                     <div className="hidden md:ml-10 md:block md:space-x-10">
 
                         {
-                            isAuthenticated() ?
-                                navigationAuth.map((item) => (
-                                    <NavBar.Link key={item.name} to={item.href} path='path' className="font-medium text-gray-500 hover:text-gray-900">{item.name}</NavBar.Link>
-                                ))
-                                :
-                                navigationGuest.map((item) => (
-                                    <NavBar.Link key={item.name} to={item.href} path='path' className="font-medium text-gray-500 hover:text-gray-900">{item.name}</NavBar.Link>
-                                ))
+
+                            navigation.map((item) => (
+                                <NavBar.Link key={item.name} to={item.href} path='path' className="font-medium text-gray-500 hover:text-gray-900">{item.name}</NavBar.Link>
+                            ))
                         }
+
                     </div>
                 </div>
+
+
                 <div className="hidden text-right md:block">
                     <span className="inline-flex rounded-md shadow-md ring-1 ring-black ring-opacity-5">
                         <Link to="/login" relative='path' className="inline-flex items-center rounded-md border border-transparent bg-white px-4 py-2 text-base font-medium text-teal-700 hover:bg-gray-50">
@@ -62,8 +48,11 @@ export function NavBar() {
                         </Link>
                     </span>
                 </div>
-            </nav>
 
+
+            </nav>
+            
+            {/* Mobile menu, show/hide based on menu open state. */}
             <Transition
                 as={Fragment}
                 enter="duration-150 ease-out"
@@ -80,11 +69,7 @@ export function NavBar() {
                     <div className="overflow-hidden rounded-lg bg-white shadow-md ring-1 ring-black ring-opacity-5">
                         <div className="flex items-center justify-between px-5 pt-4">
                             <div>
-                                <img
-                                    className="h-8 w-auto"
-                                    src="https://tailwindui.com/img/logos/mark.svg?color=teal&shade=700"
-                                    alt=""
-                                />
+                                <Logo></Logo>
                             </div>
                             <div className="-mr-2">
                                 <Popover.Button className="inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-teal-700">
@@ -94,20 +79,18 @@ export function NavBar() {
                             </div>
                         </div>
                         <div className="space-y-1 px-2 pt-2 pb-3">
-                        {
-                            isAuthenticated() ?
-                                navigationAuth.map((item) => (
-                                    <NavBar.Link key={item.name} to={item.href} path='path' className="font-medium text-gray-500 hover:text-gray-900">{item.name}</NavBar.Link>
+                            {
+
+                                navigation.map((item) => (
+                                    <NavBar.Link key={item.name} to={item.href} path='path' className="block rounded-md px-3 py-2 text-base font-medium text-gray-500 hover:text-gray-900">{item.name}</NavBar.Link>
                                 ))
-                                :
-                                navigationGuest.map((item) => (
-                                    <NavBar.Link key={item.name} to={item.href} path='path' className="font-medium text-gray-500 hover:text-gray-900">{item.name}</NavBar.Link>
-                                ))
-                        }
+
+                            }
                         </div>
                         <Link to="/login" relative='path' className="block w-full bg-gray-50 px-5 py-3 text-center font-medium text-teal-700 hover:bg-gray-100">
                             Connexion
                         </Link>
+
                     </div>
                 </Popover.Panel>
             </Transition>

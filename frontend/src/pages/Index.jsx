@@ -1,9 +1,9 @@
 import { ChevronRightIcon } from '@heroicons/react/20/solid'
-import { NavBar } from '../components/NavBar'
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { NavBar } from '../components/navigation/NavBar'
 
 const navigation = [
     { name: 'Rejoignez un jardin', href: '/join'},
@@ -57,7 +57,7 @@ export default function Index() {
 
             <div className="relative pt-6 pb-16 sm:pb-24 lg:pb-32">
                 
-                <NavBar navigation={navigation} />
+                <NavBar/>
                 <main className="mx-auto mt-16 max-w-7xl px-4 sm:mt-24 sm:px-6 lg:mt-32">
                     <div className="lg:grid lg:grid-cols-12 lg:gap-8">
                         <div className="sm:text-center md:mx-auto md:max-w-2xl lg:col-span-6 lg:text-left">

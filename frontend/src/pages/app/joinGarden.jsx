@@ -1,31 +1,26 @@
-import { NavBar } from '../components/NavBar'
-import { UniqueFieldForm } from '../components/forms/UniqueFieldForm'
-import { Map } from '../components/Map'
-
-const navigation = [
-  { name : "Créer un jardin", href : "/create"},
-  { name: 'Rejoignez un jardin', href: '/join'},
-]
+import { NavBar } from '../../components/navigation/NavBar'
+import { UniqueFieldForm } from '../../components/forms/UniqueFieldForm'
+import { Map } from '../../components/Map'
 
 const form =
-  {
-    title: 'Rejoignez un jardin',
-    description:
-      'Vous pouvez trouver un jardin public en le recherchant par son nom',
-    placeholder : 'Entrez le nom du jardin',
-    button : {
-      name: 'Rechercher'
-    },
-  }
+{
+  title: 'Rejoignez un jardin',
+  description:
+    'Vous pouvez trouver un jardin public en le recherchant par son nom',
+  placeholder: 'Entrez le nom du jardin',
+  button: {
+    name: 'Rechercher'
+  },
+}
 
-export default function Join() {
+export default function JoinGarden() {
   return (
 
     <div className="relative bg-gray-50 px-4 pt-6 pb-16 sm:px-6 lg:px-8 lg:pb-28">
       <div className="absolute inset-0">
         <div className="bg-white" />
       </div>
-      <NavBar navigation={navigation}></NavBar>
+      <NavBar />
       <div className="max-w-7xl mx-auto">
         <UniqueFieldForm form={form}></UniqueFieldForm>
         <div className="text-center">
