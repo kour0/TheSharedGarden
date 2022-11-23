@@ -1,32 +1,21 @@
 import { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import {
-    Bars3Icon,
-    CalendarIcon,
-    ChartBarIcon,
-    FolderIcon,
-    HomeIcon,
-    PlusIcon,
-    UserGroupIcon,
-    XMarkIcon,
-} from '@heroicons/react/24/outline'
+import { Bars3Icon, HomeIcon, PlusIcon, UserGroupIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Link } from 'react-router-dom'
-import Login from '../../pages/login'
-import { Logo } from './Logo'
+import { Logo } from '../navigation/Logo'
+import { Outlet } from "react-router-dom";
+
 
 const navigation = [
-    { name: 'Mes jardins', icon: HomeIcon, href: '/app/dashboard', current: true },
-    { name: 'Créer un jardin', icon: PlusIcon, href: '/app/create-garden', current: false },
-    { name: 'Rejoignez un jardin', icon: UserGroupIcon, href: '/app/join-garden', current: false },
+    { name: 'Mes jardins', icon: HomeIcon, href: '/app/dashboard' },
+    { name: 'Créer un jardin', icon: PlusIcon, href: '/app/create-garden' },
+    { name: 'Rejoignez un jardin', icon: UserGroupIcon, href: '/app/join-garden' },
 ]
 
-
-function classNames(...classes) {
-    return classes.filter(Boolean).join(' ')
-}
-
-export default function SideBar({ children }) {
+export default function SideBar() {
     const [sidebarOpen, setSidebarOpen] = useState(false)
+    const [active, setActive] = useState(0)
+
 
     return (
         <>
@@ -78,26 +67,26 @@ export default function SideBar({ children }) {
                                     </Transition.Child>
                                     <div className="h-0 flex-1 overflow-y-auto pt-5 pb-4">
                                         <div className="flex flex-shrink-0 items-center px-4">
-                                            <Logo/>
+                                            <Logo />
                                         </div>
                                         <nav className="mt-5 space-y-1 px-2">
-                                            {navigation.map((item) => (
+                                            {navigation.map((item, index) => (
                                                 <Link
                                                     key={item.name}
                                                     to={item.href}
                                                     relative='path'
-                                                    className={classNames(
-                                                        item.current
-                                                            ? 'bg-gray-100 text-gray-900'
-                                                            : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
+                                                    onClick={() => setActive(index)}
+                                                    className={(index === active
+                                                        ? 'bg-gray-100 text-gray-900'
+                                                        : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
                                                         'group flex items-center px-2 py-2 text-base font-medium rounded-md'
                                                     )}
                                                 >
                                                     <item.icon
-                                                        className={classNames(
-                                                            item.current ? 'text-gray-500' : 'text-gray-400 group-hover:text-gray-500',
-                                                            'mr-4 flex-shrink-0 h-6 w-6'
-                                                        )}
+                                                        className={
+                                                            (index === active ? 'text-gray-500' : 'text-gray-400 group-hover:text-gray-500',
+                                                                'mr-4 flex-shrink-0 h-6 w-6'
+                                                            )}
                                                         aria-hidden="true"
                                                     />
                                                     {item.name}
@@ -134,24 +123,26 @@ export default function SideBar({ children }) {
                     <div className="flex min-h-0 flex-1 flex-col border-r border-gray-200 bg-white">
                         <div className="flex flex-1 flex-col overflow-y-auto pt-5 pb-4">
                             <div className="flex flex-shrink-0 items-center px-4">
-                                <Logo/>
+                                <Logo />
                             </div>
                             <nav className="mt-5 flex-1 space-y-1 bg-white px-2">
-                                {navigation.map((item) => (
+                                {navigation.map((item, index) => (
                                     <Link
                                         key={item.name}
                                         to={item.href}
                                         relative='path'
-                                        className={classNames(
-                                            item.current ? 'bg-gray-100 text-gray-900' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
-                                            'group flex items-center px-2 py-2 text-sm font-medium rounded-md'
-                                        )}
+                                        onClick={() => setActive(index)}
+                                        className={
+                                            (index === active ? 'bg-gray-100 text-gray-900' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900') +
+                                            ' group flex items-center px-2 py-2 text-sm font-medium rounded-md'
+
+                                        }
                                     >
                                         <item.icon
-                                            className={classNames(
-                                                item.current ? 'text-gray-500' : 'text-gray-400 group-hover:text-gray-500',
-                                                'mr-3 flex-shrink-0 h-6 w-6'
-                                            )}
+                                            className={
+                                                (index === active ? 'text-gray-500' : 'text-gray-400 group-hover:text-gray-500') +
+                                                    ' mr-3 flex-shrink-0 h-6 w-6'
+                                                }
                                             aria-hidden="true"
                                         />
                                         {item.name}
@@ -191,7 +182,7 @@ export default function SideBar({ children }) {
                             <Bars3Icon className="h-6 w-6" aria-hidden="true" />
                         </button>
                     </div>
-                    {children}
+                    <Outlet />
                 </div>
             </div>
         </>

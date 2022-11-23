@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 
 export function GardenCard({ garden }) {
     return (
-        <Link key={garden._id} to={garden.href} relative='path' className="flex flex-col overflow-hidden rounded-lg shadow-lg">
+        <Link to={garden.href} relative='path' className="flex flex-col overflow-hidden rounded-lg shadow-lg">
             <div className="flex-shrink-0">
                 <img className="h-48 w-full object-cover" src={garden.imageUrl} alt="" />
             </div>
