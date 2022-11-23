@@ -23,6 +23,7 @@ def signin():
         encryption = jwt.encode({'email': email}, config('JWT_SECRET'), algorithm='HS256')
         return {'token': encryption}
     except Exception as e:
+        session.rollback()
         return {'message': str(e)}, 500
 
 
