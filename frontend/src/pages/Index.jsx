@@ -1,5 +1,9 @@
 import { ChevronRightIcon } from '@heroicons/react/20/solid'
 import { NavBar } from '../components/NavBar'
+import { useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import axios from 'axios';
+import toast from 'react-hot-toast';
 
 const navigation = [
     { name: 'Rejoignez un jardin', href: '/join'},
@@ -8,6 +12,22 @@ const navigation = [
 ]
 
 export default function Index() {
+    const navigate = useNavigate();
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm();
+    const onSubmit = async (data) => {
+        try {
+            const response = await axios.post('http://127.0.0.1:5454/api/signup', data);
+            const token = response.data.token;
+            localStorage.setItem('token', token);
+            navigate('/app/dashboard');
+        } catch (error) {
+            toast.error(error.response.data.message);
+        }
+    };
     return (
         <div className="relative overflow-hidden bg-white lg-h-screen">
             <div className="hidden lg:absolute lg:inset-0 lg:block" aria-hidden="true">
@@ -130,7 +150,7 @@ export default function Index() {
                                     </h1>
 
                                     <div className="mt-6">
-                                        <form action="#" method="POST" className="space-y-6">
+                                        <form action="#" method="POST" className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
                                             <div>
                                                 <label htmlFor="name" className="sr-only">
                                                     Nom complet
@@ -143,6 +163,22 @@ export default function Index() {
                                                     placeholder="Nom complet"
                                                     required
                                                     className="block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-700 focus:ring-teal-700 sm:text-sm"
+                                                    {...register('name', { required: true })}
+                                                />
+                                            </div>
+                                            <div>
+                                                <label htmlFor="name" className="sr-only">
+                                                    Pseudo
+                                                </label>
+                                                <input
+                                                  type="text"
+                                                  name="username"
+                                                  id="username"
+                                                  autoComplete="username"
+                                                  placeholder="Pseudo"
+                                                  required
+                                                  className="block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-700 focus:ring-teal-700 sm:text-sm"
+                                                  {...register('username', { required: true })}
                                                 />
                                             </div>
 
@@ -158,6 +194,7 @@ export default function Index() {
                                                     placeholder="Email"
                                                     required
                                                     className="block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-7000 focus:ring-teal-700 sm:text-sm"
+                                                    {...register('email', { required: true })}
                                                 />
                                             </div>
 
@@ -173,6 +210,7 @@ export default function Index() {
                                                     autoComplete="current-password"
                                                     required
                                                     className="block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-700 focus:ring-teal-700 sm:text-sm"
+                                                    {...register('password', { required: true })}
                                                 />
                                             </div>
 
