@@ -27,7 +27,7 @@ def status():
     return 'Bonsoir Giga Chad'
 
 
-@app.route('/map')
+@app.route('/api/map')
 def render_map():
     # Create a map
     m = folium.Map(location=[48.6689443, 6.1552047], zoom_start=12)
