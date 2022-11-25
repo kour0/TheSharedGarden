@@ -8,7 +8,7 @@ from flask_cors import CORS
 from routes import authentication
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, supports_credentials=True)
 
 app.register_blueprint(authentication.authentication)
 

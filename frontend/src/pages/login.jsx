@@ -13,9 +13,9 @@ export default function Login() {
   } = useForm();
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post('http://127.0.0.1:5454/api/signin', data);
-      const token = response.data.token;
-      localStorage.setItem('token', token);
+      const response = await axios.post('http://127.0.0.1:5454/api/signin', data, {
+        withCredentials: true,
+      });
       navigate('/app/dashboard');
     } catch (error) {
       toast.error(error.response.data.message);
