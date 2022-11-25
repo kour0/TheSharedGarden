@@ -1,7 +1,9 @@
 import bcrypt
 import jwt
 from decouple import config
-from flask import Blueprint, request
+from flask import Blueprint, request, make_response
+from flask_cors import CORS
+
 
 from bdd import Session
 from middlewares import auth
@@ -9,6 +11,8 @@ from models.Accounts import Accounts
 
 authentication = Blueprint('authentication', __name__)
 session = Session()
+
+CORS(authentication, supports_credentials=True)
 
 BASE_URL = '/api/'
 
@@ -24,7 +28,9 @@ def signin():
             raise Exception('Invalid credentials')
         else :
             token = jwt.encode({'email': email}, config('JWT_SECRET'), algorithm='HS256')
-            return {'token': token}, 200
+            response = make_response({'message': 'Successfully logged in'})
+            response.set_cookie('Authorization', 'Bearer ' + token)
+            return response
     except Exception as e:
         session.rollback()
         return {'message': str(e)}, 500
@@ -47,9 +53,10 @@ def signup():
         account = Accounts(username, name, password, email)
         session.add(account)
         session.commit()
-        print(password)
-        encryption = jwt.encode({'email': email}, config('JWT_SECRET'), algorithm='HS256')
-        return {'token': encryption}
+        token = jwt.encode({'email': email}, config('JWT_SECRET'), algorithm='HS256')
+        response = make_response({'message': 'Successfully logged in'})
+        response.set_cookie('Authorization', 'Bearer ' + token)
+        return response
     except Exception as e:
         return {'message': str(e)}, 500
 
