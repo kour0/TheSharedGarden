@@ -81,7 +81,7 @@ export default function Login() {
               </div>
 
               <div className="text-sm">
-                <Link to="/register" relative="path" className="font-medium text-teal-600 hover:text-teal-500">
+                <Link to="/" relative="path" className="font-medium text-teal-600 hover:text-teal-500">
                   Inscription
                 </Link>
               </div>
