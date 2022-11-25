@@ -1,3 +1,4 @@
+import bcrypt
 import jwt
 from decouple import config
 from flask import Blueprint, request
@@ -17,11 +18,13 @@ def signin():
     try:
         body = request.get_json()
         email = body['email']
+        password = body['password']
         account = session.query(Accounts).filter_by(email=email).first()
-        if not account:
-            return {'message': 'Not registered.'}, 401
-        encryption = jwt.encode({'email': email}, config('JWT_SECRET'), algorithm='HS256')
-        return {'token': encryption}
+        if not account or not (bcrypt.checkpw(password.encode('utf-8'), account.password.encode('utf-8'))):
+            raise Exception('Invalid credentials')
+        else :
+            token = jwt.encode({'email': email}, config('JWT_SECRET'), algorithm='HS256')
+            return {'token': token}, 200
     except Exception as e:
         return {'message': str(e)}, 500
 
@@ -36,9 +39,14 @@ def signup():
         password = body['password']
         email = body['email']
 
+        if session.query(Accounts).filter_by(email=email).first():
+            return {'message': 'Email already registered.'}, 401
+        password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+        password = password.decode('utf-8')
         account = Accounts(username, name, password, email)
         session.add(account)
         session.commit()
+        print(password)
         encryption = jwt.encode({'email': email}, config('JWT_SECRET'), algorithm='HS256')
         return {'token': encryption}
     except Exception as e:
@@ -50,5 +58,5 @@ def authtest():
     try:
         res = auth.authenticate(request)
     except Exception as e:
-        return {'error': str(e)}, 401
+        return {'message': str(e)}, e.args[1]
     return res
