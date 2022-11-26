@@ -1,11 +1,13 @@
 CREATE TABLE account (
     email VARCHAR PRIMARY KEY NOT NULL,
     username VARCHAR NOT NULL ,
-    name VARCHAR NOT NULL,
+    first_name VARCHAR NOT NULL,
+    last_name VARCHAR NOT NULL,
     password VARCHAR default NULL,
-    address VARCHAR default NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     profile_picture VARCHAR default NULL
 );
+
 
 CREATE TABLE garden (
     owner VARCHAR PRIMARY KEY NOT NULL,
@@ -15,7 +17,7 @@ CREATE TABLE garden (
 );
 
 CREATE TABLE task (
-    task_id INTEGER,
+    task_id INTEGER PRIMARY KEY NOT NULL,
     task_name VARCHAR,
     task_manager VARCHAR,
     task_state VARCHAR,
@@ -25,7 +27,7 @@ CREATE TABLE task (
 );
 
 CREATE TABLE parcelle (
-    parcelle_id INTEGER,
+    parcelle_id INTEGER PRIMARY KEY NOT NULL,
     parcelle_state VARCHAR,
     cultivated_vegetable VARCHAR
 );
@@ -33,4 +35,8 @@ CREATE TABLE parcelle (
 CREATE TABLE dispose(
     parcelle_id INTEGER,
     task_id INTEGER
+)
+
+CREATE TABLE fait(
+
 )

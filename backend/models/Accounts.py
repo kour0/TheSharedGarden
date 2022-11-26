@@ -3,7 +3,6 @@ from sqlalchemy.types import Integer, String
 
 from bdd import Base
 
-
 class Accounts(Base):
     __tablename__ = 'account'
     email = Column('email', String(600), primary_key=True)
@@ -20,10 +19,3 @@ class Accounts(Base):
         self.email = email
         self.address = address
         self.profile_picture = profile_picture
-
-# """def init_db():
-#   db.drop_all()
-#   db.create_all()
-#  session.add(Accounts("Sac à merde", "Noé Steiner", "noe.steiner@telecomnancy.eu", "1234", 0, "dans ton cul"))
-#  session.commit()
-# lg.warning('Database initialized!')""
