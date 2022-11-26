@@ -12,6 +12,7 @@ const form =
   button: {
     name: 'Rechercher'
   },
+  url : 'http://127.0.0.1:5454/api/join-garden'
 }
 
 export default function JoinGarden() {

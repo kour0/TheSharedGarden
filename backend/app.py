@@ -5,12 +5,15 @@ from flask import Flask
 from flask import send_from_directory
 from flask_cors import CORS
 
+from routes import joingarden
+
 from routes import authentication
 
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
 
 app.register_blueprint(authentication.authentication)
+app.register_blueprint(joingarden.joingarden)
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
