@@ -151,18 +151,33 @@ export default function Index() {
                   <div className="mt-6">
                     <form action="#" method="POST" className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
                       <div>
-                        <label htmlFor="name" className="sr-only">
-                          Nom complet
+                        <label htmlFor="first_name" className="sr-only">
+                          Prénom
                         </label>
                         <input
                           type="text"
-                          name="name"
-                          id="name"
+                          name="first_name"
+                          id="first_name"
                           autoComplete="name"
-                          placeholder="Nom complet"
+                          placeholder="Prénom"
                           required
                           className="block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-700 focus:ring-teal-700 sm:text-sm"
-                          {...register('name', { required: true })}
+                          {...register('first_name', { required: true })}
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="last_name" className="sr-only">
+                          Nom
+                        </label>
+                        <input
+                          type="text"
+                          name="last_name"
+                          id="last_name"
+                          autoComplete="name"
+                          placeholder="Nom"
+                          required
+                          className="block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-700 focus:ring-teal-700 sm:text-sm"
+                          {...register('last_name', { required: true })}
                         />
                       </div>
                       <div>

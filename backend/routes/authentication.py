@@ -42,7 +42,8 @@ def signup():
     try:
         body = request.get_json()
 
-        name = body['name']
+        first_name = body['first_name']
+        last_name = body['last_name']
         username = body['username']
         password = body['password']
         email = body['email']
@@ -51,7 +52,7 @@ def signup():
             return {'message': 'Email already registered.'}, 401
         password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
         password = password.decode('utf-8')
-        account = Accounts(username, name, password, email)
+        account = Accounts(username, first_name, last_name, password, email)
         session.add(account)
         session.commit()
         token = jwt.encode({'email': email}, config('JWT_SECRET'), algorithm='HS256')
