@@ -23,13 +23,14 @@ def signin():
         body = request.get_json()
         email = body['email']
         password = body['password']
+        remember = body['remember']
         account = session.query(Accounts).filter_by(email=email).first()
         if not account or not (bcrypt.checkpw(password.encode('utf-8'), account.password.encode('utf-8'))):
             raise Exception('Invalid credentials')
         else:
             token = jwt.encode({'email': email}, config('JWT_SECRET'), algorithm='HS256')
             response = make_response({'message': 'Successfully logged in'})
-            response.set_cookie('Authorization', 'Bearer ' + token, samesite='None', secure=True)
+            response.set_cookie('Authorization', 'Bearer ' + token, samesite='None', secure=True, max_age=60 * 60 * 24 * 7 if remember else None)
             return response
     except Exception as e:
         session.rollback()
