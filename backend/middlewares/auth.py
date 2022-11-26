@@ -8,7 +8,7 @@ session = Session()
 
 
 def authenticate(request):
-    token = request.headers.get('Authorization', SameSite='None', Secure=True)
+    token = request.headers.get('Authorization')
     token = token[7:]
     if not token:
         raise Exception('No token provided.')

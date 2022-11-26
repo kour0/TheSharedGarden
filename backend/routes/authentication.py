@@ -29,7 +29,7 @@ def signin():
         else:
             token = jwt.encode({'email': email}, config('JWT_SECRET'), algorithm='HS256')
             response = make_response({'message': 'Successfully logged in'})
-            response.set_cookie('Authorization', 'Bearer ' + token)
+            response.set_cookie('Authorization', 'Bearer ' + token, samesite='None', secure=True)
             return response
     except Exception as e:
         session.rollback()
