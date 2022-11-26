@@ -3,7 +3,7 @@ from sqlalchemy.types import String
 
 from bdd import Base
 
-class garden(Base):
+class Garden(Base):
     __tablename__ = 'garden'
     owner = Column('owner', String(300), primary_key=True)
     garden_name = Column('garden_name', String(300), nullable=False)

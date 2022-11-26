@@ -28,6 +28,7 @@ CREATE TABLE task (
 
 CREATE TABLE parcelle (
     parcelle_id INTEGER PRIMARY KEY NOT NULL,
+    garden_name VARCHAR,
     parcelle_state VARCHAR,
     cultivated_vegetable VARCHAR
 );
@@ -35,8 +36,14 @@ CREATE TABLE parcelle (
 CREATE TABLE dispose(
     parcelle_id INTEGER,
     task_id INTEGER
-)
+);
 
 CREATE TABLE fait(
+    username VARCHAR
+    task_id INTEGER
+);
 
-)
+CREATE TABLE lier(
+    username VARCHAR
+    garden_name VARCHAR
+);
