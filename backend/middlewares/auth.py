@@ -8,8 +8,8 @@ session = Session()
 
 
 def authenticate(request):
-    token = request.headers.get('Authorization')
-    token = token[7:]
+    token = request.headers.get('Cookie')  # Get the token from the cookie
+    token = token[token.index('Bearer')+len('Bearer')+1:-1]
     if not token:
         raise Exception('No token provided.')
 
