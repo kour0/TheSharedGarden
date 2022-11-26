@@ -1,5 +1,5 @@
-from backend.bdd import Session
-from backend.middlewares import auth
+from bdd import Session
+from middlewares import auth
 from flask import Blueprint, request, make_response
 from flask_cors import CORS
 
