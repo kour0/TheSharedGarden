@@ -57,7 +57,7 @@ export default function Index() {
 
       <div className="relative pt-6 pb-16 sm:pb-24 lg:pb-32">
         <NavBar />
-        <main className="mx-auto mt-16 max-w-7xl px-4 sm:mt-24 sm:px-6 lg:mt-32">
+        <main className="mx-auto mt-16 max-w-7xl px-4 sm:mt-24 sm:px-6 lg:mt-32 md:mt-200">
           <div className="lg:grid lg:grid-cols-12 lg:gap-8">
             <div className="sm:text-center md:mx-auto md:max-w-2xl lg:col-span-6 lg:text-left">
               <a

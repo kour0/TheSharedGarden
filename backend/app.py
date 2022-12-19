@@ -6,7 +6,7 @@ from flask import send_from_directory
 from flask_cors import CORS
 
 from routes import joingarden
-from routes import creategarden
+#from routes import creategarden
 
 from routes import authentication
 
@@ -15,7 +15,7 @@ CORS(app, supports_credentials=True)
 
 app.register_blueprint(authentication.authentication)
 app.register_blueprint(joingarden.joingarden)
-app.register_blueprint(creategarden.creategarden)
+#app.register_blueprint(creategarden.creategarden)
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 

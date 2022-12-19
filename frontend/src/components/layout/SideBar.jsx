@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Logo } from '../navigation/Logo';
 import { Outlet } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import PageHeader from '../pageHeader';
 
 const navigation = [
   { name: 'Mes jardins', icon: HomeIcon, href: '/app/dashboard' },
@@ -85,13 +86,13 @@ export default function SideBar() {
                             (index === active
                               ? 'bg-gray-100 text-gray-900'
                               : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
-                            'group flex items-center px-2 py-2 text-base font-medium rounded-md')
+                              'group flex items-center px-2 py-2 text-base font-medium rounded-md')
                           }
                         >
                           <item.icon
                             className={
                               (index === active ? 'text-gray-500' : 'text-gray-400 group-hover:text-gray-500',
-                              'mr-4 flex-shrink-0 h-6 w-6')
+                                'mr-4 flex-shrink-0 h-6 w-6')
                             }
                             aria-hidden="true"
                           />
@@ -100,8 +101,13 @@ export default function SideBar() {
                       ))}
                     </nav>
                   </div>
-                  <div className="flex flex-shrink-0 border-t border-gray-200 p-4">
-                    <a href="#" className="group block flex-shrink-0">
+                  <Link
+                    to="/app/profile"
+                    relative="path"
+                    onClick={() => setActive(-1)}
+                  >
+                    <div className={(-1 == active ? 'bg-gray-100' : '' ) + " flex flex-shrink-0 border-t border-gray-200 p-4"}>
+
                       <div className="flex items-center">
                         <div>
                           <img
@@ -115,8 +121,8 @@ export default function SideBar() {
                           <p className="text-sm font-medium text-gray-500 group-hover:text-gray-700">View profile</p>
                         </div>
                       </div>
-                    </a>
-                  </div>
+                    </div>
+                  </Link>
                 </Dialog.Panel>
               </Transition.Child>
               <div className="w-14 flex-shrink-0">{/* Force sidebar to shrink to fit close icon */}</div>
@@ -157,8 +163,13 @@ export default function SideBar() {
                 ))}
               </nav>
             </div>
-            <div className="flex flex-shrink-0 border-t border-gray-200 p-4">
-              <a href="#" className="group block w-full flex-shrink-0">
+
+            <Link
+              to="/app/profile"
+              relative="path"
+              onClick={() => setActive(-1)}
+            >
+              <div className={(-1 == active ? 'bg-gray-100' : '' ) + " flex flex-shrink-0 border-t border-gray-200 p-4"}>
                 <div className="flex items-center">
                   <div>
                     <img
@@ -172,8 +183,8 @@ export default function SideBar() {
                     <p className="text-xs font-medium text-gray-500 group-hover:text-gray-700">View profile</p>
                   </div>
                 </div>
-              </a>
-            </div>
+              </div>
+            </Link>
           </div>
         </div>
 
@@ -188,6 +199,7 @@ export default function SideBar() {
               <Bars3Icon className="h-6 w-6" aria-hidden="true" />
             </button>
           </div>
+
           <Outlet />
         </div>
       </div>
