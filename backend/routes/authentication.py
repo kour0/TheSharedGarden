@@ -4,7 +4,6 @@ from decouple import config
 from flask import Blueprint, request, make_response
 from flask_cors import CORS
 
-
 from bdd import Session
 from middlewares import auth
 from models.Accounts import Accounts
@@ -30,7 +29,8 @@ def signin():
         else:
             token = jwt.encode({'email': email}, config('JWT_SECRET'), algorithm='HS256')
             response = make_response({'message': 'Successfully logged in'})
-            response.set_cookie('Authorization', 'Bearer ' + token, samesite='None', secure=True, max_age=60 * 60 * 24 * 7 if remember else None)
+            response.set_cookie('Authorization', 'Bearer ' + token, samesite='None', secure=True,
+                                max_age=60 * 60 * 24 * 7 if remember else None)
             return response
     except Exception as e:
         session.rollback()
