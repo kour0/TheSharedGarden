@@ -1,11 +1,13 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
 export function CreateGarden() {
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(null);
   const navigate = useNavigate();
   const {
     register,
@@ -13,15 +15,32 @@ export function CreateGarden() {
     formState: { errors },
   } = useForm();
   const onSubmit = async (data) => {
-    console.log(data);
+    console.log(typeof data);
+    const formData = new FormData();
+    formData.append('file', selectedImage);
+    // Ajouter des données à un formulaire
+    Object.keys(data).forEach((key) => {
+      formData.append(key, data[key]);
+    }
+    );
     try {
-      const response = await axios.post('http://127.0.0.1:5454/api/creategarden', data, {
+      const response = await axios.post('http://127.0.0.1:5454/api/creategarden', formData, {
         withCredentials: true,
-      });
+      })
+      navigate('/app/dashboard');
     } catch (error) {
       toast.error(error.response.data.message);
     }
   };
+  const handleImageChange = event => {
+    const image = event.target.files[0];
+    setSelectedImage(image);
+
+    const reader = new FileReader();
+    reader.onload = e => setPreviewUrl(e.target.result);
+    reader.readAsDataURL(image);
+  };
+
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 lg:py-8">
       <form className="space-y-8 divide-y divide-gray-200" onSubmit={handleSubmit(onSubmit)}>
@@ -50,7 +69,7 @@ export function CreateGarden() {
 
               <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
                 <label htmlFor="country" className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
-                  Country
+                  Pays
                 </label>
                 <div className="mt-1 sm:col-span-2 sm:mt-0">
                   <select
@@ -67,7 +86,7 @@ export function CreateGarden() {
 
               <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
                 <label htmlFor="street-address" className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
-                  Street address
+                  Adresse
                 </label>
                 <div className="mt-1 sm:col-span-2 sm:mt-0">
                   <input
@@ -83,7 +102,7 @@ export function CreateGarden() {
 
               <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
                 <label htmlFor="city" className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
-                  City
+                  Ville
                 </label>
                 <div className="mt-1 sm:col-span-2 sm:mt-0">
                   <input
@@ -99,7 +118,7 @@ export function CreateGarden() {
 
               <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
                 <label htmlFor="region" className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
-                  State / Province
+                  Région / Département
                 </label>
                 <div className="mt-1 sm:col-span-2 sm:mt-0">
                   <input
@@ -115,7 +134,7 @@ export function CreateGarden() {
 
               <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
                 <label htmlFor="postal-code" className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
-                  ZIP / Postal code
+                  Code postal
                 </label>
                 <div className="mt-1 sm:col-span-2 sm:mt-0">
                   <input
@@ -128,6 +147,23 @@ export function CreateGarden() {
                   />
                 </div>
               </div>
+            {/* Uploader une image et afficher un aperçu */}
+              <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
+                <label htmlFor="image" className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+                  Image du jardin
+                </label>
+                <div className="mt-1 sm:col-span-2 sm:mt-0">
+                  <input
+                    type="file"
+                    name="image"
+                    id="image"
+                    onChange={handleImageChange}
+                    className="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:max-w-xs sm:text-sm"
+                  />
+                  {/* Affichez l'image prévisualisée */}
+                  {previewUrl && <img src={previewUrl} alt="Prévisualisation" />}
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -137,14 +173,15 @@ export function CreateGarden() {
             <button
               type="button"
               className="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              onClick={() => navigate('/app/dashboard')}
             >
-              Cancel
+              Annuler
             </button>
             <button
               type="submit"
               className="ml-3 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
             >
-              Save
+              Enregistrer
             </button>
           </div>
         </div>

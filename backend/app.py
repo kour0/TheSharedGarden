@@ -4,9 +4,11 @@ import folium
 from flask import Flask
 from flask import send_from_directory
 from flask_cors import CORS
+from flask_uploads import configure_uploads, UploadSet, ALL
+
 
 from routes import joingarden
-#from routes import creategarden
+from routes import creategarden
 
 from routes import authentication
 
@@ -15,9 +17,13 @@ CORS(app, supports_credentials=True)
 
 app.register_blueprint(authentication.authentication)
 app.register_blueprint(joingarden.joingarden)
-#app.register_blueprint(creategarden.creategarden)
+app.register_blueprint(creategarden.creategarden)
 
 basedir = os.path.abspath(os.path.dirname(__file__))
+
+images = UploadSet('images', ALL)
+app.config['UPLOADED_IMAGES_DEST'] = basedir+'/data/images'
+configure_uploads(app, images)
 
 DATABASE = 'data/data.db'
 

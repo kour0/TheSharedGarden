@@ -8,7 +8,7 @@ class Garden(Base):
     garden_name = Column('garden_name', String(300), primary_key=True)
     owner = Column('owner', String(300), nullable=False)
     manager = Column('manager', String(300), nullable=False)
-    street_address = Column('streetAddress', String(300), nullable=False)
+    street_address = Column('street_address', String(300), nullable=False)
     country = Column('country', String(300), nullable=False)
     city = Column('city', String(300), nullable=False)
     province = Column('province', String(300), nullable=False)
