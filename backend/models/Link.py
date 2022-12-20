@@ -3,8 +3,8 @@ from sqlalchemy.types import String
 
 from bdd import Base
 
-class Lier(Base):
-    __tablename__ = 'lier'
+class Link(Base):
+    __tablename__ = 'link'
     username = Column('username', String(300), primary_key=True)
     garden_name= Column('garden_name', String(300), nullable=False)
 

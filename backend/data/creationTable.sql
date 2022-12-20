@@ -10,10 +10,13 @@ CREATE TABLE account (
 
 
 CREATE TABLE garden (
-    owner VARCHAR PRIMARY KEY NOT NULL,
-    garden_name VARCHAR,
+    garden_name VARCHAR PRIMARY KEY NOT NULL,
+    owner VARCHAR,
     manager VARCHAR,
-    garden_adress VARCHAR
+    country VARCHAR,
+    city VARCHAR,
+    province VARCHAR,
+    postal_code INTEGER
 );
 
 CREATE TABLE task (
@@ -26,24 +29,24 @@ CREATE TABLE task (
     deadline date
 );
 
-CREATE TABLE parcelle (
-    parcelle_id INTEGER PRIMARY KEY NOT NULL,
+CREATE TABLE plot(
+    plot_id INTEGER PRIMARY KEY NOT NULL,
     garden_name VARCHAR,
-    parcelle_state VARCHAR,
+    plot_state VARCHAR,
     cultivated_vegetable VARCHAR
 );
 
-CREATE TABLE dispose(
-    parcelle_id INTEGER,
+CREATE TABLE own(
+    plot_id INTEGER,
     task_id INTEGER
 );
 
-CREATE TABLE fait(
-    username VARCHAR
+CREATE TABLE do(
+    username VARCHAR,
     task_id INTEGER
 );
 
-CREATE TABLE lier(
-    username VARCHAR
+CREATE TABLE link(
+    username VARCHAR,
     garden_name VARCHAR
 );

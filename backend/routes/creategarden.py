@@ -7,7 +7,7 @@ from flask_cors import CORS
 
 from bdd import Session
 from middlewares import auth
-from models.garden import Garden
+from models.Garden import Garden
 
 creategarden = Blueprint('creategarden', __name__)
 session = Session()

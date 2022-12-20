@@ -3,8 +3,8 @@ from sqlalchemy.types import String, Integer
 
 from bdd import Base
 
-class Fait(Base):
-    __tablename__ = 'fait'
+class Do(Base):
+    __tablename__ = 'do'
     username = Column('username', String(300), primary_key=True)
     task_id = Column('task_id', Integer, nullable=False)
 
