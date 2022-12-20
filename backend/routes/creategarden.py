@@ -32,7 +32,6 @@ def create():
                         postal_code=postal_code)
         session.add(garden)
         session.commit()
-        print(body)
         return {'message': 'Successfully created garden'}
     except Exception as e:
         session.rollback()
