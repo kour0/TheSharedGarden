@@ -13,11 +13,11 @@ class Accounts(Base):
     created_at = Column('created_at', String(), default=datetime.now)
     profile_picture = Column('profile_picture', String(200), nullable=True)
 
-    def __init__(self, username, first_name, last_name, password, email, profile_picture=None):
+    def __init__(self, username, first_name, last_name, password, email, created_at=datetime.now(), profile_picture=None):
         self.username = username
         self.first_name = first_name
         self.last_name = last_name
         self.password = password
         self.email = email
-        self.created_at = datetime.now()
+        self.created_at = created_at
         self.profile_picture = profile_picture
