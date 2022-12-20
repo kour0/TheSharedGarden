@@ -7,16 +7,18 @@ class Garden(Base):
     __tablename__ = 'garden'
     garden_name = Column('garden_name', String(300), primary_key=True)
     owner = Column('owner', String(300), nullable=False)
-    manager= Column('manager', String(300), nullable=False)
+    manager = Column('manager', String(300), nullable=False)
+    street_address = Column('streetAddress', String(300), nullable=False)
     country = Column('country', String(300), nullable=False)
     city = Column('city', String(300), nullable=False)
     province = Column('province', String(300), nullable=False)
     postal_code = Column('postal_code', String(300), nullable=False)
 
-    def __init__(self, owner, garden_name, manager,country, city, province, postal_code):
+    def __init__(self, owner, garden_name, manager, street_address, country, city, province, postal_code):
         self.owner = owner
         self.garden_name = garden_name
         self.manager = manager
+        self.street_address = street_address
         self.country = country
         self.city = city
         self.province = province

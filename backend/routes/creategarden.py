@@ -22,10 +22,15 @@ def create():
         user = auth.authenticate(request)
         body = request.get_json()
         gardenName = body['gardenName']
-        description = body['streetAddress']
-        garden = Garden(owner=user.email, garden_name=gardenName, manager=user.email, garden_adress=description)
+        country = body['country']
+        streetAddress = body['streetAddress']
+        city = body['city']
+        region = body['region']
+        postalCode = body['postalCode']
+        garden = Garden(owner=user['username'], garden_name=gardenName, manager=user['username'], country=country, city=city, province=region, postal_code=postalCode)
         session.add(garden)
         session.commit()
+        print(body)
         return {'message': 'Successfully created garden'}
     except Exception as e:
         session.rollback()
