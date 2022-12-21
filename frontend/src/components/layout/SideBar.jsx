@@ -29,12 +29,12 @@ export default function SideBar() {
   const [username, setUsername] = useState({ firstName: '', lastName: '' });
   useEffect(() => {
     axios
-      .get('http://127.0.0.1:5454/api/profile/username', {
+      .get('http://127.0.0.1:5454/api/profile', {
         withCredentials: true,
       })
       .then((response) => {
       //   On récupère le prénom et le nom de l'utilisateur
-        setUsername({ firstName: response.data.firstname, lastName: response.data.lastname });
+        setUsername({ firstName: response.data.first_name, lastName: response.data.last_name });
       }
       );
   }
