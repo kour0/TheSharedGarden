@@ -1,7 +1,13 @@
-import { GardenCard } from '../../components/GardenCard';
-import SideBar from '../../components/layout/SideBar';
+import React from "react";
+import { useQuery } from "@tanstack/react-query"
 
-const gardens = [
+import axios from 'axios';
+import { Loader } from "../../components/loader/FullScreenLoader";
+
+import { GardenCard } from '../../components/GardenCard';
+
+
+const gardenTest = [
   {
     title: 'Boost your conversion rate',
     href: '/',
@@ -50,8 +56,18 @@ const gardens = [
 ];
 
 export default function Dashboard() {
-  return (
-    <div className="relative bg-gray-50 px-4 pb-16 sm:px-6 lg:px-8 lg:pb-28">
+
+  const url = 'http://127.0.0.1:5454/api/dashboard';
+
+  const { isLoading, isError, data, error } = useQuery(['gardens'], () => axios.get(url, { withCredentials: true, }).then(res => res.data));
+
+  const gardens = data?.gardens;
+
+  return <>
+    {isLoading && <Loader />}
+    {isError && <div>{error}</div>}
+    {gardens && <div className="relative bg-gray-50 px-4 pb-16 sm:px-6 lg:px-8 lg:pb-28">
+      {console.log(gardens[0])}
       <div className="absolute inset-0">
         <div className="h-1/3 bg-white sm:h-2/3" />
       </div>
@@ -69,5 +85,7 @@ export default function Dashboard() {
         </div>
       </div>
     </div>
-  );
+    }
+
+  </>
 }
