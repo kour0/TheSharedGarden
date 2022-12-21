@@ -6,6 +6,7 @@ import { Logo } from '../navigation/Logo';
 import { Outlet } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import PageHeader from '../pageHeader';
+import axios from 'axios';
 
 const navigation = [
   { name: 'Mes jardins', icon: HomeIcon, href: '/app/dashboard' },
@@ -23,6 +24,22 @@ export default function SideBar() {
       navigate('/login');
     }
   }, []);
+
+  // Récupérer mon prénom et mon nom
+  const [username, setUsername] = useState({ firstName: '', lastName: '' });
+  useEffect(() => {
+    axios
+      .get('http://127.0.0.1:5454/api/profile', {
+        withCredentials: true,
+      })
+      .then((response) => {
+      //   On récupère le prénom et le nom de l'utilisateur
+        setUsername({ firstName: response.data.first_name, lastName: response.data.last_name });
+      }
+      );
+  }
+  , []);
+
   return (
     <>
       <div>
@@ -112,12 +129,12 @@ export default function SideBar() {
                         <div>
                           <img
                             className="inline-block h-10 w-10 rounded-full"
-                            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                            src="http://127.0.0.1:5454/api/profile/picture"
                             alt=""
                           />
                         </div>
                         <div className="ml-3">
-                          <p className="text-base font-medium text-gray-700 group-hover:text-gray-900">Tom Cook</p>
+                          <p className="text-base font-medium text-gray-700 group-hover:text-gray-900">{username.firstName + ' ' + username.lastName}</p>
                           <p className="text-sm font-medium text-gray-500 group-hover:text-gray-700">View profile</p>
                         </div>
                       </div>
@@ -174,12 +191,12 @@ export default function SideBar() {
                   <div>
                     <img
                       className="inline-block h-9 w-9 rounded-full"
-                      src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                      src="http://127.0.0.1:5454/api/profile/picture"
                       alt=""
                     />
                   </div>
                   <div className="ml-3">
-                    <p className="text-sm font-medium text-gray-700 group-hover:text-gray-900">Tom Cook</p>
+                    <p className="text-sm font-medium text-gray-700 group-hover:text-gray-900">{username.firstName + ' ' + username.lastName}</p>
                     <p className="text-xs font-medium text-gray-500 group-hover:text-gray-700">View profile</p>
                   </div>
                 </div>

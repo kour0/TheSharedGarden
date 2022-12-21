@@ -53,6 +53,10 @@ def render_map():
     return carte
 
 
+@app.route('/static/images/<path:path>')
+def send_js(path):
+    return send_from_directory('static/images', path)
+
 # Serve React App
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
