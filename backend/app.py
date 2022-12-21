@@ -9,6 +9,7 @@ from flask_uploads import configure_uploads, UploadSet, ALL
 
 from routes import joingarden
 from routes import creategarden
+
 from routes import profile
 from routes import authentication
 
