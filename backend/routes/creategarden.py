@@ -18,6 +18,7 @@ BASE_URL = '/api/'
 
 images = UploadSet('images', ALL)
 
+
 @creategarden.post(BASE_URL + '/creategarden')
 def create():
     try:
@@ -27,6 +28,7 @@ def create():
         # Recupération des données
         body = request.form
         garden_name = body['gardenName']
+        garden_type = body['gardenType']
         country = body['country']
         street_address = body['streetAddress']
         city = body['city']
@@ -34,12 +36,12 @@ def create():
         postal_code = body['postalCode']
         owner, manager = user.username, user.username
         # Création du jardin
-        garden = Garden(garden_name=garden_name, owner=owner, manager=manager,
+        garden = Garden(garden_name=garden_name, owner=owner, manager=manager, garden_type=garden_type,
                         street_address=street_address, country=country, city=city, province=region,
                         postal_code=postal_code)
         session.add(garden)
         # Sauvegarde de l'image (Après la création du jardin pour garantir l'unicité du nom)
-        images.save(image, name=garden_name + '.' + image.filename.split('.')[-1])
+        images.save(image, name=garden_name + '.' + image.filename.split('.')[-1], folder='garden')
         session.commit()
         return {'message': 'Garden created successfully'}
     except Exception as e:

@@ -24,7 +24,7 @@ app.register_blueprint(profile.profile)
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 images = UploadSet('images', ALL)
-app.config['UPLOADED_IMAGES_DEST'] = basedir+'/data/images'
+app.config['UPLOADED_IMAGES_DEST'] = basedir+'/static/images'
 configure_uploads(app, images)
 
 DATABASE = 'data/data.db'

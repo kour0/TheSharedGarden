@@ -1,6 +1,5 @@
 import axios from 'axios';
-import Cookies from 'js-cookie';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
@@ -64,6 +63,24 @@ export function CreateGarden() {
                     className="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:max-w-xs sm:text-sm"
                     {...register('gardenName', { required: true })}
                   />
+                </div>
+              </div>
+
+              <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
+                <label htmlFor="gardenType" className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+                  Type de jardin
+                </label>
+                <div className="mt-1 sm:col-span-2 sm:mt-0">
+                  <select
+                    id="gardenType"
+                    name="gardenType"
+                    autoComplete="gardenType-name"
+                    className="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:max-w-xs sm:text-sm"
+                    {...register('gardenType', { required: true })}
+                  >
+                    <option>Public</option>
+                    <option>Privé</option>
+                  </select>
                 </div>
               </div>
 
@@ -149,19 +166,29 @@ export function CreateGarden() {
               </div>
             {/* Uploader une image et afficher un aperçu */}
               <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
-                <label htmlFor="image" className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+                <label htmlFor='postal-code' className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
                   Image du jardin
                 </label>
-                <div className="mt-1 sm:col-span-2 sm:mt-0">
+                <div className="overflow-hidden relative inline-block mt-1 sm:col-span-2 sm:mt-0">
+                  <button className="rounded-md w-full max-w-lg border border-gray-300 bg-white py-2 px-3 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                    Ajouter une image
                   <input
                     type="file"
                     name="image"
                     id="image"
+                    accept=".png, .jpg, .jpeg"
                     onChange={handleImageChange}
-                    className="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:max-w-xs sm:text-sm"
+                    className='absolute top-0 left-0 text-2xl opacity-0'
                   />
-                  {/* Affichez l'image prévisualisée */}
-                  {previewUrl && <img src={previewUrl} alt="Prévisualisation" />}
+                  </button>
+                  {previewUrl && (
+                    <div className="flex flex-col items-center justify-center">
+                      <img
+                        src={previewUrl}
+                        alt="Preview"
+                        className="w-32 h-32 object-cover rounded-md"
+                      />
+                    </div>)}
                 </div>
               </div>
             </div>
