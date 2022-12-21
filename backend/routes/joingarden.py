@@ -39,6 +39,10 @@ def get_join(garden_name):
         account = auth.authenticate(request)
         print(account)
         garden = session.query(Garden).filter_by(garden_name=garden_name).first()
+        deja = session.query(Link).filter_by(username=account.username, garden_name=garden_name).first()
+        if deja:
+            print("deja")
+            return redirect('http://127.0.0.1:5173/app/dashboard')
         link = Link(username=account.username, garden_name=garden_name)
         session.add(link)
         session.commit()
