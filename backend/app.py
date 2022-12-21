@@ -10,6 +10,7 @@ from flask_uploads import configure_uploads, UploadSet, ALL
 from routes import joingarden
 from routes import creategarden
 
+from routes import profile
 from routes import authentication
 
 app = Flask(__name__)
@@ -18,6 +19,7 @@ CORS(app, supports_credentials=True)
 app.register_blueprint(authentication.authentication)
 app.register_blueprint(joingarden.joingarden)
 app.register_blueprint(creategarden.creategarden)
+app.register_blueprint(profile.profile)
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
