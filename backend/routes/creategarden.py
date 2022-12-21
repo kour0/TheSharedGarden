@@ -8,6 +8,7 @@ from bdd import Session
 from middlewares import auth
 from models.Garden import Garden
 from flask_uploads import UploadSet, ALL
+from routes.map import add_map
 
 creategarden = Blueprint('creategarden', __name__)
 session = Session()
@@ -43,6 +44,9 @@ def create():
         # Sauvegarde de l'image (Après la création du jardin pour garantir l'unicité du nom)
         images.save(image, name=garden_name + '.' + image.filename.split('.')[-1], folder='garden')
         session.commit()
+        if garden_type == 'Public':
+            print("Public")
+            add_map(garden)
         return {'message': 'Garden created successfully'}
     except Exception as e:
         session.rollback()
