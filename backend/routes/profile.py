@@ -16,6 +16,17 @@ BASE_URL = '/api/'
 images = UploadSet('images', ALL)
 
 
+@profile.get(BASE_URL + '/profile')
+def get_username():
+    try:
+        # On récupère l'utilisateur
+        user = auth.authenticate(request)
+        # On retourne nom et prénom de l'utilisateur
+        return {'email': user.email, 'username': user.username, 'firstname': user.first_name, 'lastname': user.last_name}
+    except Exception as e:
+        return {'message': str(e)}, 500
+
+
 @profile.get(BASE_URL + '/profile/picture')
 def picture():
     try:
@@ -33,15 +44,4 @@ def picture():
             return send_from_directory('static/images/profile', 'default_photo.jpg')
     except Exception as e:
         print(e)
-        return {'message': str(e)}, 500
-
-
-@profile.get(BASE_URL + '/profile/username')
-def get_username():
-    try:
-        # On récupère l'utilisateur
-        user = auth.authenticate(request)
-        # On retourne nom et prénom de l'utilisateur
-        return {'username': user.username, 'firstname': user.first_name, 'lastname': user.last_name}
-    except Exception as e:
         return {'message': str(e)}, 500
