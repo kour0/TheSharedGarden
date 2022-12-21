@@ -18,6 +18,7 @@ BASE_URL = '/api/'
 
 images = UploadSet('images', ALL)
 
+
 @creategarden.post(BASE_URL + '/creategarden')
 def create():
     try:
@@ -39,7 +40,7 @@ def create():
                         postal_code=postal_code)
         session.add(garden)
         # Sauvegarde de l'image (Après la création du jardin pour garantir l'unicité du nom)
-        images.save(image, name=garden_name + '.' + image.filename.split('.')[-1])
+        images.save(image, name=garden_name + '.' + image.filename.split('.')[-1], folder='garden')
         session.commit()
         return {'message': 'Garden created successfully'}
     except Exception as e:
