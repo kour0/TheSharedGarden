@@ -22,7 +22,7 @@ def get_username():
         # On récupère l'utilisateur
         user = auth.authenticate(request)
         # On retourne nom et prénom de l'utilisateur
-        return {'email': user.email, 'username': user.username, 'firstname': user.first_name, 'lastname': user.last_name}
+        return {'email': user.email, 'username': user.username, 'first_name': user.first_name, 'last_name': user.last_name}
     except Exception as e:
         return {'message': str(e)}, 500
 
