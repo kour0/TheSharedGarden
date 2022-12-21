@@ -67,6 +67,24 @@ export function CreateGarden() {
               </div>
 
               <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
+                <label htmlFor="gardenType" className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+                  Type de jardin
+                </label>
+                <div className="mt-1 sm:col-span-2 sm:mt-0">
+                  <select
+                    id="gardenType"
+                    name="gardenType"
+                    autoComplete="gardenType-name"
+                    className="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:max-w-xs sm:text-sm"
+                    {...register('gardenType', { required: true })}
+                  >
+                    <option>Public</option>
+                    <option>Privé</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
                 <label htmlFor="country" className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
                   Pays
                 </label>

@@ -13,6 +13,7 @@ CREATE TABLE garden (
     garden_name VARCHAR PRIMARY KEY NOT NULL,
     owner VARCHAR,
     manager VARCHAR,
+    garden_type VARCHAR NOT NULL,
     street_address VARCHAR,
     country VARCHAR,
     city VARCHAR,
