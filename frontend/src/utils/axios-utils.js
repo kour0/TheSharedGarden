@@ -14,7 +14,8 @@ export const request = async ({ ...options }) => {
     const response = await client(options);
     return response;
   } catch (error) {
-    toast.error(error?.response.data?.message);
+    toast.error(error?.response?.data?.message);
+    throw error;
   }
 
 };
