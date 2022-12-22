@@ -13,7 +13,7 @@ session = Session()
 
 CORS(authentication, supports_credentials=True)
 
-BASE_URL = '/api/'
+BASE_URL = '/api/auth'
 
 
 @authentication.post(BASE_URL + '/signin')

@@ -3,6 +3,7 @@ from sqlalchemy.types import String, Integer
 
 from bdd import Base
 
+
 class Do(Base):
     __tablename__ = 'do'
     username = Column('username', String(300), primary_key=True)

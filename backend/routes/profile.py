@@ -1,4 +1,4 @@
-from flask import Blueprint, request, send_from_directory, redirect
+from flask import Blueprint, request, send_from_directory, redirect, g
 from flask_cors import CORS
 import os
 from sqlalchemy import update
@@ -13,27 +13,35 @@ session = Session()
 
 CORS(profile, supports_credentials=True)
 
-BASE_URL = '/api/'
+BASE_URL = '/api/profile'
 
 images = UploadSet('images', ALL)
 
+@profile.before_request
+def before_request():
+    try:
+        user = auth.authenticate(request)
+        g.user = user
+    except Exception as e:
+        return {'message': str(e)}, 500
 
-@profile.get(BASE_URL + '/profile')
+
+@profile.get(BASE_URL + '/')
 def get_informations():
     try:
         # On récupère l'utilisateur
-        user = auth.authenticate(request)
+        user = g.user
         # On retourne nom et prénom de l'utilisateur
         return {'email': user.email, 'username': user.username, 'first_name': user.first_name, 'last_name': user.last_name}
     except Exception as e:
         return {'message': str(e)}, 500
 
 
-@profile.get(BASE_URL + '/profile/picture')
+@profile.get(BASE_URL + '/picture')
 def picture():
     try:
         # On récupère l'utilisateur
-        user = auth.authenticate(request)
+        user = g.user
         # On récupère la liste des fichiers contenu dans le dossier images
         files = os.listdir('static/images/profile')
         # On récupère le nom de l'image de l'utilisateur
@@ -48,10 +56,11 @@ def picture():
         print(e)
         return {'message': str(e)}, 500
 
-@profile.patch(BASE_URL + '/profile')
+#TODO : regrouper les deux routes en une seule (route / : patch), pour différencier les requêtes : regarder en fonction du type de données envoyées (formdata ou json)
+@profile.patch(BASE_URL + '/')
 def modify_profile():
     try:
-        user = auth.authenticate(request)
+        user = g.user
         #image = request.files['file']
         body = request.form
         username = body['username']
@@ -66,7 +75,7 @@ def modify_profile():
 @profile.patch(BASE_URL + '/personnal_info')
 def modify_info():
     try:
-        user = auth.authenticate(request)
+        user = g.user
         body = request.form
         first_name = body['first_name']
         last_name = body['last_name']

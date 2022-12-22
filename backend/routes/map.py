@@ -1,10 +1,10 @@
-from flask import Blueprint, request, make_response, Flask, url_for
+import folium
+from flask import Blueprint
 from flask_cors import CORS
+from geopy.geocoders import Nominatim
 
 from bdd import Session
 from models.Garden import Garden
-import folium
-from geopy.geocoders import Nominatim
 
 map = Blueprint('map', __name__)
 session = Session()
@@ -30,11 +30,13 @@ def create_map():
         # On crée un popup avec un lien vers la page du jardin
 
         if location != None:
-
-            url = folium.Html('<a target="_top" href="http://127.0.0.1:5454/api/join-garden/' + garden.garden_name + '">Rejoindre le jardin</a>', script=True)
+            url = folium.Html(
+                '<a target="_top" href="http://127.0.0.1:5454/api/join-garden/' + garden.garden_name + '">Rejoindre le jardin</a>',
+                script=True)
             popup = folium.Popup(url, max_width=2650)
             # On ajoute un marqueur sur la carte avec dans le popup un lien vers la page pour rejoindre le jardin
             folium.Marker([location.latitude, location.longitude], popup=popup, tooltip=garden.garden_name).add_to(m)
+
 
 @map.route('/map')
 def render_map():
@@ -44,8 +46,11 @@ def render_map():
 
 def add_map(last_garden):
     geolocator = Nominatim(user_agent="ppii-2022")
-    location = geolocator.geocode(last_garden.street_address + " " + str(last_garden.postal_code) + " " + last_garden.city)
+    location = geolocator.geocode(
+        last_garden.street_address + " " + str(last_garden.postal_code) + " " + last_garden.city)
     # On ajoute un marqueur sur la carte avec dans le popup un lien vers la page du jardin
-    url = folium.Html('<a target="_top" href="http://127.0.0.1:5454/api/join-garden/' + last_garden.garden_name + '">Rejoindre le jardin</a>', script=True)
+    url = folium.Html(
+        '<a target="_top" href="http://127.0.0.1:5454/api/join-garden/' + last_garden.garden_name + '">Rejoindre le jardin</a>',
+        script=True)
     popup = folium.Popup(url, max_width=2650)
     folium.Marker([location.latitude, location.longitude], popup=popup, tooltip=last_garden.garden_name).add_to(m)

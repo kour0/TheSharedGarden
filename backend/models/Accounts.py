@@ -1,7 +1,10 @@
-from sqlalchemy import Column
-from sqlalchemy.types import Integer, String
 from datetime import datetime
+
+from sqlalchemy import Column
+from sqlalchemy.types import String
+
 from bdd import Base
+
 
 class Accounts(Base):
     __tablename__ = 'account'
@@ -13,7 +16,8 @@ class Accounts(Base):
     created_at = Column('created_at', String(), default=datetime.now)
     profile_picture = Column('profile_picture', String(200), nullable=True)
 
-    def __init__(self, username, first_name, last_name, password, email, created_at=datetime.now(), profile_picture=None):
+    def __init__(self, username, first_name, last_name, password, email, created_at=datetime.now(),
+                 profile_picture=None):
         self.username = username
         self.first_name = first_name
         self.last_name = last_name

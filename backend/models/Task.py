@@ -3,6 +3,7 @@ from sqlalchemy.types import Integer, String
 
 from bdd import Base
 
+
 class Task(Base):
     __tablename__ = 'task'
     task_id = Column('task_id', Integer, primary_key=True)
@@ -13,7 +14,7 @@ class Task(Base):
     completion_state = Column('completion_state', String(400), nullable=True)
     deadline = Column('deadline', String(200), nullable=True)
 
-    def __init__(self, task_id ,task_name ,task_manager ,task_state ,validation_state ,completion_state ,deadline):
+    def __init__(self, task_id, task_name, task_manager, task_state, validation_state, completion_state, deadline):
         self.task_id = task_id
         self.task_name = task_name
         self.task_manager = task_manager
