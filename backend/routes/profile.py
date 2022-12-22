@@ -1,10 +1,12 @@
 from flask import Blueprint, request, send_from_directory, redirect
 from flask_cors import CORS
 import os
+from sqlalchemy import update
 
 from bdd import Session
 from middlewares import auth
 from flask_uploads import UploadSet, ALL
+from models.Accounts import Accounts
 
 profile = Blueprint('profile', __name__)
 session = Session()
@@ -45,3 +47,19 @@ def picture():
     except Exception as e:
         print(e)
         return {'message': str(e)}, 500
+
+@profile.patch(BASE_URL + '/profile')
+def modify_profile():
+    try:
+        user = auth.authenticate(request)
+        #image = request.files['file']
+        body = request.form
+        username = body['username']
+        profile = session.query(Accounts).filter_by(username=user.username).first()
+        profile.username = username 
+        session.add(profile)
+        session.commit()
+        return {'message': 'change done'}
+    except Exception as e:
+        return {'message': str(e)}, 500
+    
