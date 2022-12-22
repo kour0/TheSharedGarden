@@ -62,4 +62,20 @@ def modify_profile():
         return {'message': 'change done'}
     except Exception as e:
         return {'message': str(e)}, 500
+
+@profile.patch(BASE_URL + '/personnal_info')
+def modify_info():
+    try:
+        user = auth.authenticate(request)
+        body = request.form
+        first_name = body['first_name']
+        last_name = body['last_name']
+        profile = session.query(Accounts).filter_by(username=user.username).first()
+        profile.first_name = first_name
+        profile.last_name = last_name 
+        session.add(profile)
+        session.commit()
+        return {'message': 'change done'}
+    except Exception as e:
+        return {'message': str(e)}, 500
     

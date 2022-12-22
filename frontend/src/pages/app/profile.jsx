@@ -33,6 +33,21 @@ export default function Profile() {
         }
     }
 
+    const onSubmit2 = async (data) => {
+        const formData = new FormData();
+        //formData.append('file', selectedImage);
+        Object.keys(data).forEach((key) => {
+            formData.append(key, data[key]);
+        }
+        );
+        try {
+            await axios.patch('http://127.0.0.1:5454/api/personnal_info', formData, { withCredentials: true, });
+        }
+        catch (error) {
+            toast.error(error.response.data.message);
+        }
+    }
+
     const [selectedImage, setSelectedImage] = useState(null);
     const [previewUrl, setPreviewUrl] = useState(null);
     const handleImageChange = event => {
@@ -151,11 +166,11 @@ export default function Profile() {
                             <div className="md:col-span-1">
                                 <div className="px-4 sm:px-0">
                                     <h3 className="text-lg font-medium leading-6 text-gray-900">Informations personnelles</h3>
-                                    <p className="mt-1 text-sm text-gray-600">Rien pour le moment</p>
+                                    <p className="mt-1 text-sm text-gray-600">Modifiez ici vos informations personnelles</p>
                                 </div>
                             </div>
                             <div className="mt-5 md:col-span-2 md:mt-0">
-                                <form action="#" method="POST">
+                                <form action="#" method="POST" onSubmit={handleSubmit(onSubmit2)}>
                                     <div className="overflow-hidden shadow sm:rounded-md">
                                         <div className="bg-white px-4 py-5 sm:p-6">
                                             <div className="grid grid-cols-6 gap-6">
@@ -170,6 +185,7 @@ export default function Profile() {
                                                         autoComplete="given-name"
                                                         defaultValue={data.first_name}
                                                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                                        {...register("first_name", { required: true })}
                                                     />
                                                 </div>
 
@@ -184,20 +200,7 @@ export default function Profile() {
                                                         autoComplete="family-name"
                                                         defaultValue={data.last_name}
                                                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                                                    />
-                                                </div>
-
-                                                <div className="col-span-6 sm:col-span-4">
-                                                    <label htmlFor="email-address" className="block text-sm font-medium text-gray-700">
-                                                        Adresse Email
-                                                    </label>
-                                                    <input
-                                                        type="text"
-                                                        name="email-address"
-                                                        id="email-address"
-                                                        autoComplete="email"
-                                                        defaultValue={data.email}
-                                                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                                        {...register("last_name", { required: true })}
                                                     />
                                                 </div>
 
