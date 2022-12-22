@@ -1,21 +1,28 @@
 CREATE TABLE account (
     email VARCHAR PRIMARY KEY NOT NULL,
     username VARCHAR NOT NULL ,
-    name VARCHAR NOT NULL,
+    first_name VARCHAR NOT NULL,
+    last_name VARCHAR NOT NULL,
     password VARCHAR default NULL,
-    address VARCHAR default NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     profile_picture VARCHAR default NULL
 );
 
+
 CREATE TABLE garden (
-    owner VARCHAR PRIMARY KEY NOT NULL,
-    garden_name VARCHAR,
+    garden_name VARCHAR PRIMARY KEY NOT NULL,
+    owner VARCHAR,
     manager VARCHAR,
-    garden_adress VARCHAR
+    garden_type VARCHAR NOT NULL,
+    street_address VARCHAR,
+    country VARCHAR,
+    city VARCHAR,
+    province VARCHAR,
+    postal_code INTEGER
 );
 
 CREATE TABLE task (
-    task_id INTEGER,
+    task_id INTEGER PRIMARY KEY NOT NULL,
     task_name VARCHAR,
     task_manager VARCHAR,
     task_state VARCHAR,
@@ -24,13 +31,24 @@ CREATE TABLE task (
     deadline date
 );
 
-CREATE TABLE parcelle (
-    parcelle_id INTEGER,
-    parcelle_state VARCHAR,
+CREATE TABLE plot(
+    plot_id INTEGER PRIMARY KEY NOT NULL,
+    garden_name VARCHAR,
+    plot_state VARCHAR,
     cultivated_vegetable VARCHAR
 );
 
-CREATE TABLE dispose(
-    parcelle_id INTEGER,
+CREATE TABLE own(
+    plot_id INTEGER,
     task_id INTEGER
-)
+);
+
+CREATE TABLE do(
+    username VARCHAR,
+    task_id INTEGER
+);
+
+CREATE TABLE link(
+    username VARCHAR,
+    garden_name VARCHAR
+);

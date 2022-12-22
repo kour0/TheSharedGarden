@@ -1,4 +1,27 @@
+import { useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import axios from 'axios';
+import toast from 'react-hot-toast';
+
+
 export function UniqueFieldForm({ form }) {
+  const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const onSubmit = async (data) => {
+    try {
+      const response = await axios.post(form.url, data, {
+        withCredentials: true,
+      });
+      navigate('/app/dashboard');
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  };
+
   return (
     <div className="py-16 sm:my-0">
       <div className="relative sm:my-5">
@@ -51,15 +74,16 @@ export function UniqueFieldForm({ form }) {
                   {form.description}
                 </p>
               </div>
-              <form action="#" className="mt-12 sm:mx-auto sm:flex sm:max-w-lg">
+              <form action='#' method='POST' onSubmit={handleSubmit(onSubmit)} className="mt-12 sm:mx-auto sm:flex sm:max-w-lg">
                 <div className="min-w-0 flex-1">
-                  <label htmlFor="cta-email" className="sr-only">
+                  <label htmlFor={form.name} className="sr-only">
                   </label>
                   <input
-                    id="cta-email"
-                    type="email"
+                    id={form.name}
+                    type="text"
                     className="block w-full rounded-md border border-transparent px-5 py-3 text-base text-gray-900 placeholder-gray-500 shadow-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-indigo-600"
                     placeholder={form.placeholder}
+                    {...register(form.name, { required: true })}
                   />
                 </div>
                 <div className="mt-4 sm:mt-0 sm:ml-3">

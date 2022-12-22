@@ -3,9 +3,16 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import Cookies from 'js-cookie';
+import { useEffect, useState } from 'react';
 
 export default function Login() {
   const navigate = useNavigate();
+  useEffect(() => {
+    if (Cookies.get('Authorization')) {
+      navigate('/app/dashboard');
+    }
+  }, []);
   const {
     register,
     handleSubmit,
@@ -13,9 +20,9 @@ export default function Login() {
   } = useForm();
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post('http://127.0.0.1:5454/api/signin', data);
-      const token = response.data.token;
-      localStorage.setItem('token', token);
+      const response = await axios.post('http://127.0.0.1:5454/api/signin', data, {
+        withCredentials: true,
+      });
       navigate('/app/dashboard');
     } catch (error) {
       toast.error(error.response.data.message);
@@ -73,7 +80,9 @@ export default function Login() {
                   id="remember-me"
                   name="remember-me"
                   type="checkbox"
+                  defaultValue={false}
                   className="h-4 w-4 rounded border-gray-300 text-teal-600 focus:ring-teal-500"
+                  {...register('remember')}
                 />
                 <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
                   Se souvenir de moi
@@ -81,7 +90,7 @@ export default function Login() {
               </div>
 
               <div className="text-sm">
-                <Link to="/register" relative="path" className="font-medium text-teal-600 hover:text-teal-500">
+                <Link to="/" relative="path" className="font-medium text-teal-600 hover:text-teal-500">
                   Inscription
                 </Link>
               </div>

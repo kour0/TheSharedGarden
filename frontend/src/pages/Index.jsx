@@ -1,92 +1,91 @@
-import { ChevronRightIcon } from '@heroicons/react/20/solid'
+import { ChevronRightIcon } from '@heroicons/react/20/solid';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import toast from 'react-hot-toast';
-import { NavBar } from '../components/navigation/NavBar'
+import { NavBar } from '../components/navigation/NavBar';
 
 const navigation = [
-    { name: 'Rejoignez un jardin', href: '/join'},
-    { name: 'Qui sommes nous ?', href: '/' },
-    { name: 'Le projet', href: '/' },
-]
+  { name: 'Rejoignez un jardin', href: '/join' },
+  { name: 'Qui sommes nous ?', href: '/' },
+  { name: 'Le projet', href: '/' },
+];
 
 export default function Index() {
-    const navigate = useNavigate();
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm();
-    const onSubmit = async (data) => {
-        try {
-            const response = await axios.post('http://127.0.0.1:5454/api/signup', data);
-            const token = response.data.token;
-            localStorage.setItem('token', token);
-            navigate('/app/dashboard');
-        } catch (error) {
-            toast.error(error.response.data.message);
-        }
-    };
-    return (
-        <div className="relative overflow-hidden bg-white lg-h-screen">
-            <div className="hidden lg:absolute lg:inset-0 lg:block" aria-hidden="true">
-                <svg
-                    className="absolute top-0 left-1/2 translate-x-64 -translate-y-8 transform"
-                    width={640}
-                    height={784}
-                    fill="none"
-                    viewBox="0 0 640 784"
-                >
-                    <defs>
-                        <pattern
-                            id="9ebea6f4-a1f5-4d96-8c4e-4c2abf658047"
-                            x={118}
-                            y={0}
-                            width={20}
-                            height={20}
-                            patternUnits="userSpaceOnUse"
-                        >
-                            <rect x={0} y={0} width={4} height={4} className="text-gray-200" fill="currentColor" />
-                        </pattern>
-                    </defs>
-                    <rect y={72} width={640} height={640} className="text-gray-50" fill="currentColor" />
-                    <rect x={118} width={404} height={784} fill="url(#9ebea6f4-a1f5-4d96-8c4e-4c2abf658047)" />
-                </svg>
-            </div>
+  const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const onSubmit = async (data) => {
+    try {
+      const response = await axios.post('http://127.0.0.1:5454/api/signup', data, {
+        withCredentials: true,
+      });
+      navigate('/app/dashboard');
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  };
+  return (
+    <div className="relative overflow-hidden bg-white lg-h-screen">
+      <div className="hidden lg:absolute lg:inset-0 lg:block" aria-hidden="true">
+        <svg
+          className="absolute top-0 left-1/2 translate-x-64 -translate-y-8 transform"
+          width={640}
+          height={784}
+          fill="none"
+          viewBox="0 0 640 784"
+        >
+          <defs>
+            <pattern
+              id="9ebea6f4-a1f5-4d96-8c4e-4c2abf658047"
+              x={118}
+              y={0}
+              width={20}
+              height={20}
+              patternUnits="userSpaceOnUse"
+            >
+              <rect x={0} y={0} width={4} height={4} className="text-gray-200" fill="currentColor" />
+            </pattern>
+          </defs>
+          <rect y={72} width={640} height={640} className="text-gray-50" fill="currentColor" />
+          <rect x={118} width={404} height={784} fill="url(#9ebea6f4-a1f5-4d96-8c4e-4c2abf658047)" />
+        </svg>
+      </div>
 
-            <div className="relative pt-6 pb-16 sm:pb-24 lg:pb-32">
-                
-                <NavBar/>
-                <main className="mx-auto mt-16 max-w-7xl px-4 sm:mt-24 sm:px-6 lg:mt-32">
-                    <div className="lg:grid lg:grid-cols-12 lg:gap-8">
-                        <div className="sm:text-center md:mx-auto md:max-w-2xl lg:col-span-6 lg:text-left">
-                            <a
-                                href="#"
-                                className="inline-flex items-center rounded-full bg-gray-900 p-1 pr-2 text-white hover:text-gray-200 sm:text-base lg:text-sm xl:text-base"
-                            >
-                                <span className="rounded-full bg-teal-700 px-3 py-0.5 text-sm font-semibold leading-5 text-white">
-                                    En savoir plus sur le projet
-                                </span>
-                                <span className="ml-4 text-sm">Visitez notre page</span>
-                                <ChevronRightIcon className="ml-2 h-5 w-5 text-gray-500" aria-hidden="true" />
-                            </a>
-                            <h1>
-                                <span className="mt-4 block text-4xl font-bold tracking-tight sm:text-5xl xl:text-6xl">
-                                    <span className="block text-gray-900">Crée ton</span>
-                                    <span className="block text-teal-700">jardin</span>
-                                    <span className="block text-gray-900">et partage le !</span>
-                                </span>
-                            </h1>
-                            <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-xl lg:text-lg xl:text-xl">
-                                Modélise numériquement ton jardin conformément à la réalité.
-                                Organise la gestion de ton jardin avec plusieurs collaborateurs.
-                            </p>
-                        </div>
-                        <div className="mt-16 sm:mt-24 lg:col-span-6 lg:mt-0">
-                            <div className="bg-white sm:mx-auto sm:w-full sm:max-w-md sm:overflow-hidden sm:rounded-lg">
-                                <div className="px-4 py-8 sm:px-10">
-                                    {/* <div>
+      <div className="relative pt-6 pb-16 sm:pb-24 lg:pb-32">
+        <NavBar />
+        <main className="mx-auto mt-16 max-w-7xl px-4 sm:mt-24 sm:px-6 lg:mt-32 md:mt-200">
+          <div className="lg:grid lg:grid-cols-12 lg:gap-8">
+            <div className="sm:text-center md:mx-auto md:max-w-2xl lg:col-span-6 lg:text-left">
+              <a
+                href="#"
+                className="inline-flex items-center rounded-full bg-gray-900 p-1 pr-2 text-white hover:text-gray-200 sm:text-base lg:text-sm xl:text-base"
+              >
+                <span className="rounded-full bg-teal-700 px-3 py-0.5 text-sm font-semibold leading-5 text-white">
+                  En savoir plus sur le projet
+                </span>
+                <span className="ml-4 text-sm">Visitez notre page</span>
+                <ChevronRightIcon className="ml-2 h-5 w-5 text-gray-500" aria-hidden="true" />
+              </a>
+              <h1>
+                <span className="mt-4 block text-4xl font-bold tracking-tight sm:text-5xl xl:text-6xl">
+                  <span className="block text-gray-900">Créez ton</span>
+                  <span className="block text-teal-700">jardin</span>
+                  <span className="block text-gray-900">et partage le !</span>
+                </span>
+              </h1>
+              <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-xl lg:text-lg xl:text-xl">
+                Modélise numériquement ton jardin conformément à la réalité. Organise la gestion de ton jardin avec
+                plusieurs collaborateurs.
+              </p>
+            </div>
+            <div className="mt-16 sm:mt-24 lg:col-span-6 lg:mt-0">
+              <div className="bg-white sm:mx-auto sm:w-full sm:max-w-md sm:overflow-hidden sm:rounded-lg">
+                <div className="px-4 py-8 sm:px-10">
+                  {/* <div>
                                         <p className="text-sm font-medium text-gray-700">Sign in with</p>
 
                                         <div className="mt-1 grid grid-cols-3 gap-3">
@@ -145,109 +144,123 @@ export default function Index() {
                                         </div>
                                     </div> */}
 
-                                    <h1 className="mt-4 text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl md:text-4xl">
-                                        Inscrivez-vous
-                                    </h1>
+                  <h1 className="mt-4 text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl md:text-4xl">
+                    Inscrivez-vous
+                  </h1>
 
-                                    <div className="mt-6">
-                                        <form action="#" method="POST" className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
-                                            <div>
-                                                <label htmlFor="name" className="sr-only">
-                                                    Nom complet
-                                                </label>
-                                                <input
-                                                    type="text"
-                                                    name="name"
-                                                    id="name"
-                                                    autoComplete="name"
-                                                    placeholder="Nom complet"
-                                                    required
-                                                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-700 focus:ring-teal-700 sm:text-sm"
-                                                    {...register('name', { required: true })}
-                                                />
-                                            </div>
-                                            <div>
-                                                <label htmlFor="name" className="sr-only">
-                                                    Pseudo
-                                                </label>
-                                                <input
-                                                  type="text"
-                                                  name="username"
-                                                  id="username"
-                                                  autoComplete="username"
-                                                  placeholder="Pseudo"
-                                                  required
-                                                  className="block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-700 focus:ring-teal-700 sm:text-sm"
-                                                  {...register('username', { required: true })}
-                                                />
-                                            </div>
+                  <div className="mt-6">
+                    <form action="#" method="POST" className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+                      <div>
+                        <label htmlFor="first_name" className="sr-only">
+                          Prénom
+                        </label>
+                        <input
+                          type="text"
+                          name="first_name"
+                          id="first_name"
+                          autoComplete="name"
+                          placeholder="Prénom"
+                          required
+                          className="block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-700 focus:ring-teal-700 sm:text-sm"
+                          {...register('first_name', { required: true })}
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="last_name" className="sr-only">
+                          Nom
+                        </label>
+                        <input
+                          type="text"
+                          name="last_name"
+                          id="last_name"
+                          autoComplete="name"
+                          placeholder="Nom"
+                          required
+                          className="block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-700 focus:ring-teal-700 sm:text-sm"
+                          {...register('last_name', { required: true })}
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="name" className="sr-only">
+                          Pseudo
+                        </label>
+                        <input
+                          type="text"
+                          name="username"
+                          id="username"
+                          autoComplete="username"
+                          placeholder="Pseudo"
+                          required
+                          className="block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-700 focus:ring-teal-700 sm:text-sm"
+                          {...register('username', { required: true })}
+                        />
+                      </div>
 
-                                            <div>
-                                                <label htmlFor="mobile-or-email" className="sr-only">
-                                                    Email
-                                                </label>
-                                                <input
-                                                    type="text"
-                                                    name="mobile-or-email"
-                                                    id="mobile-or-email"
-                                                    autoComplete="email"
-                                                    placeholder="Email"
-                                                    required
-                                                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-7000 focus:ring-teal-700 sm:text-sm"
-                                                    {...register('email', { required: true })}
-                                                />
-                                            </div>
+                      <div>
+                        <label htmlFor="mobile-or-email" className="sr-only">
+                          Email
+                        </label>
+                        <input
+                          type="text"
+                          name="mobile-or-email"
+                          id="mobile-or-email"
+                          autoComplete="email"
+                          placeholder="Email"
+                          required
+                          className="block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-7000 focus:ring-teal-700 sm:text-sm"
+                          {...register('email', { required: true })}
+                        />
+                      </div>
 
-                                            <div>
-                                                <label htmlFor="password" className="sr-only">
-                                                    Mot de passe
-                                                </label>
-                                                <input
-                                                    id="password"
-                                                    name="password"
-                                                    type="password"
-                                                    placeholder="Mot de passe"
-                                                    autoComplete="current-password"
-                                                    required
-                                                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-700 focus:ring-teal-700 sm:text-sm"
-                                                    {...register('password', { required: true })}
-                                                />
-                                            </div>
+                      <div>
+                        <label htmlFor="password" className="sr-only">
+                          Mot de passe
+                        </label>
+                        <input
+                          id="password"
+                          name="password"
+                          type="password"
+                          placeholder="Mot de passe"
+                          autoComplete="current-password"
+                          required
+                          className="block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-700 focus:ring-teal-700 sm:text-sm"
+                          {...register('password', { required: true })}
+                        />
+                      </div>
 
-                                            <div>
-                                                <button
-                                                    type="submit"
-                                                    className="flex w-full justify-center rounded-md border border-transparent bg-teal-700 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-teal-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                                                >
-                                                    Créez votre compte
-                                                </button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                                <div className="border-t-2 border-gray-200 bg-gray-50 px-4 py-6 sm:px-10">
-                                    <p className="text-xs leading-5 text-gray-500">
-                                        En vous inscrivant, vous acceptez les{" "}
-                                        <a href="#" className="font-medium text-gray-900 hover:underline">
-                                            Conditions d'utilisations
-                                        </a>
-                                        ,{' '}
-                                        <a href="#" className="font-medium text-gray-900 hover:underline">
-                                            Politique de confidentialité
-                                        </a>{' '}
-                                        et{' '}
-                                        <a href="#" className="font-medium text-gray-900 hover:underline">
-                                            Politique relative aux cookies
-                                        </a>
-                                        .
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </main>
-            </div >
-            
-        </div >
-    )
+                      <div>
+                        <button
+                          type="submit"
+                          className="flex w-full justify-center rounded-md border border-transparent bg-teal-700 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-teal-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                        >
+                          Créez votre compte
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+                <div className="border-t-2 border-gray-200 bg-gray-50 px-4 py-6 sm:px-10">
+                  <p className="text-xs leading-5 text-gray-500">
+                    En vous inscrivant, vous acceptez les{' '}
+                    <a href="#" className="font-medium text-gray-900 hover:underline">
+                      Conditions d'utilisations
+                    </a>
+                    ,{' '}
+                    <a href="#" className="font-medium text-gray-900 hover:underline">
+                      Politique de confidentialité
+                    </a>{' '}
+                    et{' '}
+                    <a href="#" className="font-medium text-gray-900 hover:underline">
+                      Politique relative aux cookies
+                    </a>
+                    .
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+  );
 }

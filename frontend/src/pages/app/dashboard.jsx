@@ -1,7 +1,13 @@
-import { GardenCard } from "../../components/GardenCard"
-import SideBar from "../../components/layout/SideBar"
+import React from "react";
+import { useQuery } from "@tanstack/react-query"
 
-const gardens = [
+import axios from 'axios';
+import { Loader } from "../../components/loader/FullScreenLoader";
+
+import { GardenCard } from '../../components/GardenCard';
+
+
+const gardenTest = [
   {
     title: 'Boost your conversion rate',
     href: '/',
@@ -47,28 +53,39 @@ const gardens = [
         'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
     },
   },
-]
+];
 
 export default function Dashboard() {
-  return (
 
-      <div className="relative bg-gray-50 px-4 pb-16 sm:px-6 lg:px-8 lg:pb-28">
-        <div className="absolute inset-0">
-          <div className="h-1/3 bg-white sm:h-2/3" />
+  const url = 'http://127.0.0.1:5454/api/dashboard';
+
+  const { isLoading, isError, data, error } = useQuery(['gardens'], () => axios.get(url, { withCredentials: true, }).then(res => res.data));
+
+  const gardens = data?.gardens;
+
+  return <>
+    {isLoading && <Loader />}
+    {isError && <div>{error}</div>}
+    {gardens && <div className="relative bg-gray-50 px-4 pb-16 sm:px-6 lg:px-8 lg:pb-28">
+      {console.log(gardens[0])}
+      <div className="absolute inset-0">
+        <div className="h-1/3 bg-white sm:h-2/3" />
+      </div>
+      <div className="relative pt-3 lg:pt-8 mx-auto max-w-7xl">
+        <div className="text-center mt-5">
+          <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Mes jardins</h2>
+          <p className="mx-auto mt-3 max-w-2xl text-xl text-gray-500 sm:mt-4">
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsa libero labore natus atque, ducimus sed.
+          </p>
         </div>
-        <div className="relative pt-3 lg:pt-8 mx-auto max-w-7xl">
-          <div className="text-center mt-5">
-            <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Mes jardins</h2>
-            <p className="mx-auto mt-3 max-w-2xl text-xl text-gray-500 sm:mt-4">
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsa libero labore natus atque, ducimus sed.
-            </p>
-          </div>
-          <div className="mx-auto mt-12 grid max-w-lg gap-5 lg:max-w-none lg:grid-cols-3">
-            {gardens.map((garden,index) => (
-              <GardenCard key={index} garden={garden}></GardenCard>
-            ))}
-          </div>
+        <div className="mx-auto mt-12 grid max-w-lg gap-5 lg:max-w-none lg:grid-cols-3">
+          {gardens.map((garden, index) => (
+            <GardenCard key={index} garden={garden}></GardenCard>
+          ))}
         </div>
       </div>
-  )
+    </div>
+    }
+
+  </>
 }
