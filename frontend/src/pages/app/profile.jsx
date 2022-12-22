@@ -17,16 +17,22 @@ export default function Profile() {
         register,
         handleSubmit,
         formState: { errors },
-    } = useForm() 
+    } = useForm()
     const onSubmit = async (data) => {
+        const formData = new FormData();
+        //formData.append('file', selectedImage);
+        Object.keys(data).forEach((key) => {
+            formData.append(key, data[key]);
+        }
+        );
         try {
-            await axios.patch('http://127.0.0.1:5454/api/profile', data, {withCredentials: true,});
-            }
+            await axios.patch('http://127.0.0.1:5454/api/profile', formData, { withCredentials: true, });
+        }
         catch (error) {
             toast.error(error.response.data.message);
-          }
+        }
     }
-    
+
     const [selectedImage, setSelectedImage] = useState(null);
     const [previewUrl, setPreviewUrl] = useState(null);
     const handleImageChange = event => {
@@ -63,7 +69,7 @@ export default function Profile() {
                                 </div>
                             </div>
                             <div className="mt-5 md:col-span-2 md:mt-0">
-                                <form action="#" method="PATCH" onSubmit={handleSubmit()}>
+                                <form action="#" method="PATCH" onSubmit={handleSubmit(onSubmit)}>
                                     <div className="shadow sm:overflow-hidden sm:rounded-md">
                                         <div className="space-y-6 bg-white px-4 py-5 sm:p-6">
                                             <div className="grid grid-cols-3 gap-6">
@@ -78,7 +84,7 @@ export default function Profile() {
                                                         autoComplete="given-name"
                                                         defaultValue={data.username}
                                                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                                                        {...register("username",{required : true})}
+                                                        {...register("username", { required: true })}
                                                     />
                                                 </div>
 
@@ -100,21 +106,21 @@ export default function Profile() {
                                                     </span>
                                                     <div className="overflow-hidden relative inline-block mt-1 sm:col-span-2 sm:mt-0">
 
-                                                    <button
-                                                        type="button"
-                                                        className="ml-5 rounded-md border border-gray-300 bg-white py-2 px-3 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                                                    >
-                                                        Modifier
+                                                        <button
+                                                            type="button"
+                                                            className="ml-5 rounded-md border border-gray-300 bg-white py-2 px-3 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                                        >
+                                                            Modifier
 
-                                                        <input
-                                                            type="file"
-                                                            name="image"
-                                                            id="image"
-                                                            accept=".png, .jpg, .jpeg"
-                                                            onChange={handleImageChange}
-                                                            className='absolute top-0 left-0 text-2xl opacity-0'
-                                                        />
-                                                    </button>
+                                                            <input
+                                                                type="file"
+                                                                name="image"
+                                                                id="image"
+                                                                accept=".png, .jpg, .jpeg"
+                                                                onChange={handleImageChange}
+                                                                className='absolute top-0 left-0 text-2xl opacity-0'
+                                                            />
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
