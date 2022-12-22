@@ -2,6 +2,7 @@ from flask import Blueprint, request, send_from_directory, redirect
 from flask_cors import CORS
 import os
 from sqlalchemy import update
+import time
 
 from bdd import Session
 from middlewares import auth
@@ -50,6 +51,7 @@ def picture():
 
 @profile.patch(BASE_URL + '/profile')
 def modify_profile():
+
     try:
         user = auth.authenticate(request)
         #image = request.files['file']
