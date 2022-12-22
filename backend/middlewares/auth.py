@@ -7,13 +7,9 @@ from models.Accounts import Accounts
 session = Session()
 
 def authenticate(request):
-    token = request.headers.get('Cookie')  # Get the token from the cookie
+    token = request.headers.get('x-access-token')  # Get the token from the cookie
     if not token:
         raise Exception('No token provided.')
-
-    token = token[token.index('Bearer')+len('Bearer')+1:-1]
-    if not token:
-        raise Exception('Invalid token form.')
     
     decoded = jwt.decode(token, config('JWT_SECRET'), algorithms=['HS256'])
     email = decoded['email']

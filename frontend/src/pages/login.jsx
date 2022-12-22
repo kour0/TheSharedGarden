@@ -5,11 +5,12 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
+import { request } from '../utils/axios-utils';
 
 export default function Login() {
   const navigate = useNavigate();
   useEffect(() => {
-    if (Cookies.get('Authorization')) {
+    if (Cookies.get('token')) {
       navigate('/app/dashboard');
     }
   }, []);
@@ -19,13 +20,14 @@ export default function Login() {
     formState: { errors },
   } = useForm();
   const onSubmit = async (data) => {
-    try {
-      const response = await axios.post('http://127.0.0.1:5454/api/signin', data, {
-        withCredentials: true,
-      });
+    await request({
+      method: 'post',
+      url: '/api/signin',
+      withCredentials: true,
+      data: data,
+    });
+    if (Cookies.get('token')) {
       navigate('/app/dashboard');
-    } catch (error) {
-      toast.error(error.response.data.message);
     }
   };
 

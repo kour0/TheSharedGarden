@@ -20,23 +20,22 @@ export function CreateGarden() {
     // Ajouter des données à un formulaire
     Object.keys(data).forEach((key) => {
       formData.append(key, data[key]);
-    }
-    );
+    });
     try {
       const response = await axios.post('http://127.0.0.1:5454/api/creategarden', formData, {
         withCredentials: true,
-      })
+      });
       navigate('/app/dashboard');
     } catch (error) {
       toast.error(error.response.data.message);
     }
   };
-  const handleImageChange = event => {
+  const handleImageChange = (event) => {
     const image = event.target.files[0];
     setSelectedImage(image);
 
     const reader = new FileReader();
-    reader.onload = e => setPreviewUrl(e.target.result);
+    reader.onload = (e) => setPreviewUrl(e.target.result);
     reader.readAsDataURL(image);
   };
 
@@ -164,31 +163,28 @@ export function CreateGarden() {
                   />
                 </div>
               </div>
-            {/* Uploader une image et afficher un aperçu */}
+              {/* Uploader une image et afficher un aperçu */}
               <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
-                <label htmlFor='postal-code' className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+                <label htmlFor="postal-code" className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
                   Image du jardin
                 </label>
                 <div className="overflow-hidden relative inline-block mt-1 sm:col-span-2 sm:mt-0">
                   <button className="rounded-md w-full max-w-lg border border-gray-300 bg-white py-2 px-3 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                     Ajouter une image
-                  <input
-                    type="file"
-                    name="image"
-                    id="image"
-                    accept=".png, .jpg, .jpeg"
-                    onChange={handleImageChange}
-                    className='absolute top-0 left-0 text-2xl opacity-0'
-                  />
+                    <input
+                      type="file"
+                      name="image"
+                      id="image"
+                      accept=".png, .jpg, .jpeg"
+                      onChange={handleImageChange}
+                      className="absolute top-0 left-0 text-2xl opacity-0"
+                    />
                   </button>
                   {previewUrl && (
                     <div className="flex flex-col items-center justify-center">
-                      <img
-                        src={previewUrl}
-                        alt="Preview"
-                        className="w-32 h-32 object-cover rounded-md"
-                      />
-                    </div>)}
+                      <img src={previewUrl} alt="Preview" className="w-32 h-32 object-cover rounded-md" />
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

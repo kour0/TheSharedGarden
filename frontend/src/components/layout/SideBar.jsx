@@ -20,23 +20,24 @@ export default function SideBar() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!Cookies.get('Authorization')) {
+    if (!Cookies.get('token')) {
       navigate('/login');
     }
   }, []);
 
   // Récupérer mon prénom et mon nom
-  const [username, setUsername] = useState({ firstName: '', lastName: '' });
+  const [username, setUsername] = useState({ firstName: 'TODO', lastName: 'TODO' });
+  // TODO Lucas : refaire le state + la requette avec un useQuery
   useEffect(() => {
-    axios
-      .get('http://127.0.0.1:5454/api/profile', {
-        withCredentials: true,
-      })
-      .then((response) => {
-      //   On récupère le prénom et le nom de l'utilisateur
-        setUsername({ firstName: response.data.first_name, lastName: response.data.last_name });
-      }
-      );
+    // axios
+    //   .get('http://127.0.0.1:5454/api/profile', {
+    //     withCredentials: true,
+    //   })
+    //   .then((response) => {
+    //   //   On récupère le prénom et le nom de l'utilisateur
+    //     setUsername({ firstName: response.data.first_name, lastName: response.data.last_name });
+    //   }
+    //   );
   }
   , []);
 
@@ -129,7 +130,7 @@ export default function SideBar() {
                         <div>
                           <img
                             className="inline-block h-10 w-10 rounded-full"
-                            src="http://127.0.0.1:5454/api/profile/picture"
+                            src="https://i.seadn.io/gae/Tg1-LZaAv95ggi3IqUkKcdiMbyQinuKs5paMhCFj4lS8liodkI6Tt5_Sexlucsa2byQyv1cPriRLKDkAuoLqqTxg89gypPrXBXn4MCs?auto=format&w=1000"
                             alt=""
                           />
                         </div>
@@ -191,7 +192,8 @@ export default function SideBar() {
                   <div>
                     <img
                       className="inline-block h-9 w-9 rounded-full"
-                      src="http://127.0.0.1:5454/api/profile/picture"
+                      //TODO Lucas : refaire la recup de l'image
+                      src="https://i.seadn.io/gae/Tg1-LZaAv95ggi3IqUkKcdiMbyQinuKs5paMhCFj4lS8liodkI6Tt5_Sexlucsa2byQyv1cPriRLKDkAuoLqqTxg89gypPrXBXn4MCs?auto=format&w=1000"
                       alt=""
                     />
                   </div>

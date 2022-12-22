@@ -29,7 +29,7 @@ def signin():
         else:
             token = jwt.encode({'email': email}, config('JWT_SECRET'), algorithm='HS256')
             response = make_response({'message': 'Successfully logged in'})
-            response.set_cookie('Authorization', 'Bearer ' + token, samesite='None', secure=True,
+            response.set_cookie('token', token, samesite='None', secure=True,
                                 max_age=60 * 60 * 24 * 7 if remember else None)
             return response
     except Exception as e:
@@ -57,7 +57,7 @@ def signup():
         session.commit()
         token = jwt.encode({'email': email}, config('JWT_SECRET'), algorithm='HS256')
         response = make_response({'message': 'Successfully logged in'})
-        response.set_cookie('Authorization', 'Bearer ' + token)
+        response.set_cookie('token', token)
         return response
     except Exception as e:
         return {'message': str(e)}, 500
@@ -67,6 +67,7 @@ def signup():
 def authtest():
     try:
         res = auth.authenticate(request)
+        print(res.email)
     except Exception as e:
-        return {'message': str(e)}, e.args[1]
-    return res
+        return {'message': str(e)}
+    return {"email": res.email}
