@@ -4,10 +4,8 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 
-import axios from 'axios';
 import { Loader } from '../../components/loader/FullScreenLoader';
 import { request } from '../../utils/axios-utils';
-import { ButtonLoader } from '../../components/loader/ButtonLoader';
 
 export default function Profile() {
 
