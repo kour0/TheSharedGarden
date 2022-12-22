@@ -39,16 +39,16 @@ CREATE TABLE plot(
 );
 
 CREATE TABLE own(
-    plot_id INTEGER,
+    plot_id INTEGER PRIMARY KEY NOT NULL,
     task_id INTEGER
 );
 
 CREATE TABLE do(
-    username VARCHAR,
+    username VARCHAR PRIMARY KEY NOT NULL,
     task_id INTEGER
 );
 
 CREATE TABLE link(
-    username VARCHAR,
+    username VARCHAR PRIMARY KEY NOT NULL,
     garden_name VARCHAR
 );
