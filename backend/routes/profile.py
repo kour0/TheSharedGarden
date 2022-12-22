@@ -2,6 +2,7 @@ from flask import Blueprint, request, send_from_directory, redirect, g
 from flask_cors import CORS
 import os
 from sqlalchemy import update
+import time
 
 from bdd import Session
 from middlewares import auth
@@ -59,6 +60,7 @@ def picture():
 #TODO : regrouper les deux routes en une seule (route / : patch), pour différencier les requêtes : regarder en fonction du type de données envoyées (formdata ou json)
 @profile.patch(BASE_URL + '/')
 def modify_profile():
+
     try:
         user = g.user
         #image = request.files['file']
