@@ -24,8 +24,10 @@ export function CreateGarden() {
     try {
       const response = await axios.post('http://127.0.0.1:5454/api/creategarden', formData, {
         withCredentials: true,
-      });
-      navigate('/app/dashboard');
+      })
+      // navigate('/app/dashboard');
+      // afficher la reponse dans un toast
+      toast.success(response.data.message);
     } catch (error) {
       toast.error(error.response.data.message);
     }

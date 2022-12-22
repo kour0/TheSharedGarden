@@ -16,7 +16,8 @@ export function UniqueFieldForm({ form }) {
       const response = await axios.post(form.url, data, {
         withCredentials: true,
       });
-      navigate('/app/dashboard');
+      // navigate('/app/dashboard');
+      toast.success(response.data.message);
     } catch (error) {
       toast.error(error.response.data.message);
     }

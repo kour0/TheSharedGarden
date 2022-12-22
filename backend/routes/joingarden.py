@@ -1,3 +1,5 @@
+import sqlite3
+
 from bdd import Session
 from middlewares import auth
 from flask import Blueprint, request, make_response, url_for, redirect
@@ -26,10 +28,14 @@ def join():
         print(garden.garden_name)
         link = Link(username=account.username, garden_name=garden_name)
         session.add(link)
-        session.commit()
-        return {'message': 'You have joined the garden'}
+        try:
+            session.commit()
+            return {'message': 'You have joined the garden'}
+        except:
+            session.rollback()
+            return {'message': 'You have already joined this garden'}
     except Exception as e:
-        print(e)
+        session.rollback()
         return {'message': str(e)}, 500
 
 
