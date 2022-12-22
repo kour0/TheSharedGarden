@@ -41,9 +41,9 @@ def create():
                         street_address=street_address, country=country, city=city, province=region,
                         postal_code=postal_code)
         session.add(garden)
+        session.commit()
         # Sauvegarde de l'image (Après la création du jardin pour garantir l'unicité du nom)
         images.save(image, name=garden_name + '.' + image.filename.split('.')[-1], folder='garden')
-        session.commit()
         if garden_type == 'Public':
             print("Public")
             add_map(garden)
