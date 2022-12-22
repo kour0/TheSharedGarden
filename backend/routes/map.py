@@ -43,4 +43,6 @@ def add_map(last_garden):
     geolocator = Nominatim(user_agent="ppii-2022")
     location = geolocator.geocode(last_garden.street_address + " " + str(last_garden.postal_code) + " " + last_garden.city)
     # On ajoute un marqueur sur la carte avec dans le popup un lien vers la page du jardin
-    folium.Marker([location.latitude, location.longitude], popup=folium.Html('<a target="_parent" href="http://127.0.0.1:5454/api/join-garden/' + last_garden.garden_name + '">' + last_garden.garden_name + '</a>', script=True), tooltip=last_garden).add_to(m)
+    url = folium.Html('<a target="_top" href="http://127.0.0.1:5454/api/join-garden/' + last_garden.garden_name + '">Rejoindre le jardin</a>', script=True)
+    popup = folium.Popup(url, max_width=2650)
+    folium.Marker([location.latitude, location.longitude], popup=popup, tooltip=last_garden.garden_name).add_to(m)
