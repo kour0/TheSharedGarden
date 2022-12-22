@@ -46,21 +46,6 @@ def status():
     return 'Bonsoir Giga Chad'
 
 
-<<<<<<< HEAD
-@app.route('/api/map')
-def render_map():
-    # Create a map
-    m = folium.Map(location=[48.6689443, 6.1552047], zoom_start=12)
-    # create marker
-    folium.Marker(location=[48.6689443, 6.1552047], popup="Giga Chad", tooltip="Giga Chad").add_to(m)
-
-    folium.Marker(location=[48.6834987, 6.1603767], popup="Sac à merde", tooltip="Sac à merde").add_to(m)
-    carte = m._repr_html_()
-    return carte
-
-
-=======
->>>>>>> master
 # Serve React App
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
