@@ -4,6 +4,8 @@ import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { NavBar } from '../components/navigation/NavBar';
+import { request } from '../utils/axios-utils';
+import Cookies from 'js-cookie';
 
 const navigation = [
   { name: 'Rejoignez un jardin', href: '/join' },
@@ -20,10 +22,15 @@ export default function Index() {
   } = useForm();
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post('http://127.0.0.1:5454/api/signup', data, {
+      await request({
+        method: 'post',
+        url: '/api/auth/signup',
         withCredentials: true,
+        data: data,
       });
-      navigate('/app/dashboard');
+      if (Cookies.get('token')) {
+        navigate('/app/dashboard');
+      }
     } catch (error) {
       toast.error(error.response.data.message);
     }

@@ -22,7 +22,7 @@ export default function Login() {
   const onSubmit = async (data) => {
     await request({
       method: 'post',
-      url: '/api/signin',
+      url: '/api/auth/signin',
       withCredentials: true,
       data: data,
     });
