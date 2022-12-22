@@ -57,17 +57,14 @@ const gardenTest = [
 
 export default function Dashboard() {
 
-  const url = 'http://127.0.0.1:5454/api/dashboard';
+  const url = 'http://127.0.0.1:5454/api/gardens';
 
   const { isLoading, isError, data, error } = useQuery(['gardens'], () => axios.get(url, { withCredentials: true, }).then(res => res.data));
-
-  const gardens = data?.gardens;
 
   return <>
     {isLoading && <Loader />}
     {isError && <div>{error}</div>}
-    {gardens && <div className="relative bg-gray-50 px-4 pb-16 sm:px-6 lg:px-8 lg:pb-28">
-      {console.log(gardens[0])}
+    {data && <div className="relative bg-gray-50 px-4 pb-16 sm:px-6 lg:px-8 lg:pb-28">
       <div className="absolute inset-0">
         <div className="h-1/3 bg-white sm:h-2/3" />
       </div>
@@ -79,7 +76,7 @@ export default function Dashboard() {
           </p>
         </div>
         <div className="mx-auto mt-12 grid max-w-lg gap-5 lg:max-w-none lg:grid-cols-3">
-          {gardens.map((garden, index) => (
+          {data.map((garden, index) => (
             <GardenCard key={index} garden={garden}></GardenCard>
           ))}
         </div>

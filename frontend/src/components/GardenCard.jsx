@@ -1,10 +1,12 @@
 import { Link } from 'react-router-dom'
 
 export function GardenCard({ garden }) {
+
+    const image_url = "http://127.0.0.1:5454/api/garden/" + garden.name + "/image"
     return (
         <Link to={garden.href} relative='path' className="flex flex-col overflow-hidden rounded-lg shadow-lg">
             <div className="flex-shrink-0">
-                <img className="h-48 w-full object-cover" src={garden.imageUrl} alt="" />
+                <img className="h-48 w-full object-cover" src={image_url} alt="" />
             </div>
             <div className="flex flex-1 flex-col justify-between bg-white p-6">
                 <div className="flex-1">

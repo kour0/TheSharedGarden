@@ -28,10 +28,13 @@ def create_map():
         geolocator = Nominatim(user_agent="ppii-2022")
         location = geolocator.geocode(garden.street_address + " " + str(garden.postal_code) + " " + garden.city)
         # On crée un popup avec un lien vers la page du jardin
-        url = folium.Html('<a target="_top" href="http://127.0.0.1:5454/api/join-garden/' + garden.garden_name + '">Rejoindre le jardin</a>', script=True)
-        popup = folium.Popup(url, max_width=2650)
-        # On ajoute un marqueur sur la carte avec dans le popup un lien vers la page pour rejoindre le jardin
-        folium.Marker([location.latitude, location.longitude], popup=popup, tooltip=garden.garden_name).add_to(m)
+
+        if location != None:
+
+            url = folium.Html('<a target="_top" href="http://127.0.0.1:5454/api/join-garden/' + garden.garden_name + '">Rejoindre le jardin</a>', script=True)
+            popup = folium.Popup(url, max_width=2650)
+            # On ajoute un marqueur sur la carte avec dans le popup un lien vers la page pour rejoindre le jardin
+            folium.Marker([location.latitude, location.longitude], popup=popup, tooltip=garden.garden_name).add_to(m)
 
 @map.route('/map')
 def render_map():

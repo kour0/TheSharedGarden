@@ -17,7 +17,7 @@ images = UploadSet('images', ALL)
 
 
 @profile.get(BASE_URL + '/profile')
-def get_username():
+def get_informations():
     try:
         # On récupère l'utilisateur
         user = auth.authenticate(request)

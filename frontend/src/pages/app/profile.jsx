@@ -1,14 +1,28 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query"
+import { useState } from 'react';
+
 
 import axios from 'axios';
 import { Loader } from "../../components/loader/FullScreenLoader";
+
 
 export default function Profile() {
 
     const url = 'http://127.0.0.1:5454/api/profile';
 
     const { isLoading, isError, data, error } = useQuery(['profile'], () => axios.get(url, { withCredentials: true, }).then(res => res.data));
+
+    const [selectedImage, setSelectedImage] = useState(null);
+    const [previewUrl, setPreviewUrl] = useState(null);
+    const handleImageChange = event => {
+        const image = event.target.files[0];
+        setSelectedImage(image);
+
+        const reader = new FileReader();
+        reader.onload = e => setPreviewUrl(e.target.result);
+        reader.readAsDataURL(image);
+    };
 
     return (
         <>
@@ -59,16 +73,34 @@ export default function Profile() {
                                                 <label className="block text-sm font-medium text-gray-700">Photo</label>
                                                 <div className="mt-1 flex items-center">
                                                     <span className="inline-block h-12 w-12 overflow-hidden rounded-full bg-gray-100">
-                                                        <svg className="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+                                                        {previewUrl ?
+                                                            <img src={previewUrl} alt="preview" className="h-full w-full" />
+                                                            :
+                                                            <img src="http://127.0.0.1:5454/api/profile/picture" alt=" preview" className="h-full w-full" />
+
+                                                        }
+                                                        {/* <svg className="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
                                                             <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
-                                                        </svg>
+                                                        </svg> */}
                                                     </span>
+                                                    <div className="overflow-hidden relative inline-block mt-1 sm:col-span-2 sm:mt-0">
+
                                                     <button
                                                         type="button"
                                                         className="ml-5 rounded-md border border-gray-300 bg-white py-2 px-3 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                                                     >
                                                         Modifier
+
+                                                        <input
+                                                            type="file"
+                                                            name="image"
+                                                            id="image"
+                                                            accept=".png, .jpg, .jpeg"
+                                                            onChange={handleImageChange}
+                                                            className='absolute top-0 left-0 text-2xl opacity-0'
+                                                        />
                                                     </button>
+                                                    </div>
                                                 </div>
                                             </div>
 
