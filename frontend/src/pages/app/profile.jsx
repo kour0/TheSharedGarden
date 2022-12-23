@@ -22,12 +22,7 @@ export default function Profile() {
   const onSubmitProfile = async (profile) => {
     const formData = new FormData();
 
-
     formData.append('image', selectedImage);
-    
-    for (const dara of formData.values()) {
-      console.log(dara);
-    }
     
     Object.keys(profile).forEach((key) => {
       formData.append(key, profile[key]);
@@ -59,11 +54,8 @@ export default function Profile() {
     reader.readAsDataURL(image);
   };
 
-  return (
+  return !isLoading ? (
     <>
-      {isLoading && <Loader />}
-      {isError && <div>Error: {error.message}</div>}
-      {data && (
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 lg:py-8">
           <div className="text-center mt-5 mb-10">
             <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Mon compte</h2>
@@ -225,7 +217,9 @@ export default function Profile() {
             </div>
           </div>
         </div>
-      )}
     </>
-  );
+  ) : (
+    <Loader />
+  )
+
 }

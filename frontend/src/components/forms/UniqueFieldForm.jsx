@@ -40,7 +40,7 @@ export function UniqueFieldForm({ form }) {
           </svg>
         </div> */}
         <div className="mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:max-w-7xl lg:px-8">
-          <div className="relative overflow-hidden rounded-2xl bg-indigo-600 px-6 py-10 shadow-xl sm:px-12 sm:py-20">
+          <div className="relative overflow-hidden rounded-2xl bg-teal-700 px-6 py-10 shadow-xl sm:px-12 sm:py-20">
             {/*<div aria-hidden="true" className="absolute inset-0 -mt-72 sm:-mt-32 md:mt-0">
               <svg
                 className="absolute inset-0 h-full w-full"
@@ -64,7 +64,7 @@ export function UniqueFieldForm({ form }) {
             <div className="relative">
               <div className="sm:text-center">
                 <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">{form.title}</h2>
-                <p className="mx-auto mt-6 max-w-2xl text-lg text-indigo-200">{form.description}</p>
+                <p className="mx-auto mt-6 max-w-2xl text-lg text-teal-300">{form.description}</p>
               </div>
               <form
                 action="#"
@@ -77,7 +77,7 @@ export function UniqueFieldForm({ form }) {
                   <input
                     id={form.name}
                     type="text"
-                    className="block w-full rounded-md border border-transparent px-5 py-3 text-base text-gray-900 placeholder-gray-500 shadow-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-indigo-600"
+                    className="block w-full rounded-md border border-transparent px-5 py-3 text-base text-gray-900 placeholder-gray-500 shadow-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-teal-700"
                     placeholder={form.placeholder}
                     {...register("gardenName", { required: true })}
                   />
@@ -85,7 +85,7 @@ export function UniqueFieldForm({ form }) {
                 <div className="mt-4 sm:mt-0 sm:ml-3">
                   <button
                     type="submit"
-                    className="block w-full rounded-md border border-transparent bg-indigo-500 px-5 py-3 text-base font-medium text-white shadow hover:bg-indigo-400 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-indigo-600 sm:px-10"
+                    className="block w-full rounded-md border border-transparent bg-teal-800 px-5 py-3 text-base font-medium text-white shadow hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-teal-700 sm:px-10"
                   >
                     {form.button.name}
                   </button>

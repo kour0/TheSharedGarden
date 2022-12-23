@@ -22,7 +22,7 @@ export function CreateGarden() {
     console.log(typeof data);
     const formData = new FormData();
     formData.append('file', selectedImage);
-    
+
     formData.append('gardenType',privateGarden ? 'private' : 'public')
     // Ajouter des données à un formulaire
     Object.keys(data).forEach((key) => {
@@ -67,7 +67,7 @@ export function CreateGarden() {
                     name="gardenName"
                     id="gardenName"
                     autoComplete="given-name"
-                    className="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:max-w-xs sm:text-sm"
+                    className="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-teal-600 focus:ring-teal-600 sm:max-w-xs sm:text-sm"
                     {...register('gardenName', { required: true })}
                   />
                 </div>
@@ -82,7 +82,7 @@ export function CreateGarden() {
                     id="gardenType"
                     name="gardenType"
                     autoComplete="gardenType-name"
-                    className="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:max-w-xs sm:text-sm"
+                    className="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-teal-600 focus:ring-teal-600 sm:max-w-xs sm:text-sm"
                     {...register('gardenType', { required: true })}
                   >
                     <option>Public</option>
@@ -100,7 +100,7 @@ export function CreateGarden() {
                     id="country"
                     name="country"
                     autoComplete="country-name"
-                    className="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:max-w-xs sm:text-sm"
+                    className="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-teal-600 focus:ring-teal-600 sm:max-w-xs sm:text-sm"
                     {...register('country', { required: true })}
                   >
                     <option>France</option>
@@ -118,7 +118,7 @@ export function CreateGarden() {
                     name="street-address"
                     id="street-address"
                     autoComplete="street-address"
-                    className="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                    className="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-teal-600 focus:ring-teal-600 sm:text-sm"
                     {...register('streetAddress', { required: true })}
                   />
                 </div>
@@ -134,7 +134,7 @@ export function CreateGarden() {
                     name="city"
                     id="city"
                     autoComplete="address-level2"
-                    className="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:max-w-xs sm:text-sm"
+                    className="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-teal-600 focus:ring-teal-600 sm:max-w-xs sm:text-sm"
                     {...register('city', { required: true })}
                   />
                 </div>
@@ -150,7 +150,7 @@ export function CreateGarden() {
                     name="region"
                     id="region"
                     autoComplete="address-level1"
-                    className="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:max-w-xs sm:text-sm"
+                    className="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-teal-600 focus:ring-teal-600 sm:max-w-xs sm:text-sm"
                     {...register('region', { required: true })}
                   />
                 </div>
@@ -166,7 +166,7 @@ export function CreateGarden() {
                     name="postal-code"
                     id="postal-code"
                     autoComplete="postal-code"
-                    className="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:max-w-xs sm:text-sm"
+                    className="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-teal-600 focus:ring-teal-600 sm:max-w-xs sm:text-sm"
                     {...register('postalCode', { required: true })}
                   />
                 </div>
@@ -177,7 +177,7 @@ export function CreateGarden() {
                   Image du jardin
                 </label>
                 <div className="overflow-hidden relative inline-block mt-1 sm:col-span-2 sm:mt-0">
-                  <button className="rounded-md w-full max-w-lg border border-gray-300 bg-white py-2 px-3 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                  <button className="rounded-md w-full max-w-lg border border-gray-300 bg-white py-2 px-3 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-teal-600 focus:ring-offset-2">
                     Ajouter une image
                     <input
                       type="file"
@@ -231,14 +231,14 @@ export function CreateGarden() {
           <div className="flex justify-end">
             <button
               type="button"
-              className="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              className="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-teal-600 focus:ring-offset-2"
               onClick={() => navigate('/app/dashboard')}
             >
               Annuler
             </button>
             <button
               type="submit"
-              className="ml-3 inline-flex justify-center rounded-md border border-transparent bg-teal-700 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              className="ml-3 inline-flex justify-center rounded-md border border-transparent bg-teal-700 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-teal-800 focus:outline-none focus:ring-2 focus:ring-teal-600 focus:ring-offset-2"
             >
               Enregistrer
             </button>
