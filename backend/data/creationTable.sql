@@ -67,10 +67,10 @@ CREATE TABLE do(
 
 CREATE TABLE link(
     account_id VARCHAR NOT NULL,
-    garden_name VARCHAR NOT NULL,
-    PRIMARY KEY (account_id, garden_name),
+    garden_id VARCHAR NOT NULL,
+    PRIMARY KEY (account_id, garden_id),
     FOREIGN KEY (account_id) REFERENCES account(id),
-    FOREIGN KEY (garden_name) REFERENCES garden(garden_name)
+    FOREIGN KEY (garden_id) REFERENCES garden(id_garden)
 
 );
 
