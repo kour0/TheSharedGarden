@@ -24,7 +24,6 @@ export function GardenCard({ garden }) {
         </div>
         <div className="mt-6 flex items-center">
           <div className="flex-shrink-0">
-            {console.log('t : ' + garden.owner.username)}
             <span className="sr-only">{garden.owner.username}</span>
             <img className="h-10 w-10 rounded-full" src={garden.owner.profile_picture} alt="" />
           </div>

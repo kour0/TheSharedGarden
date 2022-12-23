@@ -37,7 +37,7 @@ def get_all_gardens():
 
         account = g.user
 
-        gardens = session.query(Garden).filter_by(owner=account.username).all()
+        gardens = session.query(Garden).filter_by(owner=account.email).all()
 
         return gardens_to_json(gardens)
 
@@ -51,7 +51,7 @@ def gardens_to_json(gardens):
 
 
 def garden_to_json(garden):
-    owner = session.query(Accounts).filter_by(username=garden.owner).first()
+    owner = session.query(Accounts).filter_by(email=garden.owner).first()
 
     return {
         'name': garden.garden_name,
@@ -106,7 +106,7 @@ def create():
         city = body['city']
         region = body['region']
         postal_code = body['postalCode']
-        owner, manager = user.username, user.username
+        owner, manager = user.email, user.email
         # Création du jardin
         garden = Garden(garden_name=garden_name, owner=owner, manager=manager, garden_type=garden_type,
                         street_address=street_address, country=country, city=city, province=region,
@@ -116,7 +116,7 @@ def create():
         # Sauvegarde de l'image (Après la création du jardin pour garantir l'unicité du nom)
         images.save(image, name=garden_name + '.' +
                                 image.filename.split('.')[-1], folder='garden')
-        if garden_type == 'Public':
+        if garden_type == 'public':
             print("Public")
             add_map(garden)
         return {'message': 'Garden created successfully'}

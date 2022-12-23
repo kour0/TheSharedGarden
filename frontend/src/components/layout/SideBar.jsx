@@ -24,7 +24,7 @@ export default function SideBar() {
     }
   }, []);
   const { isLoading, isError, data, error } = useQuery(['profile'], async () => {
-    const response = await request({ url: '/api/profile/', method: 'get' });
+    const response = await request({ url: '/api/profile/', method: 'GET' });
     return response.data;
   });
 
