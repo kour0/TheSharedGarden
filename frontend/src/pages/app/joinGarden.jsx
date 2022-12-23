@@ -4,7 +4,7 @@ import { Map } from '../../components/Map';
 import SideBar from '../../components/layout/SideBar';
 
 const form = {
-  title: 'Rejoignez un jardin',
+  title: 'Recherchez un jardin',
   description: 'Vous pouvez trouver un jardin public en le recherchant par son nom',
   placeholder: 'Entrez le nom du jardin',
   button: {

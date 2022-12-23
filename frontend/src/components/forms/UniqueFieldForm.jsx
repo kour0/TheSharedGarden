@@ -12,11 +12,7 @@ export function UniqueFieldForm({ form }) {
   } = useForm();
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post(form.url, data, {
-        withCredentials: true,
-      });
-      // navigate('/app/dashboard');
-      toast.success(response.data.message);
+      navigate(`/app/join-garden/${data.gardenName}`);
     } catch (error) {
       toast.error(error.response.data.message);
     }
@@ -83,7 +79,7 @@ export function UniqueFieldForm({ form }) {
                     type="text"
                     className="block w-full rounded-md border border-transparent px-5 py-3 text-base text-gray-900 placeholder-gray-500 shadow-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-indigo-600"
                     placeholder={form.placeholder}
-                    {...register(form.name, { required: true })}
+                    {...register("gardenName", { required: true })}
                   />
                 </div>
                 <div className="mt-4 sm:mt-0 sm:ml-3">

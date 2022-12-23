@@ -89,6 +89,16 @@ def get_garden_image(garden_id):
         return {'message': str(e)}, 500
 
 
+@garden.get(BASE_URL + '/<garden_name>')
+def get_gardens(garden_name):
+    try:
+        gardens = session.query(Garden).filter(Garden.garden_name.like('%' + garden_name + '%')).all()
+        return gardens_to_json(gardens)
+    except Exception as e:
+        print(e)
+        return {'message': str(e)}, 500
+
+
 # GARDEN ENTITY
 @garden.post(BASE_URL + '/create')
 def create():
