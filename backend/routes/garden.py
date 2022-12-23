@@ -87,6 +87,7 @@ def get_garden_image(garden_id):
         print(e)
         return {'message': str(e)}, 500
 
+
 @garden.get(BASE_URL + '/<garden_name>')
 def get_gardens(garden_name):
     try:
@@ -95,6 +96,8 @@ def get_gardens(garden_name):
     except Exception as e:
         print(e)
         return {'message': str(e)}, 500
+
+
 # GARDEN ENTITY
 @garden.post(BASE_URL + '/create')
 def create():
