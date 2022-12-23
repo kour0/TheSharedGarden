@@ -4,6 +4,7 @@ from flask import Blueprint, request, redirect
 from flask import send_from_directory, g
 from flask_cors import CORS
 from flask_uploads import UploadSet, ALL
+from lib.image_helper import get_image_name, save_image
 
 from bdd import Session
 from middlewares import auth
@@ -112,8 +113,8 @@ def create():
         session.add(garden)
         session.commit()
         # Sauvegarde de l'image (Après la création du jardin pour garantir l'unicité du nom)
-        images.save(image, name=str(garden.id_garden) + '.' +
-                                image.filename.split('.')[-1], folder='garden')
+        save_image(image, garden.id_garden, 'garden')
+
         if garden_type == 'public':
             print("Public")
             add_map(garden)
