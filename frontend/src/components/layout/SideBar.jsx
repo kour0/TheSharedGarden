@@ -16,6 +16,7 @@ const navigation = [
 export default function SideBar() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [active, setActive] = useState(0);
+  const [profilePicture, setProfilePicture] = useState(null)
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -29,7 +30,23 @@ export default function SideBar() {
     return response.data;
   });
 
-  return !isError && !isLoading ? (
+  const {
+    isLoading: imageLoading,
+    isError: imageisError,
+    data: imageData,
+    error: imageError,
+  } = useQuery(['profileImage'], async () => {
+    const response = await request({ url: '/api/profile/image', method: 'get', responseType: 'blob' });
+    return response.data;
+  });
+
+  if (!imageLoading && !imageisError) {
+    const reader = new FileReader();
+    reader.onload = (e) => setProfilePicture(e.target.result);
+    reader.readAsDataURL(imageData);
+  }
+
+  return !isError && !isLoading && !imageLoading && !imageError ? (
     <>
       <div>
         <Transition.Root show={sidebarOpen} as={Fragment}>
@@ -177,8 +194,7 @@ export default function SideBar() {
                   <div>
                     <img
                       className="inline-block h-9 w-9 rounded-full"
-                      //TODO Lucas : refaire la recup de l'image
-                      src="https://i.seadn.io/gae/Tg1-LZaAv95ggi3IqUkKcdiMbyQinuKs5paMhCFj4lS8liodkI6Tt5_Sexlucsa2byQyv1cPriRLKDkAuoLqqTxg89gypPrXBXn4MCs?auto=format&w=1000"
+                      src={profilePicture}
                       alt=""
                     />
                   </div>

@@ -23,16 +23,14 @@ export default function Profile() {
     data: imageData,
     error: imageError,
   } = useQuery(['profileImage'], async () => {
-    const response = await request({ url: '/api/profile/image', method: 'get' });
-    console.log(response);
+    const response = await request({ url: '/api/profile/image', method: 'get', responseType: 'blob' });
     return response.data;
   });
 
   if (!imageLoading && !imageisError) {
-    const image = new File([imageData], 'profile.jpg', { type: 'image/jpg' })
     const reader = new FileReader();
     reader.onload = (e) => setProfilePicture(e.target.result);
-    reader.readAsDataURL(image);
+    reader.readAsDataURL(imageData);
   }
 
   const {
