@@ -5,7 +5,8 @@ import { getGardens } from '../../lib/gardens';
 
 export default function Dashboard() {
   const { isLoading, isError, data, error } = getGardens()
-  return isLoading ?(
+  
+  return !isLoading ?(
     <>
         <div className="relative bg-gray-50 px-4 pb-16 sm:px-6 lg:px-8 lg:pb-28">
           <div className="absolute inset-0">
