@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { request } from '../../utils/axios-utils';
+import { request } from '../utils/axios-utils';
 
 export const getGardens = () => {
   const response = useQuery(['garden'], async () => {

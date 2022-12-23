@@ -1,12 +1,7 @@
-import React from 'react';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { toast } from 'react-hot-toast';
-
 import { Loader } from '../../components/loader/FullScreenLoader';
-import { request } from '../../utils/axios-utils';
-import { getProfile, getProfilePicture } from '../../lib/app/profile';
+import { getProfile, getProfilePicture, patchProfile, patchProfilePersonnalInformations } from '../../lib/profile';
 
 export default function Profile() {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -15,17 +10,14 @@ export default function Profile() {
 
   const { isLoading, isError, data, error } = getProfile();
   const { isLoading: imageLoading, isError: imageisError, data: imageData, error: imageError } = getProfilePicture();
+
   if (!imageLoading && !imageisError) {
     const reader = new FileReader();
     reader.onload = (e) => setProfilePicture(e.target.result);
     reader.readAsDataURL(imageData);
   }
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  const { register, handleSubmit } = useForm();
 
   const onSubmitProfile = async (profile) => {
     const formData = new FormData();
@@ -37,11 +29,7 @@ export default function Profile() {
     updateProfile.mutate(formData);
   };
 
-  const updateProfile = useMutation(['profile'], async (formData) => {
-    const response = await request({ url: '/api/profile', method: 'patch', data: formData });
-    toast.success('Profile updated');
-    return response.data;
-  });
+  const updateProfile = patchProfile();
 
   const onSubmitPersonalInformation = async (data) => {
     const formData = new FormData();
@@ -53,11 +41,7 @@ export default function Profile() {
     updatePersonalInformation.mutate(formData);
   };
 
-  const updatePersonalInformation = useMutation(['profile'], async (formData) => {
-    const response = await request({ url: '/api/personnal_info', method: 'patch', data: formData });
-    toast.success('Profile updated');
-    return response.data;
-  });
+  const updatePersonalInformation = patchProfilePersonnalInformations();
 
   const handleImageChange = (event) => {
     const image = event.target.files[0];
