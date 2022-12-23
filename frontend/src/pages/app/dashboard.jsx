@@ -3,6 +3,7 @@ import React from 'react';
 import { Loader } from '../../components/loader/FullScreenLoader';
 import { GardenCard } from '../../components/GardenCard';
 import { request } from '../../utils/axios-utils';
+import { getGardens } from '../../lib/app/dashboard';
 
 const gardenTest = [
   {
@@ -53,15 +54,7 @@ const gardenTest = [
 ];
 
 export default function Dashboard() {
-  const { isLoading, isError, data, error } = useQuery(['garden'], async () => {
-    try {
-      const response = await request({ url: '/api/garden/', method: 'GET' });
-      return response.data;
-    } catch (error) {
-      /* empty */
-    }
-  });
-
+  const { isLoading, isError, data, error } = getGardens()
   return (
     <>
       {isLoading && <Loader />}

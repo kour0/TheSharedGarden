@@ -6,27 +6,15 @@ import { toast } from 'react-hot-toast';
 
 import { Loader } from '../../components/loader/FullScreenLoader';
 import { request } from '../../utils/axios-utils';
+import { getProfile, getProfilePicture } from '../../lib/app/profile';
 
 export default function Profile() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
   const [profilePicture, setProfilePicture] = useState(null);
 
-  const { isLoading, isError, data, error } = useQuery(['profile'], async () => {
-    const response = await request({ url: '/api/profile/', method: 'get' });
-    return response.data;
-  });
-
-  const {
-    isLoading: imageLoading,
-    isError: imageisError,
-    data: imageData,
-    error: imageError,
-  } = useQuery(['profileImage'], async () => {
-    const response = await request({ url: '/api/profile/image', method: 'get', responseType: 'blob' });
-    return response.data;
-  });
-
+  const { isLoading, isError, data, error } = getProfile();
+  const { isLoading: imageLoading, isError: imageisError, data: imageData, error: imageError } = getProfilePicture();
   if (!imageLoading && !imageisError) {
     const reader = new FileReader();
     reader.onload = (e) => setProfilePicture(e.target.result);
