@@ -4,9 +4,7 @@ import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { request } from '../../utils/axios-utils';
 import { Switch } from '@headlessui/react'
-
 import { classNames } from '../../utils/helpers';
-import { request } from '../../utils/axios-utils';
 
 export function CreateGarden() {
   const [selectedImage, setSelectedImage] = useState(null);

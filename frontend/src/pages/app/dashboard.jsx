@@ -1,8 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import React from 'react';
-
 import { Loader } from '../../components/loader/FullScreenLoader';
-
 import { GardenCard } from '../../components/GardenCard';
 import { request } from '../../utils/axios-utils';
 
@@ -57,7 +55,7 @@ const gardenTest = [
 export default function Dashboard() {
   const { isLoading, isError, data, error } = useQuery(['garden'], async () => {
     try {
-      const response = await request({ url: '/api/garden/', method: 'get' });
+      const response = await request({ url: '/api/garden/', method: 'GET' });
       return response.data;
     } catch (error) {
       /* empty */
