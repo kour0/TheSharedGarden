@@ -47,7 +47,7 @@ def get_informations():
 @profile.get(BASE_URL + '/image')
 def get_image():
     try:
-        image_uri = get_image_name(g.user.id)
+        image_uri = get_image_name(g.user.id, 'profile')
         return send_from_directory('static/images/profile', image_uri)
 
     except Exception as e:
@@ -58,7 +58,7 @@ def get_image():
 @profile.get(BASE_URL + '/<id>/image')
 def get_image_by_id(id):
     try:
-        image_uri = get_image_name(id)
+        image_uri = get_image_name(id, 'profile')
         return send_from_directory('static/images/profile', image_uri)
     except Exception as e:
         print(e)
@@ -67,26 +67,27 @@ def get_image_by_id(id):
 
 @profile.patch(BASE_URL + '/')
 def modify_profile():
-    print("Coucou")
     try:
-        user = g.user
-        print("coucou2")
+
+        account = session.query(Accounts).filter_by(id=g.user.id).first()
         body = request.form
-        print("coucou3")
-        print(request.files['file'])
-        image = request.files['file']
-        print("coucou4")
-        profile = session.query(Accounts).filter_by(username=user.username).first()
-        if (body['username'] is not None) or (image is not None):
-            username = body["username"]
-            profile.username = username
-            save_image(image, user.id, 'profile')
- 
-        if (body['last_name'] is not None) and (body["first_name"] is not None):
-            profile.first_name = body["first_name"]
-            profile.last_name = body["last_name"]
-        session.add(profile)
+
+        if ("username" in body.keys()):
+            account.username = body["username"]
+        
+        if ("image" in request.files.keys()):
+            image = request.files['image']
+            save_image(image, g.user.id, 'profile')
+         
+        if ("last_name" in body.keys()) :
+            account.last_name = body["last_name"]
+        
+        if("first_name" in body.keys()):
+            account.first_name = body["first_name"]
+
+        session.add(account)
         session.commit()
-        return {'message': 'change done'}
+
+        return {'message': 'Profile updated'}, 200
     except Exception as e:
         return {'message': str(e)}, 500

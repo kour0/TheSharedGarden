@@ -38,7 +38,7 @@ def get_all_gardens():
 
         account = g.user
 
-        gardens = session.query(Garden).filter_by(owner=account.email).all()
+        gardens = session.query(Garden).filter_by(owner=account.id).all()
 
         return gardens_to_json(gardens)
 
@@ -52,7 +52,7 @@ def gardens_to_json(gardens):
 
 
 def garden_to_json(garden):
-    owner = session.query(Accounts).filter_by(email=garden.owner).first()
+    owner = session.query(Accounts).filter_by(id=garden.owner).first()
 
     return {
         'id': garden.id_garden,
@@ -74,16 +74,9 @@ def garden_to_json(garden):
 @garden.get(BASE_URL + '/<garden_id>/image')
 def get_garden_image(garden_id):
     try:
-        base_image_url = 'static/images/garden'
-
-        files = os.listdir(base_image_url)
-
-        image_name = [file for file in files if file.split('.')[
-            0] == garden_id]
-        if image_name:
-            return send_from_directory(base_image_url, image_name[0])
-        else:
-            return send_from_directory('static/images/profile', 'default_photo.jpg')
+        image_uri = get_image_name(g.user.id, 'garden')
+        return send_from_directory('static/images/garden', image_uri)
+        
     except Exception as e:
         print(e)
         return {'message': str(e)}, 500
@@ -115,7 +108,7 @@ def create():
         city = body['city']
         region = body['region']
         postal_code = body['postalCode']
-        owner, manager = user.email, user.email
+        owner, manager = user.id, user.id
         # Création du jardin
         garden = Garden(garden_name=garden_name, owner=owner, manager=manager, garden_type=garden_type,
                         street_address=street_address, country=country, city=city, province=region,

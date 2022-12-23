@@ -29,7 +29,7 @@ export const patchProfile = () => {
 
 export const patchProfilePersonnalInformations = () => {
   const mutation = useMutation(['profile'], async (formData) => {
-    const response = await request({ url: '/api/personnal_info', method: 'patch', data: formData });
+    const response = await request({ url: '/api/profile', method: 'patch', data: formData });
     toast.success('Profile updated');
     return response.data;
   });

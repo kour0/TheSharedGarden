@@ -21,7 +21,14 @@ export default function Profile() {
 
   const onSubmitProfile = async (profile) => {
     const formData = new FormData();
-    //formData.append('file', selectedImage);
+
+
+    formData.append('image', selectedImage);
+    
+    for (const dara of formData.values()) {
+      console.log(dara);
+    }
+    
     Object.keys(profile).forEach((key) => {
       formData.append(key, profile[key]);
     });
@@ -33,7 +40,7 @@ export default function Profile() {
 
   const onSubmitPersonalInformation = async (data) => {
     const formData = new FormData();
-    //formData.append('file', selectedImage);
+
     Object.keys(data).forEach((key) => {
       formData.append(key, data[key]);
     });

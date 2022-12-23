@@ -22,6 +22,7 @@ export function CreateGarden() {
     console.log(typeof data);
     const formData = new FormData();
     formData.append('file', selectedImage);
+    
     formData.append('gardenType',privateGarden ? 'private' : 'public')
     // Ajouter des données à un formulaire
     Object.keys(data).forEach((key) => {
