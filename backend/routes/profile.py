@@ -80,33 +80,28 @@ def get_image_name(id):
 #TODO : regrouper les deux routes en une seule (route / : patch), pour différencier les requêtes : regarder en fonction du type de données envoyées (formdata ou json)
 @profile.patch(BASE_URL + '/')
 def modify_profile():
-
+    print("Coucou")
     try:
         user = g.user
-        #image = request.files['file']
+        print("coucou2")
         body = request.form
-        username = body['username']
+        print("coucou3")
+        print(request.files['file'])
+        image = request.files['file']
+        print("coucou4")
         profile = session.query(Accounts).filter_by(username=user.username).first()
-        profile.username = username 
+        if (body['username'] is not None) or (image is not None):
+            username = body["username"]
+            profile.username = username
+            images.save(image, name=username + '.' +
+                                image.filename.split('.')[-1], folder='profile')
+        if (body['last_name'] is not None) and (body["first_name"] is not None):
+            profile.first_name = body["first_name"]
+            profile.last_name = body["last_name"]
         session.add(profile)
         session.commit()
         return {'message': 'change done'}
     except Exception as e:
         return {'message': str(e)}, 500
-
-@profile.patch(BASE_URL + '/personnal_info')
-def modify_info():
-    try:
-        user = g.user
-        body = request.form
-        first_name = body['first_name']
-        last_name = body['last_name']
-        profile = session.query(Accounts).filter_by(username=user.username).first()
-        profile.first_name = first_name
-        profile.last_name = last_name 
-        session.add(profile)
-        session.commit()
-        return {'message': 'change done'}
-    except Exception as e:
-        return {'message': str(e)}, 500
+    
     
