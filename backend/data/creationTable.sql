@@ -1,6 +1,6 @@
 CREATE TABLE account (
     email VARCHAR PRIMARY KEY NOT NULL,
-    username VARCHAR NOT NULL ,
+    username VARCHAR UNIQUE NOT NULL,
     first_name VARCHAR NOT NULL,
     last_name VARCHAR NOT NULL,
     password VARCHAR default NULL,
