@@ -8,7 +8,7 @@ from bdd import Base
 class Link(Base):
     __tablename__ = 'link'
     account_id = Column('account_id', String(300), ForeignKey('account.id'), primary_key=True)
-    garden_name = Column('garden_id', String(300),ForeignKey('garden.id_garden'), primary_key=True)
+    garden_id = Column('garden_id', String(300),ForeignKey('garden.id_garden'), primary_key=True)
 
     account = relationship("Accounts")
     garden = relationship("Garden")

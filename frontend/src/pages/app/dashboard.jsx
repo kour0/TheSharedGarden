@@ -5,11 +5,8 @@ import { getGardens } from '../../lib/gardens';
 
 export default function Dashboard() {
   const { isLoading, isError, data, error } = getGardens()
-  return (
+  return isLoading ?(
     <>
-      {isLoading && <Loader />}
-      {isError && <div>{error}</div>}
-      {data && (
         <div className="relative bg-gray-50 px-4 pb-16 sm:px-6 lg:px-8 lg:pb-28">
           <div className="absolute inset-0">
             <div className="h-1/3 bg-white sm:h-2/3" />
@@ -28,8 +25,8 @@ export default function Dashboard() {
             </div>
           </div>
         </div>
-        
-      )}
     </>
+  ) : (
+    <Loader />
   );
 }
