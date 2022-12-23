@@ -58,7 +58,6 @@ def garden_to_json(garden):
         'href': "/",
         'owner': {
             'username': owner.username,
-            'profile_picture': owner.profile_picture,
         },
         'manager': garden.manager,
         'type': garden.garden_type,
