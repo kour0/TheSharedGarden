@@ -1,7 +1,7 @@
 import os
 
 from flask import Flask
-from flask import send_from_directory
+from flask import send_from_directory, request, Response, g
 from flask_cors import CORS
 from flask_uploads import configure_uploads, UploadSet, ALL
 
@@ -18,6 +18,7 @@ app.register_blueprint(profile.profile)
 app.register_blueprint(garden.garden)
 app.register_blueprint(map.map)
 
+
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 images = UploadSet('images', ALL)
@@ -29,6 +30,10 @@ DATABASE = 'data/data.db'
 # Creation de la carte
 map.create_map()
 
+@app.before_request
+def before_request():
+    if request.method.lower() == 'options':
+        return Response()
 
 @app.errorhandler(404)
 def page_not_found(e):

@@ -10,7 +10,7 @@ import { request } from '../../utils/axios-utils';
 export default function Profile() {
 
     const { isLoading, isError, data, error } = useQuery(['profile'], async () => {
-        const response = await request({ url: '/api/profile', method: 'get' });
+        const response = await request({ url: '/api/profile/', method: 'get' });
         return response.data;
     });
 

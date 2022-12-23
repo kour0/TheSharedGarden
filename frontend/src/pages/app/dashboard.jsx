@@ -56,9 +56,9 @@ const gardenTest = [
 ];
 
 export default function Dashboard() {
-  const { isLoading, isError, data, error } = useQuery(['gardens'], async () => {
+  const { isLoading, isError, data, error } = useQuery(['garden'], async () => {
     try {
-      const response = await request({ url: '/api/gardens', method: 'get' });
+      const response = await request({ url: '/api/garden/', method: 'get' });
       return response.data;
     } catch (error) {
       console.log('dash');
