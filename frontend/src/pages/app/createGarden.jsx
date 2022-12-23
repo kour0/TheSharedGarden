@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
@@ -23,7 +22,7 @@ export function CreateGarden() {
       formData.append(key, data[key]);
     });
     try {
-      const response = await request({url: '/api/garden/create', method: 'POST', data: formData})
+      const response = await request({ url: '/api/garden/create', method: 'POST', data: formData });
       // navigate('/app/dashboard');
       // afficher la reponse dans un toast
       toast.success(response.data.message);

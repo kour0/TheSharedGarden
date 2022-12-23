@@ -1,14 +1,11 @@
-import { Fragment, useEffect, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { Bars3Icon, HomeIcon, PlusIcon, UserGroupIcon, XMarkIcon } from '@heroicons/react/24/outline';
-import { Link, useNavigate } from 'react-router-dom';
-import { Logo } from '../navigation/Logo';
-import { Outlet } from 'react-router-dom';
-import Cookies from 'js-cookie';
-import PageHeader from '../pageHeader';
-import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
+import Cookies from 'js-cookie';
+import { Fragment, useEffect, useState } from 'react';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { request } from '../../utils/axios-utils';
+import { Logo } from '../navigation/Logo';
 
 const navigation = [
   { name: 'Mes jardins', icon: HomeIcon, href: '/app/dashboard' },

@@ -1,10 +1,8 @@
 import { LockClosedIcon } from '@heroicons/react/20/solid';
-import { Link, useNavigate } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
-import axios from 'axios';
-import toast from 'react-hot-toast';
 import Cookies from 'js-cookie';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { Link, useNavigate } from 'react-router-dom';
 import { request } from '../utils/axios-utils';
 
 export default function Login() {

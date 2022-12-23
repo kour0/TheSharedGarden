@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 export default function Error404() {
   return (
@@ -18,7 +18,8 @@ export default function Error404() {
           </p>
           <div className="mt-6">
             <Link
-              to="/" relative="path"
+              to="/"
+              relative="path"
               className="inline-flex items-center rounded-md border border-transparent bg-white bg-opacity-75 px-4 py-2 text-sm font-medium text-black text-opacity-75 sm:bg-opacity-25 sm:hover:bg-opacity-50"
             >
               Go back home
@@ -27,5 +28,5 @@ export default function Error404() {
         </div>
       </main>
     </>
-  )
+  );
 }
