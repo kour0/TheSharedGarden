@@ -1,35 +1,43 @@
-import axios from 'axios';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import { request } from '../../utils/axios-utils';
+import { Switch } from '@headlessui/react'
+
+import { classNames } from '../../utils/helpers';
 
 export function CreateGarden() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
+  const [privateGarden, setPrivateGarden] = useState(false)
+
   const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+
   const onSubmit = async (data) => {
     console.log(typeof data);
     const formData = new FormData();
     formData.append('file', selectedImage);
+    formData.append('gardenType',privateGarden ? 'private' : 'public')
     // Ajouter des données à un formulaire
     Object.keys(data).forEach((key) => {
       formData.append(key, data[key]);
     });
+
     try {
-      const response = await axios.post('http://127.0.0.1:5454/api/creategarden', formData, {
-        withCredentials: true,
-      })
+
+      const response = await request({ url: '/api/garden/create', method: 'post', data: formData });
+
       // navigate('/app/dashboard');
       // afficher la reponse dans un toast
       toast.success(response.data.message);
     } catch (error) {
-      toast.error(error.response.data.message);
+      console.log(error);
     }
   };
   const handleImageChange = (event) => {
@@ -67,7 +75,7 @@ export function CreateGarden() {
                 </div>
               </div>
 
-              <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
+              {/* <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
                 <label htmlFor="gardenType" className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
                   Type de jardin
                 </label>
@@ -83,7 +91,7 @@ export function CreateGarden() {
                     <option>Privé</option>
                   </select>
                 </div>
-              </div>
+              </div> */}
 
               <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
                 <label htmlFor="country" className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
@@ -189,6 +197,34 @@ export function CreateGarden() {
                   )}
                 </div>
               </div>
+              <div className="sm:col-span-2 sm:border-t sm:border-gray-200 sm:pt-5">
+                <div className="flex items-start">
+                  <div className="flex-shrink-0">
+                    <Switch
+                      checked={privateGarden}
+                      onChange={setPrivateGarden}
+                      className={classNames(
+                        privateGarden ? 'bg-teal-700' : 'bg-gray-200',
+                        'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-teal-600 focus:ring-offset-2'
+                      )}
+                    >
+                      <span className="sr-only">Agree to policies</span>
+                      <span
+                        aria-hidden="true"
+                        className={classNames(
+                          privateGarden ? 'translate-x-5' : 'translate-x-0',
+                          'inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out'
+                        )}
+                      />
+                    </Switch>
+                  </div>
+                  <div className="ml-3">
+                    <p className="text-base text-gray-500">
+                      Ce jardin est-il privé ? (seulement visible par les membres de votre jardin)
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -204,7 +240,7 @@ export function CreateGarden() {
             </button>
             <button
               type="submit"
-              className="ml-3 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              className="ml-3 inline-flex justify-center rounded-md border border-transparent bg-teal-700 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
             >
               Enregistrer
             </button>

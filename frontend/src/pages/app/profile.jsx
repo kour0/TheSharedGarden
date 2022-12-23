@@ -33,7 +33,7 @@ export default function Profile() {
 
     const updateProfile = useMutation(['profile'], async (formData) => {
 
-        const response = await request({ url: '/api/profile', method: 'patch', data: formData });
+        const response = await request({ url: '/api/profile/', method: 'patch', data: formData });
         toast.success('Profile updated');
         return response.data;
     });
@@ -50,7 +50,7 @@ export default function Profile() {
     };
 
     const updatePersonalInformation = useMutation(['profile'], async (formData) => {
-        const response = await request({ url: '/api/personnal_info', method: 'patch', data: formData });
+        const response = await request({ url: '/api/profile/personnal_info/', method: 'patch', data: formData });
         toast.success('Profile updated');
         return response.data;
     });
