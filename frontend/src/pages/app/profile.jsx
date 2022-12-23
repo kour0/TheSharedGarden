@@ -113,7 +113,7 @@ export default function Profile() {
                                             </div>
 
                                             <div>
-                                                <label className="block text-sm font-medium text-gray-700">Photo</label>
+                                                <label className="block text-sm font-medium text-gray-700" htmlFor='profilePicPatch'>Photo</label>
                                                 <div className="mt-1 flex items-center">
                                                     <span className="inline-block h-12 w-12 overflow-hidden rounded-full bg-gray-100">
                                                         {previewUrl ? (
@@ -123,6 +123,7 @@ export default function Profile() {
                                                                 src=""
                                                                 alt=" preview"
                                                                 className="h-full w-full"
+                                                                id='profilePicPatch'
                                                             />
                                                         )}
                                                         {/* <svg className="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">

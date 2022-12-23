@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import { request } from '../../utils/axios-utils';
 
 export function CreateGarden() {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -22,9 +23,7 @@ export function CreateGarden() {
       formData.append(key, data[key]);
     });
     try {
-      const response = await axios.post('http://127.0.0.1:5454/api/creategarden', formData, {
-        withCredentials: true,
-      })
+      const response = await request({url: '/api/garden/create', method: 'POST', data: formData})
       // navigate('/app/dashboard');
       // afficher la reponse dans un toast
       toast.success(response.data.message);

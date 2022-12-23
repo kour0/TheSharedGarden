@@ -60,9 +60,7 @@ export default function Dashboard() {
     try {
       const response = await request({ url: '/api/garden/', method: 'get' });
       return response.data;
-    } catch (error) {
-      console.log('dash');
-    }
+    } catch (error) { /* empty */ }
   });
 
   return (

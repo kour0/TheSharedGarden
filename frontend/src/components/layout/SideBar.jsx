@@ -7,6 +7,8 @@ import { Outlet } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import PageHeader from '../pageHeader';
 import axios from 'axios';
+import { useQuery } from '@tanstack/react-query';
+import { request } from '../../utils/axios-utils';
 
 const navigation = [
   { name: 'Mes jardins', icon: HomeIcon, href: '/app/dashboard' },
@@ -24,24 +26,12 @@ export default function SideBar() {
       navigate('/login');
     }
   }, []);
+  const { isLoading, isError, data, error } = useQuery(['profile'], async () => {
+    const response = await request({ url: '/api/profile/', method: 'get' });
+    return response.data;
+  });
 
-  // Récupérer mon prénom et mon nom
-  const [username, setUsername] = useState({ firstName: 'TODO', lastName: 'TODO' });
-  // TODO Lucas : refaire le state + la requette avec un useQuery
-  useEffect(() => {
-    // axios
-    //   .get('http://127.0.0.1:5454/api/profile', {
-    //     withCredentials: true,
-    //   })
-    //   .then((response) => {
-    //   //   On récupère le prénom et le nom de l'utilisateur
-    //     setUsername({ firstName: response.data.first_name, lastName: response.data.last_name });
-    //   }
-    //   );
-  }
-  , []);
-
-  return (
+  return !isError && !isLoading ? (
     <>
       <div>
         <Transition.Root show={sidebarOpen} as={Fragment}>
@@ -104,13 +94,13 @@ export default function SideBar() {
                             (index === active
                               ? 'bg-gray-100 text-gray-900'
                               : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
-                              'group flex items-center px-2 py-2 text-base font-medium rounded-md')
+                            'group flex items-center px-2 py-2 text-base font-medium rounded-md')
                           }
                         >
                           <item.icon
                             className={
                               (index === active ? 'text-gray-500' : 'text-gray-400 group-hover:text-gray-500',
-                                'mr-4 flex-shrink-0 h-6 w-6')
+                              'mr-4 flex-shrink-0 h-6 w-6')
                             }
                             aria-hidden="true"
                           />
@@ -119,13 +109,12 @@ export default function SideBar() {
                       ))}
                     </nav>
                   </div>
-                  <Link
-                    to="/app/profile"
-                    relative="path"
-                    onClick={() => setActive(-1)}
-                  >
-                    <div className={(-1 == active ? 'bg-gray-100' : '' ) + " flex flex-shrink-0 border-t border-gray-200 p-4"}>
-
+                  <Link to="/app/profile" relative="path" onClick={() => setActive(-1)}>
+                    <div
+                      className={
+                        (-1 == active ? 'bg-gray-100' : '') + ' flex flex-shrink-0 border-t border-gray-200 p-4'
+                      }
+                    >
                       <div className="flex items-center">
                         <div>
                           <img
@@ -135,7 +124,9 @@ export default function SideBar() {
                           />
                         </div>
                         <div className="ml-3">
-                          <p className="text-base font-medium text-gray-700 group-hover:text-gray-900">{username.firstName + ' ' + username.lastName}</p>
+                          <p className="text-base font-medium text-gray-700 group-hover:text-gray-900">
+                            {data.first_name + ' ' + data.last_name}
+                          </p>
                           <p className="text-sm font-medium text-gray-500 group-hover:text-gray-700">View profile</p>
                         </div>
                       </div>
@@ -182,12 +173,8 @@ export default function SideBar() {
               </nav>
             </div>
 
-            <Link
-              to="/app/profile"
-              relative="path"
-              onClick={() => setActive(-1)}
-            >
-              <div className={(-1 == active ? 'bg-gray-100' : '' ) + " flex flex-shrink-0 border-t border-gray-200 p-4"}>
+            <Link to="/app/profile" relative="path" onClick={() => setActive(-1)}>
+              <div className={(-1 == active ? 'bg-gray-100' : '') + ' flex flex-shrink-0 border-t border-gray-200 p-4'}>
                 <div className="flex items-center">
                   <div>
                     <img
@@ -198,7 +185,9 @@ export default function SideBar() {
                     />
                   </div>
                   <div className="ml-3">
-                    <p className="text-sm font-medium text-gray-700 group-hover:text-gray-900">{username.firstName + ' ' + username.lastName}</p>
+                    <p className="text-sm font-medium text-gray-700 group-hover:text-gray-900">
+                      {data.first_name + ' ' + data.last_name}
+                    </p>
                     <p className="text-xs font-medium text-gray-500 group-hover:text-gray-700">View profile</p>
                   </div>
                 </div>
@@ -223,5 +212,7 @@ export default function SideBar() {
         </div>
       </div>
     </>
+  ) : (
+    <></>
   );
 }
