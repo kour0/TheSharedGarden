@@ -1,11 +1,10 @@
 import { ChevronRightIcon } from '@heroicons/react/20/solid';
-import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 import { useForm } from 'react-hook-form';
-import axios from 'axios';
 import toast from 'react-hot-toast';
+import { Link, useNavigate } from 'react-router-dom';
 import { NavBar } from '../components/navigation/NavBar';
 import { request } from '../utils/axios-utils';
-import Cookies from 'js-cookie';
 
 const navigation = [
   { name: 'Rejoignez un jardin', href: '/join' },
@@ -67,8 +66,9 @@ export default function Index() {
         <main className="mx-auto mt-16 max-w-7xl px-4 sm:mt-24 sm:px-6 lg:mt-32 md:mt-200">
           <div className="lg:grid lg:grid-cols-12 lg:gap-8">
             <div className="sm:text-center md:mx-auto md:max-w-2xl lg:col-span-6 lg:text-left">
-              <a
-                href="#"
+              <Link
+                to="/"
+                relative="path"
                 className="inline-flex items-center rounded-full bg-gray-900 p-1 pr-2 text-white hover:text-gray-200 sm:text-base lg:text-sm xl:text-base"
               >
                 <span className="rounded-full bg-teal-700 px-3 py-0.5 text-sm font-semibold leading-5 text-white">
@@ -76,7 +76,7 @@ export default function Index() {
                 </span>
                 <span className="ml-4 text-sm">Visitez notre page</span>
                 <ChevronRightIcon className="ml-2 h-5 w-5 text-gray-500" aria-hidden="true" />
-              </a>
+              </Link>
               <h1>
                 <span className="mt-4 block text-4xl font-bold tracking-tight sm:text-5xl xl:text-6xl">
                   <span className="block text-gray-900">Créez ton</span>
@@ -249,17 +249,17 @@ export default function Index() {
                 <div className="border-t-2 border-gray-200 bg-gray-50 px-4 py-6 sm:px-10">
                   <p className="text-xs leading-5 text-gray-500">
                     En vous inscrivant, vous acceptez les{' '}
-                    <a href="#" className="font-medium text-gray-900 hover:underline">
-                      Conditions d'utilisations
-                    </a>
+                    <Link to="/" relative="path" className="font-medium text-gray-900 hover:underline">
+                      Conditions d{"'"}utilisations
+                    </Link>
                     ,{' '}
-                    <a href="#" className="font-medium text-gray-900 hover:underline">
+                    <Link to="/" relative="path" className="font-medium text-gray-900 hover:underline">
                       Politique de confidentialité
-                    </a>{' '}
+                    </Link>{' '}
                     et{' '}
-                    <a href="#" className="font-medium text-gray-900 hover:underline">
+                    <Link to="/" relative="path" className="font-medium text-gray-900 hover:underline">
                       Politique relative aux cookies
-                    </a>
+                    </Link>
                     .
                   </p>
                 </div>

@@ -6,6 +6,7 @@ import { request } from '../../utils/axios-utils';
 import { Switch } from '@headlessui/react'
 
 import { classNames } from '../../utils/helpers';
+import { request } from '../../utils/axios-utils';
 
 export function CreateGarden() {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -30,9 +31,7 @@ export function CreateGarden() {
     });
 
     try {
-
-      const response = await request({ url: '/api/garden/create', method: 'post', data: formData });
-
+      const response = await request({ url: '/api/garden/create', method: 'POST', data: formData });
       // navigate('/app/dashboard');
       // afficher la reponse dans un toast
       toast.success(response.data.message);

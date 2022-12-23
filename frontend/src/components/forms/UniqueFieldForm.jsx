@@ -1,8 +1,7 @@
-import { useNavigate } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
 import axios from 'axios';
+import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-
+import { useNavigate } from 'react-router-dom';
 
 export function UniqueFieldForm({ form }) {
   const navigate = useNavigate();
@@ -68,17 +67,17 @@ export function UniqueFieldForm({ form }) {
             </div>*/}
             <div className="relative">
               <div className="sm:text-center">
-                <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
-                  {form.title}
-                </h2>
-                <p className="mx-auto mt-6 max-w-2xl text-lg text-indigo-200">
-                  {form.description}
-                </p>
+                <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">{form.title}</h2>
+                <p className="mx-auto mt-6 max-w-2xl text-lg text-indigo-200">{form.description}</p>
               </div>
-              <form action='#' method='POST' onSubmit={handleSubmit(onSubmit)} className="mt-12 sm:mx-auto sm:flex sm:max-w-lg">
+              <form
+                action="#"
+                method="POST"
+                onSubmit={handleSubmit(onSubmit)}
+                className="mt-12 sm:mx-auto sm:flex sm:max-w-lg"
+              >
                 <div className="min-w-0 flex-1">
-                  <label htmlFor={form.name} className="sr-only">
-                  </label>
+                  <label htmlFor={form.name} className="sr-only"></label>
                   <input
                     id={form.name}
                     type="text"
@@ -101,5 +100,5 @@ export function UniqueFieldForm({ form }) {
         </div>
       </div>
     </div>
-  )
+  );
 }

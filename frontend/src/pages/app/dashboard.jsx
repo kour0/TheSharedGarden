@@ -1,7 +1,6 @@
-import React from 'react';
 import { useQuery } from '@tanstack/react-query';
+import React from 'react';
 
-import axios from 'axios';
 import { Loader } from '../../components/loader/FullScreenLoader';
 
 import { GardenCard } from '../../components/GardenCard';
@@ -61,7 +60,7 @@ export default function Dashboard() {
       const response = await request({ url: '/api/garden/', method: 'get' });
       return response.data;
     } catch (error) {
-      console.log('dash');
+      /* empty */
     }
   });
 
