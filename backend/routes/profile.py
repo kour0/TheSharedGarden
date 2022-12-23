@@ -1,4 +1,4 @@
-from flask import Blueprint, request, send_from_directory, redirect, g
+from flask import Blueprint, request, send_from_directory, redirect, g, url_for
 from flask_cors import CORS
 import os
 from sqlalchemy import update
@@ -31,10 +31,10 @@ def before_request():
 def get_informations():
     try:
         # On récupère l'utilisateur
-        email = g.user.email
+        account_id = g.user.id
 
         # On récupère les informations de l'utilisateur
-        user = session.query(Accounts).filter_by(email=email).first()
+        user = session.query(Accounts).filter_by(id=account_id).first()
 
         # On retourne nom et prénom de l'utilisateur
         return {'email': user.email, 'username': user.username, 'first_name': user.first_name, 'last_name': user.last_name}
@@ -42,24 +42,40 @@ def get_informations():
         return {'message': str(e)}, 500
 
 
-@profile.get(BASE_URL + '/picture')
-def picture():
+@profile.get(BASE_URL + '/image')
+def get_image(): 
     try:
-        # On récupère l'utilisateur
-        user = g.user
-        # On récupère la liste des fichiers contenu dans le dossier images
-        files = os.listdir('static/images/profile')
-        # On récupère le nom de l'image de l'utilisateur
-        image_name = [file for file in files if file.split('.')[0] == user.username]
-        if image_name:
-            # On retourne l'image
-            return send_from_directory('static/images/profile', image_name[0])
-        else:
-            # On retourne l'image par défaut
-            return send_from_directory('static/images/profile', 'default_photo.jpg')
+        
+        image_uri = get_image_name(g.user.id)
+        return send_from_directory('static/images/profile', image_uri)
+
     except Exception as e:
         print(e)
         return {'message': str(e)}, 500
+        
+
+@profile.get(BASE_URL + '/<id>/image')
+def get_image_by_id(id):
+    try:
+        image_uri = get_image_name(id)
+        return send_from_directory('static/images/profile', image_uri)
+    except Exception as e:
+        print(e)
+        return {'message': str(e)}, 500
+
+def get_image_name(id):
+
+    # On récupère la liste des fichiers contenu dans le dossier images
+    files = os.listdir('static/images/profile')
+
+    # On récupère le nom de l'image de l'utilisateur
+    image_name = [file for file in files if file.split('.')[0] == id]
+    if image_name:
+        # On retourne l'image
+        return image_name[0]
+    else:
+        # On retourne l'image par défaut
+        return 'default_photo.jpg'
 
 #TODO : regrouper les deux routes en une seule (route / : patch), pour différencier les requêtes : regarder en fonction du type de données envoyées (formdata ou json)
 @profile.patch(BASE_URL + '/')

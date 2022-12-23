@@ -23,6 +23,7 @@ export default function SideBar() {
       navigate('/login');
     }
   }, []);
+  
   const { isLoading, isError, data, error } = useQuery(['profile'], async () => {
     const response = await request({ url: '/api/profile/', method: 'GET' });
     return response.data;

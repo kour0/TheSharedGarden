@@ -1,16 +1,18 @@
 CREATE TABLE account (
-    email VARCHAR PRIMARY KEY NOT NULL,
-    username VARCHAR NOT NULL ,
+    id INTEGER,
+    email VARCHAR UNIQUE NOT NULL,
+    username VARCHAR UNIQUE NOT NULL ,
     first_name VARCHAR NOT NULL,
     last_name VARCHAR NOT NULL,
     password VARCHAR default NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    profile_picture VARCHAR default NULL
+    PRIMARY KEY (id)
 );
 
 
 CREATE TABLE garden (
-    garden_name VARCHAR PRIMARY KEY NOT NULL,
+    id_garden INTEGER NOT NULL,
+    garden_name VARCHAR NOT NULL,
     owner VARCHAR,
     manager VARCHAR,
     garden_type VARCHAR NOT NULL,
@@ -18,37 +20,57 @@ CREATE TABLE garden (
     country VARCHAR,
     city VARCHAR,
     province VARCHAR,
-    postal_code INTEGER
+    postal_code INTEGER,
+    PRIMARY KEY (id_garden),
+    FOREIGN KEY (owner) REFERENCES account(id),
+    FOREIGN KEY (manager) REFERENCES account(id)
 );
 
 CREATE TABLE task (
-    task_id INTEGER PRIMARY KEY NOT NULL,
+    task_id INTEGER NOT NULL,
     task_name VARCHAR,
     task_manager VARCHAR,
     task_state VARCHAR,
     validation_state VARCHAR,
     completion_state VARCHAR,
-    deadline date
+    deadline date,
+    PRIMARY KEY (task_id),
+    FOREIGN KEY (task_manager) REFERENCES account(id)
+
 );
 
 CREATE TABLE plot(
-    plot_id INTEGER PRIMARY KEY NOT NULL,
-    garden_name VARCHAR,
+    plot_id INTEGER NOT NULL,
+    garden_id VARCHAR,
     plot_state VARCHAR,
-    cultivated_vegetable VARCHAR
+    cultivated_vegetable VARCHAR,
+    PRIMARY KEY (plot_id),
+    FOREIGN KEY (garden_id) REFERENCES garden(id_garden)
 );
 
 CREATE TABLE own(
-    plot_id INTEGER PRIMARY KEY NOT NULL,
-    task_id INTEGER
+    plot_id INTEGER NOT NULL,
+    task_id INTEGER NOT NULL,
+    PRIMARY KEY (plot_id, task_id),
+    FOREIGN KEY (plot_id) REFERENCES plot(plot_id),
+    FOREIGN KEY (task_id) REFERENCES task(task_id)
 );
 
 CREATE TABLE do(
-    username VARCHAR PRIMARY KEY NOT NULL,
-    task_id INTEGER
+    account_id VARCHAR NOT NULL,
+    task_id INTEGER NOT NULL,
+    PRIMARY KEY (account_id, task_id),
+    FOREIGN KEY (account_id) REFERENCES account(id),
+    FOREIGN KEY (task_id) REFERENCES task(task_id)
+
 );
 
 CREATE TABLE link(
-    username VARCHAR PRIMARY KEY NOT NULL,
-    garden_name VARCHAR
+    account_id VARCHAR NOT NULL,
+    garden_name VARCHAR NOT NULL,
+    PRIMARY KEY (account_id, garden_name),
+    FOREIGN KEY (account_id) REFERENCES account(id),
+    FOREIGN KEY (garden_name) REFERENCES garden(garden_name)
+
 );
+

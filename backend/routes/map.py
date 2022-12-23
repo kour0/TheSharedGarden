@@ -22,7 +22,7 @@ def create_map():
     folium.Marker(location=[48.6834987, 6.1603767], popup="Sac à merde", tooltip="Sac à merde").add_to(m)
 
     # On récupère les coordonnées de chaque jardin qui sont publiques
-    liste_garden = session.query(Garden).filter_by(garden_type="Public").all()
+    liste_garden = session.query(Garden).filter_by(garden_type="public").all()
     for garden in liste_garden:
         # On convertit l'adresse en coordonnées
         geolocator = Nominatim(user_agent="ppii-2022")

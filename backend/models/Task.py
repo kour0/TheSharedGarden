@@ -1,5 +1,6 @@
-from sqlalchemy import Column
+from sqlalchemy import Column, ForeignKey
 from sqlalchemy.types import Integer, String
+from sqlalchemy.orm import relationship
 
 from bdd import Base
 
@@ -8,11 +9,13 @@ class Task(Base):
     __tablename__ = 'task'
     task_id = Column('task_id', Integer, primary_key=True)
     task_name = Column('task_name', String(300), nullable=False)
-    task_manager = Column('task_manager', String(300), nullable=False)
+    task_manager = Column('task_manager', String(300), ForeignKey('account.id'), nullable=False)
     task_state = Column('task_state', String(), nullable=True)
     validation_state = Column('validation_state', String(400), nullable=True)
     completion_state = Column('completion_state', String(400), nullable=True)
     deadline = Column('deadline', String(200), nullable=True)
+
+    account = relationship("Accounts")
 
     def __init__(self, task_id, task_name, task_manager, task_state, validation_state, completion_state, deadline):
         self.task_id = task_id

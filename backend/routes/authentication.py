@@ -52,7 +52,7 @@ def signup():
             return {'message': 'Email already registered.'}, 401
         password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
         password = password.decode('utf-8')
-        account = Accounts(username, first_name, last_name, password, email)
+        account = Accounts(email,username, first_name, last_name, password)
         session.add(account)
         session.commit()
         token = jwt.encode({'email': email}, config('JWT_SECRET'), algorithm='HS256')

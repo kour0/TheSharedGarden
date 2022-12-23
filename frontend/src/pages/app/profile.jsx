@@ -8,10 +8,32 @@ import { Loader } from '../../components/loader/FullScreenLoader';
 import { request } from '../../utils/axios-utils';
 
 export default function Profile() {
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(null);
+  const [profilePicture, setProfilePicture] = useState(null);
+
   const { isLoading, isError, data, error } = useQuery(['profile'], async () => {
     const response = await request({ url: '/api/profile/', method: 'get' });
     return response.data;
   });
+
+  const {
+    isLoading: imageLoading,
+    isError: imageisError,
+    data: imageData,
+    error: imageError,
+  } = useQuery(['profileImage'], async () => {
+    const response = await request({ url: '/api/profile/image', method: 'get' });
+    console.log(response);
+    return response.data;
+  });
+
+  if (!imageLoading && !imageisError) {
+    const image = new File([imageData], 'profile.jpg', { type: 'image/jpg' })
+    const reader = new FileReader();
+    reader.onload = (e) => setProfilePicture(e.target.result);
+    reader.readAsDataURL(image);
+  }
 
   const {
     register,
@@ -50,9 +72,6 @@ export default function Profile() {
     toast.success('Profile updated');
     return response.data;
   });
-
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [previewUrl, setPreviewUrl] = useState(null);
 
   const handleImageChange = (event) => {
     const image = event.target.files[0];
@@ -115,8 +134,10 @@ export default function Profile() {
                           <span className="inline-block h-12 w-12 overflow-hidden rounded-full bg-gray-100">
                             {previewUrl ? (
                               <img src={previewUrl} alt="preview" className="h-full w-full" />
+                            ) : imageLoading ? (
+                              <p>Load</p>
                             ) : (
-                              <img src="" alt=" preview" className="h-full w-full" id="profilePicPatch" />
+                              imageData && <img src={profilePicture} alt="avatar" className="h-full w-full" />
                             )}
                             {/* <svg className="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
                                                             <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
