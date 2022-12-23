@@ -18,6 +18,7 @@ BASE_URL = '/api/profile'
 
 images = UploadSet('images', ALL)
 
+
 @profile.before_request
 def before_request():
     try:
@@ -37,22 +38,22 @@ def get_informations():
         user = session.query(Accounts).filter_by(id=account_id).first()
 
         # On retourne nom et prénom de l'utilisateur
-        return {'email': user.email, 'username': user.username, 'first_name': user.first_name, 'last_name': user.last_name}
+        return {'email': user.email, 'username': user.username, 'first_name': user.first_name,
+                'last_name': user.last_name}
     except Exception as e:
         return {'message': str(e)}, 500
 
 
 @profile.get(BASE_URL + '/image')
-def get_image(): 
+def get_image():
     try:
-        
         image_uri = get_image_name(g.user.id)
         return send_from_directory('static/images/profile', image_uri)
 
     except Exception as e:
         print(e)
         return {'message': str(e)}, 500
-        
+
 
 @profile.get(BASE_URL + '/<id>/image')
 def get_image_by_id(id):
@@ -63,13 +64,12 @@ def get_image_by_id(id):
         print(e)
         return {'message': str(e)}, 500
 
-def get_image_name(id):
 
+def get_image_name(id):
     # On récupère la liste des fichiers contenu dans le dossier images
     files = os.listdir('static/images/profile')
-
     # On récupère le nom de l'image de l'utilisateur
-    image_name = [file for file in files if file.split('.')[0] == id]
+    image_name = [file for file in files if file.split('.')[0] == str(id)]
     if image_name:
         # On retourne l'image
         return image_name[0]
@@ -77,7 +77,8 @@ def get_image_name(id):
         # On retourne l'image par défaut
         return 'default_photo.jpg'
 
-#TODO : regrouper les deux routes en une seule (route / : patch), pour différencier les requêtes : regarder en fonction du type de données envoyées (formdata ou json)
+
+# TODO : regrouper les deux routes en une seule (route / : patch), pour différencier les requêtes : regarder en fonction du type de données envoyées (formdata ou json)
 @profile.patch(BASE_URL + '/')
 def modify_profile():
     print("Coucou")
@@ -94,7 +95,7 @@ def modify_profile():
             username = body["username"]
             profile.username = username
             images.save(image, name=username + '.' +
-                                image.filename.split('.')[-1], folder='profile')
+                                    image.filename.split('.')[-1], folder='profile')
         if (body['last_name'] is not None) and (body["first_name"] is not None):
             profile.first_name = body["first_name"]
             profile.last_name = body["last_name"]
@@ -103,5 +104,3 @@ def modify_profile():
         return {'message': 'change done'}
     except Exception as e:
         return {'message': str(e)}, 500
-    
-    

@@ -54,6 +54,7 @@ def garden_to_json(garden):
     owner = session.query(Accounts).filter_by(email=garden.owner).first()
 
     return {
+        'id': garden.id_garden,
         'name': garden.garden_name,
         'href': "/",
         'owner': {
@@ -69,17 +70,15 @@ def garden_to_json(garden):
     }
 
 
-@garden.get(BASE_URL + '/<garden_name>/image')
-def get_garden_image(garden_name):
+@garden.get(BASE_URL + '/<garden_id>/image')
+def get_garden_image(garden_id):
     try:
-        print(garden_name)
-
         base_image_url = 'static/images/garden'
 
         files = os.listdir(base_image_url)
 
         image_name = [file for file in files if file.split('.')[
-            0] == garden_name]
+            0] == garden_id]
         if image_name:
             return send_from_directory(base_image_url, image_name[0])
         else:
@@ -113,7 +112,7 @@ def create():
         session.add(garden)
         session.commit()
         # Sauvegarde de l'image (Après la création du jardin pour garantir l'unicité du nom)
-        images.save(image, name=garden_name + '.' +
+        images.save(image, name=str(garden.id_garden) + '.' +
                                 image.filename.split('.')[-1], folder='garden')
         if garden_type == 'public':
             print("Public")
@@ -135,7 +134,7 @@ def get_join(garden_name):
         if deja:
             print("deja")
             return redirect('http://127.0.0.1:5173/app/dashboard')
-        link = Link(username=account.username, garden_name=garden_name)
+        link = Link(account_id=account.id, garden_name=garden_name)
         session.add(link)
         session.commit()
         # on redigire vers la page dashboard
