@@ -7,7 +7,7 @@ from models.Accounts import Accounts
 session = Session()
 
 
-def authenticate(request):
+def authenticate(request, needtoken=False):
     token = request.headers.get('x-access-token')  # Get the token from the cookie
     if not token:
         raise Exception('No token provided.')
@@ -17,4 +17,6 @@ def authenticate(request):
     account = session.query(Accounts).filter_by(email=email).first()
     if not account:
         raise Exception('Not registered.')
+    if needtoken:
+        return account, token
     return account
