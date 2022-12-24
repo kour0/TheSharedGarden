@@ -5,11 +5,14 @@ import { useNavigate } from 'react-router-dom';
 import { request } from '../../utils/axios-utils';
 import { Switch } from '@headlessui/react'
 import { classNames } from '../../utils/helpers';
+import { SubmitButton } from '../../components/forms/SubmitButton';
 
 export function CreateGarden() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
   const [privateGarden, setPrivateGarden] = useState(false)
+
+  const [submitIsLoading, setSubmitIsLoading] = useState(false);
 
   const navigate = useNavigate();
   const {
@@ -19,6 +22,8 @@ export function CreateGarden() {
   } = useForm();
 
   const onSubmit = async (data) => {
+
+    setSubmitIsLoading(true);
     console.log(typeof data);
     const formData = new FormData();
     formData.append('file', selectedImage);
@@ -32,11 +37,15 @@ export function CreateGarden() {
     try {
       const response = await request({ url: '/api/garden/create', method: 'POST', data: formData });
       // navigate('/app/dashboard');
+
       // afficher la reponse dans un toast
       toast.success(response.data.message);
+
     } catch (error) {
       console.log(error);
     }
+    setSubmitIsLoading(false);
+
   };
   const handleImageChange = (event) => {
     const image = event.target.files[0];
@@ -236,12 +245,7 @@ export function CreateGarden() {
             >
               Annuler
             </button>
-            <button
-              type="submit"
-              className="ml-3 inline-flex justify-center rounded-md border border-transparent bg-teal-700 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-teal-800 focus:outline-none focus:ring-2 focus:ring-teal-600 focus:ring-offset-2"
-            >
-              Enregistrer
-            </button>
+            < SubmitButton isLoading={submitIsLoading} />
           </div>
         </div>
       </form>

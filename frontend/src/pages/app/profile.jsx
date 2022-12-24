@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Loader } from '../../components/loader/FullScreenLoader';
+import { SubmitButton } from '../../components/forms/SubmitButton';
 import { getProfile, getProfilePicture, patchProfile, patchProfilePersonnalInformations } from '../../lib/profile';
 
 export default function Profile() {
@@ -132,16 +133,7 @@ export default function Profile() {
                       </div>
                     </div>
                     <div className="bg-gray-50 px-4 py-3 text-right sm:px-6">
-                      <button
-                        type="submit"
-                        className={
-                          (updateProfile.isLoading ? 'bg-gray-600' : 'bg-teal-700 hover:bg-teal-800') +
-                          ' inline-flex justify-center rounded-md border border-transparent py-2 px-4 text-sm font-medium text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
-                        }
-                        disabled={updateProfile.isLoading}
-                      >
-                        {updateProfile.isLoading ? 'En cours...' : 'Enregistrer'}
-                      </button>
+                      < SubmitButton isLoading={updateProfile.isLoading} />
                     </div>
                   </div>
                 </form>
@@ -200,16 +192,7 @@ export default function Profile() {
                       </div>
                     </div>
                     <div className="bg-gray-50 px-4 py-3 text-right sm:px-6">
-                      <button
-                        type="submit"
-                        className={
-                          (updatePersonalInformation.isLoading ? 'bg-gray-600' : 'bg-teal-700 hover:bg-teal-800') +
-                          ' inline-flex justify-center rounded-md border border-transparent py-2 px-4 text-sm font-medium text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
-                        }
-                        disabled={updatePersonalInformation.isLoading}
-                      >
-                        {updatePersonalInformation.isLoading ? 'En cours...' : 'Enregistrer'}
-                      </button>
+                      < SubmitButton isLoading={updatePersonalInformation.isLoading} />
                     </div>
                   </div>
                 </form>

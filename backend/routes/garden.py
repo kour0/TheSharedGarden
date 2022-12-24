@@ -12,6 +12,7 @@ from models.Accounts import Accounts
 from models.Garden import Garden
 from models.Link import Link
 from routes.map import add_map
+import time
 
 garden = Blueprint('garden', __name__)
 session = Session()
@@ -95,6 +96,7 @@ def get_gardens(garden_name):
 @garden.post(BASE_URL + '/create')
 def create():
     try:
+        time.sleep(10)
         user = g.user
         # Recupération de l'image
         image = request.files['file']
