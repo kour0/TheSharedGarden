@@ -74,9 +74,8 @@ def garden_to_json(garden):
 @garden.get(BASE_URL + '/<garden_id>/image')
 def get_garden_image(garden_id):
     try:
-        image_uri = get_image_name(g.user.id, 'garden')
+        image_uri = get_image_name(garden_id, 'garden')
         return send_from_directory('static/images/garden', image_uri)
-        
     except Exception as e:
         print(e)
         return {'message': str(e)}, 500
