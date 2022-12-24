@@ -116,8 +116,7 @@ def create():
         session.add(garden)
         session.commit()
         # Sauvegarde de l'image (Après la création du jardin pour garantir l'unicité du nom)
-        save_image(image, garden.id_garden, 'garden')
-
+        save_image(image, garden.id_garden, folder='garden')
         if garden_type == 'public':
             print("Public")
             add_map(garden)
@@ -127,21 +126,20 @@ def create():
         return {'message': str(e)}, 500
 
 
-@garden.get(BASE_URL + '/join/<garden_name>')
-def get_join(garden_name):
+@garden.get(BASE_URL + '/join/<garden_id>')
+def get_join(garden_id):
     try:
         account = g.user
-        print(account)
-        garden = session.query(Garden).filter_by(garden_name=garden_name).first()
-        # TODO : remettre des noms corrects et ne pas faire une redirection, le front doit faire la redirection
-        deja = session.query(Link).filter_by(username=account.username, garden_name=garden_name).first()
+        garden = session.query(Garden).filter_by(id_garden=garden_id).all()
+        if not garden:
+            return {'message': 'Garden not found'}, 404
+        deja = session.query(Link).filter_by(account_id=account.id, garden_id=garden_id).all()
         if deja:
-            print("deja")
-            return redirect('http://127.0.0.1:5173/app/dashboard')
-        link = Link(account_id=account.id, garden_name=garden_name)
+            return {'message': 'Vous êtes déjà membre de ce jardin'}, 401
+        link = Link(account_id=account.id, garden_id=garden_id)
         session.add(link)
         session.commit()
         # on redigire vers la page dashboard
-        return redirect('http://127.0.0.1:5173/app/dashboard')
+        return {'message': 'Vous avez rejoint le jardin ' + garden_id}, 200
     except Exception as e:
         return {'message': str(e)}, 500

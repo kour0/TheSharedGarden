@@ -84,8 +84,8 @@ def add_map(last_garden):
     location = geolocator.geocode(
         last_garden.street_address + " " + str(last_garden.postal_code) + " " + last_garden.city)
     # On ajoute un marqueur sur la carte avec dans le popup un lien vers la page du jardin
-    url = folium.Html(
-        '<a target="_top" href="http://127.0.0.1:5454/api/join-garden/' + last_garden.garden_name + '">Rejoindre le jardin</a>',
-        script=True)
+    url = folium.Html('<div id="' + str(last_garden.id_garden) + '"><button onClick="joinGarden(' + str(
+        last_garden.id_garden) + ')">Rejoindre le jardin</button></div>',
+                      script=True)
     popup = folium.Popup(url, max_width=2650)
     folium.Marker([location.latitude, location.longitude], popup=popup, tooltip=last_garden.garden_name).add_to(m)
