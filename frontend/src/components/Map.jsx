@@ -1,21 +1,11 @@
-import Iframe from 'react-iframe';
-import { useQuery } from '@tanstack/react-query';
-import { request } from '../utils/axios-utils';
 import { useState } from 'react';
+import Iframe from 'react-iframe';
+import { getMap } from '../lib/map';
 
 export function Map() {
+  const [map, setMap] = useState(null);
 
-  const [map, setMap] = useState(null)
-
-  const {
-    isLoading,
-    isError,
-    data,
-    error,
-  } = useQuery(['Map'], async () => {
-    const response = await request({ url: '/api/map', method: 'get', responseType: 'blob' });
-    return response.data;
-  });
+  const { isLoading, isError, data, error } = getMap();
 
   if (!isLoading && !isError) {
     // response is a html file
@@ -35,7 +25,7 @@ export function Map() {
         height="615px"
         display="initial"
         position="relative"
-        sandbox={["allow-same-origin","allow-scripts","allow-popups","allow-forms","allow-modals"]}
+        sandbox={['allow-same-origin', 'allow-scripts', 'allow-popups', 'allow-forms', 'allow-modals']}
         allowFullScreen
       />
     </div>

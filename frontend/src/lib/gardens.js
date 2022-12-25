@@ -12,3 +12,15 @@ export const getGardens = () => {
   });
   return response;
 };
+
+export const searchGardens = (gardenName) => {
+  const response = useQuery(['garden', gardenName], async () => {
+    try {
+      const response = await request({ url: `/api/garden/${gardenName}`, method: 'get' });
+      return response.data;
+    } catch (error) {
+      console.warn(error?.data?.message);
+    }
+  });
+  return response;
+};

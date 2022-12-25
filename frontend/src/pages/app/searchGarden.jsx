@@ -1,20 +1,11 @@
-import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import { GardenCard } from '../../components/GardenCard';
 import { Loader } from '../../components/loader/FullScreenLoader';
-import { request } from '../../utils/axios-utils';
+import { searchGardens } from '../../lib/gardens';
 
 export default function SearchGarden() {
   const { gardenName } = useParams();
-  const { data, isLoading, isError } = useQuery(['garden', gardenName], async () => {
-    try {
-      const response = await request({ url: `/api/garden/${gardenName}`, method: 'get' });
-      return response.data;
-    } catch (error) {
-      console.warn(error?.data?.message);
-    }
-  });
-  console.log(data);
+  const { data, isLoading, isError } = searchGardens(gardenName)
   return !isLoading ? (
     <>
       <div className="relative bg-gray-50 px-4 pb-16 sm:px-6 lg:px-8 lg:pb-28">
