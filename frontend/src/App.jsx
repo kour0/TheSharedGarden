@@ -9,6 +9,7 @@ import Cookies from 'js-cookie';
 import Error404 from './components/Error404';
 import Profile from './pages/app/profile';
 import SearchGarden from './pages/app/searchGarden';
+import Garden from './pages/app/garden';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/app" element={<SideBar />}>
           <Route path="create-garden" element={<CreateGarden />} />
           <Route path="dashboard" element={<Dashboard />} />
+          <Route path="dashboard/:gardenId" element={<Garden />} />
           <Route path="join-garden" element={<JoinGarden />}/>
           <Route path="join-garden/:gardenName" element={<SearchGarden />} />
           <Route path="profile" element={<Profile />} />

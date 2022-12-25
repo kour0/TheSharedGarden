@@ -81,11 +81,21 @@ def get_garden_image(garden_id):
         return {'message': str(e)}, 500
 
 
-@garden.get(BASE_URL + '/<garden_name>')
+@garden.get(BASE_URL + '/name/<garden_name>')
 def get_gardens(garden_name):
     try:
         gardens = session.query(Garden).filter(Garden.garden_name.like('%' + garden_name + '%')).all()
         return gardens_to_json(gardens)
+    except Exception as e:
+        print(e)
+        return {'message': str(e)}, 500
+
+
+@garden.get(BASE_URL + '/<garden_id>')
+def get_garden(garden_id):
+    try:
+        garden = session.query(Garden).filter_by(id_garden=garden_id).first()
+        return garden_to_json(garden)
     except Exception as e:
         print(e)
         return {'message': str(e)}, 500
@@ -113,7 +123,7 @@ def create():
                         street_address=street_address, country=country, city=city, province=region,
                         postal_code=postal_code)
         session.add(garden)
-        #TODO regarder pourquoi il faut faire un commit pour avoir l'id du jardin
+        # TODO regarder pourquoi il faut faire un commit pour avoir l'id du jardin
         session.commit()
         link = Link(account_id=user.id, garden_id=garden.id_garden)
         session.add(link)
@@ -151,4 +161,3 @@ def get_join(garden_id):
         return {'message': 'Vous avez rejoint le jardin ' + garden_id}, 200
     except Exception as e:
         return {'message': str(e)}, 500
-    

@@ -37,10 +37,11 @@ export function GardenCard({ garden }) {
     readerProfile.onload = (e) => setProfilePicture(e.target.result);
     readerProfile.readAsDataURL(imageDataProfile);
   }
+  console.log(garden.id);
 
   return !imageLoadingGarden && !imageisErrorGarden && !imageLoadingProfile && !imageisErrorProfile ? (
     <>
-    <Link to={garden.href} relative="path" className="flex flex-col overflow-hidden rounded-lg shadow-lg">
+    <Link to={`/app/dashboard/${garden.id}`} relative="path" className="flex flex-col overflow-hidden rounded-lg shadow-lg">
       <div className="flex-shrink-0">
         <img className="h-48 w-full object-cover" src={gardenPicture} alt="" />
       </div>
