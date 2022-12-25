@@ -116,6 +116,11 @@ def create():
         session.commit()
         # Sauvegarde de l'image (Après la création du jardin pour garantir l'unicité du nom)
         save_image(image, garden.id_garden, folder='garden')
+
+        link = Link(account_id=user.id, garden_id=garden.id_garden)
+        session.add(link)
+        session.commit()
+
         if garden_type == 'public':
             print("Public")
             add_map(garden)
@@ -142,3 +147,4 @@ def get_join(garden_id):
         return {'message': 'Vous avez rejoint le jardin ' + garden_id}, 200
     except Exception as e:
         return {'message': str(e)}, 500
+    
