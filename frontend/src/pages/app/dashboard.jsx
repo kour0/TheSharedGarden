@@ -22,13 +22,13 @@ export default function Dashboard() {
           <div className="text-center mt-5">
             <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Mes jardins</h2>
             <p className="mx-auto mt-3 max-w-2xl text-xl text-gray-500 sm:mt-4">
-              Vous pouvez voir ici les jardins que vous avez créés.
+              Les jardins auquels vous participez.
             </p>
           </div>
           {data.length === 0 ? (
             <div className="mx-auto max-w-7xl py-12 px-4 text-center sm:px-6 lg:py-16 lg:px-8">
               <h2 className="text-l tracking-tight text-gray-500 sm:text-xl">
-                <span className="block">Vous n'avez pas encore de jardins ?</span>
+                <span className="block">Vous n{"'"}avez pas encore de jardins ?</span>
                 <span className="block">Créez-en un dès maintenant !</span>
               </h2>
               <div className="mt-8 flex justify-center">

@@ -1,5 +1,5 @@
 from sqlalchemy import Column, ForeignKey
-from sqlalchemy.types import String
+from sqlalchemy.types import String, Integer
 from sqlalchemy.orm import relationship
 
 from bdd import Base
@@ -7,8 +7,8 @@ from bdd import Base
 
 class Link(Base):
     __tablename__ = 'link'
-    account_id = Column('account_id', String(300), ForeignKey('account.id'), primary_key=True)
-    garden_id = Column('garden_id', String(300),ForeignKey('garden.id_garden'), primary_key=True)
+    account_id = Column('account_id', Integer(), ForeignKey('account.id'), primary_key=True)
+    garden_id = Column('garden_id', Integer(), ForeignKey('garden.id_garden'), primary_key=True)
 
     account = relationship("Accounts")
     garden = relationship("Garden")

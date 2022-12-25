@@ -7,8 +7,8 @@ from bdd import Base
 
 class Own(Base):
     __tablename__ = 'own'
-    plot_id = Column('plot_id', String(300), ForeignKey('plot.plot_id'), primary_key=True)
-    task_id = Column('task_id', Integer, ForeignKey('task.task_id'),primary_key=True)
+    plot_id = Column('plot_id', Integer(), ForeignKey('plot.plot_id'), primary_key=True)
+    task_id = Column('task_id', Integer(), ForeignKey('task.task_id'),primary_key=True)
 
     plot = relationship("Plot")
     task = relationship("Task")

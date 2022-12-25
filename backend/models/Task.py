@@ -7,7 +7,7 @@ from bdd import Base
 
 class Task(Base):
     __tablename__ = 'task'
-    task_id = Column('task_id', Integer, primary_key=True)
+    task_id = Column('task_id', Integer(), primary_key=True)
     task_name = Column('task_name', String(300), nullable=False)
     task_manager = Column('task_manager', String(300), ForeignKey('account.id'), nullable=False)
     task_state = Column('task_state', String(), nullable=True)

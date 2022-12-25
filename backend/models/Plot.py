@@ -8,8 +8,8 @@ from bdd import Base
 class Plot(Base):
     __tablename__ = 'plot'
 
-    plot_id = Column('plot_id', Integer, primary_key=True)
-    garden_id = Column('garden_id', String(200), ForeignKey('garden.id_garden'), nullable=False)
+    plot_id = Column('plot_id', Integer(), primary_key=True)
+    garden_id = Column('garden_id', Integer(), ForeignKey('garden.id_garden'), nullable=False)
     plot_state = Column('plot_state', String(300), nullable=False)
     cultivated_vegetable = Column('cultivated_vegetable', String(300), nullable=False)
 

@@ -7,7 +7,7 @@ from bdd import Base
 
 class Do(Base):
     __tablename__ = 'do'
-    account_id = Column('username', String(300),ForeignKey('account.id') ,primary_key=True)
+    account_id = Column('username', Integer, ForeignKey('account.id') ,primary_key=True)
     task_id = Column('task_id', Integer, ForeignKey('task.task_id'),primary_key=True)
 
     account = relationship("Accounts")

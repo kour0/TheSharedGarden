@@ -41,7 +41,7 @@ CREATE TABLE task (
 
 CREATE TABLE plot(
     plot_id INTEGER NOT NULL,
-    garden_id VARCHAR,
+    garden_id INTEGER,
     plot_state VARCHAR,
     cultivated_vegetable VARCHAR,
     PRIMARY KEY (plot_id),
@@ -57,7 +57,7 @@ CREATE TABLE own(
 );
 
 CREATE TABLE do(
-    account_id VARCHAR NOT NULL,
+    account_id INTEGER NOT NULL,
     task_id INTEGER NOT NULL,
     PRIMARY KEY (account_id, task_id),
     FOREIGN KEY (account_id) REFERENCES account(id),
@@ -66,8 +66,8 @@ CREATE TABLE do(
 );
 
 CREATE TABLE link(
-    account_id VARCHAR NOT NULL,
-    garden_id VARCHAR NOT NULL,
+    account_id INTEGER NOT NULL,
+    garden_id INTEGER NOT NULL,
     PRIMARY KEY (account_id, garden_id),
     FOREIGN KEY (account_id) REFERENCES account(id),
     FOREIGN KEY (garden_id) REFERENCES garden(id_garden)

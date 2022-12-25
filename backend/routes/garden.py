@@ -37,8 +37,8 @@ def get_all_gardens():
     try:
 
         account = g.user
-
-        gardens = session.query(Garden).filter_by(owner=account.id).all()
+        links = session.query(Link).filter_by(account_id=account.id).all()
+        gardens = [session.query(Garden).filter_by(id_garden=link.garden_id).first() for link in links]
 
         return gardens_to_json(gardens)
 
@@ -113,6 +113,10 @@ def create():
                         street_address=street_address, country=country, city=city, province=region,
                         postal_code=postal_code)
         session.add(garden)
+        #TODO regarder pourquoi il faut faire un commit pour avoir l'id du jardin
+        session.commit()
+        link = Link(account_id=user.id, garden_id=garden.id_garden)
+        session.add(link)
         session.commit()
         # Sauvegarde de l'image (Après la création du jardin pour garantir l'unicité du nom)
         save_image(image, garden.id_garden, folder='garden')

@@ -8,7 +8,7 @@ from bdd import Base
 class Garden(Base):
     __tablename__ = 'garden'
 
-    id_garden = Column('id_garden', Integer, primary_key=True, autoincrement=True)
+    id_garden = Column('id_garden', Integer(), primary_key=True, autoincrement=True)
     garden_name = Column('garden_name', String(300), unique=True, nullable=False)
     owner = Column('owner', String(300), ForeignKey('account.id'), nullable=False)
     manager = Column('manager', String(300),ForeignKey('account.id'), nullable=False)
