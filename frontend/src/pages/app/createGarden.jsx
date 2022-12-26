@@ -242,7 +242,6 @@ export function CreateGarden() {
             <button
               type="button"
               className="rounded-md border border-gray-300 bg-white py-2 px-4 mr-3 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-teal-600 focus:ring-offset-2"
-              onClick={() => navigate('/app/dashboard')}
             >
               Annuler
             </button>
