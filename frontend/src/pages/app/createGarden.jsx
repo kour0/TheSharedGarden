@@ -40,6 +40,7 @@ export function CreateGarden() {
 
       // afficher la reponse dans un toast
       toast.success(response.data.message);
+      navigate('/app/dashboard/' + response.data.garden_id);
 
     } catch (error) {
       console.log(error);
@@ -198,7 +199,7 @@ export function CreateGarden() {
                     />
                   </button>
                   {previewUrl && (
-                    <div className="flex flex-col items-center justify-center">
+                    <div className="flex flex-col items-center justify-center pt-5">
                       <img src={previewUrl} alt="Preview" className="w-32 h-32 object-cover rounded-md" />
                     </div>
                   )}

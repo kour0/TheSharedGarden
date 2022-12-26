@@ -57,7 +57,6 @@ def garden_to_json(garden):
     return {
         'id': garden.id_garden,
         'name': garden.garden_name,
-        'href': "/",
         'owner': {
             'username': owner.username,
         },
@@ -131,14 +130,11 @@ def create():
         # Sauvegarde de l'image (Après la création du jardin pour garantir l'unicité du nom)
         save_image(image, garden.id_garden, folder='garden')
 
-        link = Link(account_id=user.id, garden_id=garden.id_garden)
-        session.add(link)
-        session.commit()
-
         if garden_type == 'public':
             print("Public")
             add_map(garden)
-        return {'message': 'Garden created successfully'}
+
+        return {'message': 'Garden created successfully', 'garden_id': garden.id_garden}, 200
     except Exception as e:
         session.rollback()
         return {'message': str(e)}, 500
