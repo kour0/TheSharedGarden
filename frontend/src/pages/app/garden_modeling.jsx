@@ -9,7 +9,7 @@ import { useQueryClient } from '@tanstack/react-query';
 
 export default function GardenModeling() {
   const { gardenId } = useParams();
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
   const { isLoading, isError, data, error } = getGarden(gardenId, queryClient);
   const [selected, setSelected] = useState([]);
   const [addPlot, setAddPlot] = useState(false);
@@ -28,15 +28,16 @@ export default function GardenModeling() {
     return grid;
   }, []);
 
-  const isBeside = (index) => {
+  const isBeside = (cell, index) => {
     if (
       selected.length == 0 ||
       selected.includes(index) ||
-      selected.includes(index - 1) ||
-      selected.includes(index + 1) ||
-      selected.includes(index - gridSize) ||
-      selected.includes(index + gridSize)
+      (selected.includes(index - 1) && cell.y != 0) ||
+      (selected.includes(index + 1) && cell.y != gridSize - 1) ||
+      (selected.includes(index - gridSize) && cell.x != 0) ||
+      (selected.includes(index + gridSize) && cell.x != gridSize - 1)
     ) {
+      console.log(cell);
       return true;
     }
     return false;
@@ -82,11 +83,16 @@ export default function GardenModeling() {
             {grid.map((cell, index) => (
               <button
                 key={index}
-                className={classNames(
-                  `h-8 bg-gray-200 border border-gray-300 ${!units.includes(index) &&'disabled:bg-gray-400'}`,
-                  selected.includes(index) && 'bg-green-500',) + ' ' + (units.includes(index) && 'bg-red-500')}
+                className={
+                  classNames(
+                    `h-8 bg-gray-200 border border-gray-300 ${!units.includes(index) && 'disabled:bg-gray-400'}`,
+                    selected.includes(index) && 'bg-green-500',
+                  ) +
+                  ' ' +
+                  (units.includes(index) && 'bg-red-500')
+                }
                 onClick={() => handleAddPlot(index)}
-                disabled={!addPlot || !isBeside(index) || units.includes(index)}
+                disabled={!addPlot || !isBeside(cell, index) || units.includes(index)}
               ></button>
             ))}
           </div>
