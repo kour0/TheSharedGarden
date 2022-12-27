@@ -83,10 +83,8 @@ export default function GardenModeling() {
               <button
                 key={index}
                 className={classNames(
-                  `h-8 bg-gray-200 border border-gray-300 disabled:bg-gray-400`,
-                  selected.includes(index) && 'bg-green-500',
-                  units.includes(index) && 'bg-red-500',
-                )}
+                  `h-8 bg-gray-200 border border-gray-300 ${!units.includes(index) &&'disabled:bg-gray-400'}`,
+                  selected.includes(index) && 'bg-green-500',) + ' ' + (units.includes(index) && 'bg-red-500')}
                 onClick={() => handleAddPlot(index)}
                 disabled={!addPlot || !isBeside(index) || units.includes(index)}
               ></button>
