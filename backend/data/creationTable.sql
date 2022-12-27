@@ -13,8 +13,8 @@ CREATE TABLE account (
 CREATE TABLE garden (
     id_garden INTEGER NOT NULL,
     garden_name VARCHAR NOT NULL,
-    owner VARCHAR,
-    manager VARCHAR,
+    owner INTEGER,
+    manager INTEGER,
     garden_type VARCHAR NOT NULL,
     street_address VARCHAR,
     country VARCHAR,
@@ -47,6 +47,12 @@ CREATE TABLE plot(
     PRIMARY KEY (plot_id),
     FOREIGN KEY (garden_id) REFERENCES garden(id_garden)
 );
+
+CREATE TABLE plot_unit(
+    plot_id INTEGER NOT NULL,
+    unit INTEGER,
+    PRIMARY KEY (plot_id, unit),
+    FOREIGN KEY (plot_id) REFERENCES plot(plot_id));
 
 CREATE TABLE own(
     plot_id INTEGER NOT NULL,

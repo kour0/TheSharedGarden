@@ -10,8 +10,8 @@ class Garden(Base):
 
     id_garden = Column('id_garden', Integer(), primary_key=True, autoincrement=True)
     garden_name = Column('garden_name', String(300), unique=True, nullable=False)
-    owner = Column('owner', String(300), ForeignKey('account.id'), nullable=False)
-    manager = Column('manager', String(300),ForeignKey('account.id'), nullable=False)
+    owner = Column('owner', Integer(), ForeignKey('account.id'), nullable=False)
+    manager = Column('manager', Integer(),ForeignKey('account.id'), nullable=False)
     garden_type = Column('garden_type', String(300), nullable=False)
     street_address = Column('street_address', String(300), nullable=False)
     country = Column('country', String(300), nullable=False)

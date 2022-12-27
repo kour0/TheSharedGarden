@@ -11,6 +11,8 @@ from middlewares import auth
 from models.Accounts import Accounts
 from models.Garden import Garden
 from models.Link import Link
+from models.Plot import Plot
+from models.PlotUnit import PlotUnit
 from routes.map import add_map
 
 garden = Blueprint('garden', __name__)
@@ -155,5 +157,38 @@ def get_join(garden_id):
         session.commit()
         # on redigire vers la page dashboard
         return {'message': 'Vous avez rejoint le jardin ' + garden_id}, 200
+    except Exception as e:
+        return {'message': str(e)}, 500
+
+@garden.post(BASE_URL + '/<garden_id>/modeling')
+def modeling(garden_id):
+    try:
+        user = g.user
+
+        garden = session.query(Garden).filter_by(id_garden=garden_id).first()
+
+        if not garden:
+            return {'message': 'Garden not found'}, 404
+
+        if garden.owner!= user.id:
+            return {'message': 'You are not the owner of this garden'}, 401
+        
+        body = request.get_json()
+        units = body['units']
+
+        if not units:
+            return {'message': 'No units provided'}, 400
+
+        plot = Plot(garden_id=garden_id)
+        session.add(plot)
+        session.commit()
+
+        for unit in units:
+            unit = PlotUnit(plot_id=plot.plot_id, unit= unit)
+            session.add(unit)
+
+        session.commit()
+        
+        return {'message': 'Plot created successfully'}, 200
     except Exception as e:
         return {'message': str(e)}, 500
