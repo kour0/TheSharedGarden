@@ -188,8 +188,13 @@ def modeling(garden_id):
             session.add(unit)
 
         session.commit()
-        
-        return {'message': 'Plot created successfully'}, 200
+
+        plots = session.query(Plot).filter(Plot.garden_id == garden_id).all()
+        for plot in plots:
+            units = session.query(PlotUnit).filter(PlotUnit.plot_id == plot.plot_id).all()
+            plot.units = [unit.unit for unit in units]
+
+        return plots_to_json(plots)
     except Exception as e:
         return {'message': str(e)}, 500
 

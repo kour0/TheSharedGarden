@@ -5,10 +5,12 @@ import { Loader } from '../../components/loader/FullScreenLoader';
 import { useMemo, useState } from 'react';
 import { PlusIcon as PlusIconOutline } from '@heroicons/react/24/outline';
 import { classNames } from '../../utils/helpers';
+import { useQueryClient } from '@tanstack/react-query';
 
 export default function GardenModeling() {
   const { gardenId } = useParams();
-  const { isLoading, isError, data, error } = getGarden(gardenId);
+  const queryClient = useQueryClient()
+  const { isLoading, isError, data, error } = getGarden(gardenId, queryClient);
   const [selected, setSelected] = useState([]);
   const [addPlot, setAddPlot] = useState(false);
 
@@ -48,7 +50,7 @@ export default function GardenModeling() {
     }
   };
 
-  const postCreatePlot = createPlot(gardenId);
+  const postCreatePlot = createPlot(gardenId, queryClient);
 
   const handleAddPlotSubmit = () => {
     postCreatePlot.mutate(selected);
