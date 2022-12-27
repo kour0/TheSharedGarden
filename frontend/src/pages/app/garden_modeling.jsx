@@ -12,7 +12,7 @@ export default function GardenModeling() {
   const [selected, setSelected] = useState([]);
   const [addPlot, setAddPlot] = useState(false);
 
-  const { isLoading : plotsIsLoading, isError : plotsIsError, data : plotsData, error : plotsError } = getPlots(gardenId);
+  const { isLoading: plotsIsLoading, isError: plotsIsError, data: plotsData, error: plotsError } = getPlots(gardenId);
 
   const gridSize = 12;
 
@@ -27,7 +27,6 @@ export default function GardenModeling() {
   }, []);
 
   const isBeside = (index) => {
-
     if (
       selected.length == 0 ||
       selected.includes(index) ||
@@ -62,6 +61,14 @@ export default function GardenModeling() {
     setSelected([]);
   };
 
+  let units = [];
+
+  if (!plotsIsLoading) {
+    plotsData.forEach((plot) => {
+      units = [...units, ...plot.units];
+    });
+  }
+
   return !isLoading && !plotsIsLoading ? (
     <div className="flex flex-1 items-stretch overflow-hidden">
       <main className="flex-1 overflow-y-auto">
@@ -75,10 +82,11 @@ export default function GardenModeling() {
                 key={index}
                 className={classNames(
                   `h-8 bg-gray-200 border border-gray-300 disabled:bg-gray-400`,
-                  selected.includes(index) && 'bg-green-500', plotsData.includes(index) && 'bg-red-500'
+                  selected.includes(index) && 'bg-green-500',
+                  units.includes(index) && 'bg-red-500',
                 )}
                 onClick={() => handleAddPlot(index)}
-                disabled={!addPlot || !isBeside(index)}
+                disabled={!addPlot || !isBeside(index) || units.includes(index)}
               ></button>
             ))}
           </div>

@@ -9,7 +9,7 @@ class PlotUnit(Base):
     __tablename__ = 'plot_unit'
 
     plot_id = Column('plot_id', Integer(),ForeignKey('plot.plot_id'), primary_key=True)
-    unit = Column('unit', Integer(), nullable=False)
+    unit = Column('unit', Integer(), primary_key=True)
 
     plot = relationship("Plot")
 

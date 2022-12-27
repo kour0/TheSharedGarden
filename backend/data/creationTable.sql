@@ -54,6 +54,8 @@ CREATE TABLE plot_unit(
     PRIMARY KEY (plot_id, unit),
     FOREIGN KEY (plot_id) REFERENCES plot(plot_id));
 
+SELECT * FROM plot_unit JOIN plot ON plot_unit.plot_id = plot.plot_id;
+
 CREATE TABLE own(
     plot_id INTEGER NOT NULL,
     task_id INTEGER NOT NULL,

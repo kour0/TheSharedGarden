@@ -206,18 +206,16 @@ def get_plots(garden_id):
         if garden.owner!= user.id:
             return {'message': 'You are not the owner of this garden'}, 401
 
-        plots = session.query(Plot).filter_by(garden_id=garden_id).all()
-
+        #plots = session.query(PlotUnit).join(Plot).filter(Plot.garden_id == garden_id).all()
+        plots = session.query(Plot).filter(Plot.garden_id == garden_id).all()
         for plot in plots:
-            units = session.query(PlotUnit).filter_by(plot_id=plot.plot_id).all()
+            units = session.query(PlotUnit).filter(PlotUnit.plot_id == plot.plot_id).all()
             plot.units = [unit.unit for unit in units]
-            print("unit",plot.units)
 
-        
         return plots_to_json(plots)
     except Exception as e:
         return {'message': str(e)}, 500
-
+    
 def plots_to_json(plots):
     return [plot_to_json(plot) for plot in plots]
 
@@ -227,3 +225,4 @@ def plot_to_json(plot):
         'garden_id': plot.garden_id,
         'units': plot.units
     }
+
