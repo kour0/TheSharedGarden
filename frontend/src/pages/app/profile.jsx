@@ -12,7 +12,7 @@ export default function Profile() {
   const [previewUrl, setPreviewUrl] = useState(null);
   const [profilePicture, setProfilePicture] = useState(null);
 
-  const { isLoading, isError, data, error } = getProfile(queryClient);
+  const { isLoading, isError, data, error } = getProfile();
   const { isLoading: imageLoading, isError: imageisError, data: imageData, error: imageError } = getProfilePicture();
 
   const updateProfile = patchProfile(queryClient);

@@ -64,7 +64,7 @@ export const createPlot = (gardenId, queryClient) => {
   return response;
 };
 
-export const getPlots = (gardenId, queryClient) => {
+export const getPlots = (gardenId) => {
   const response = useQuery(['modelisation', gardenId], async () => {
     try {
       const response = await request({ url: `/api/garden/${gardenId}/plots`, method: 'get' });

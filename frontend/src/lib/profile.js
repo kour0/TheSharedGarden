@@ -18,11 +18,15 @@ export const getProfilePicture = () => {
   return response;
 };
 
-export const patchProfile = () => {
+export const patchProfile = (queryClient) => {
   const mutation = useMutation(['profile'], async (formData) => {
     const response = await request({ url: '/api/profile', method: 'patch', data: formData });
     toast.success('Profile updated');
     return response.data;
+  }, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('profile');
+    },
   });
   return mutation;
 };
