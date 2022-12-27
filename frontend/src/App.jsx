@@ -30,7 +30,7 @@ function App() {
 
           <Route path="join-garden">
             <Route index element={<JoinGarden />} />
-            <Route path="join-garden/:gardenName" element={<SearchGarden />} />
+            <Route path=":gardenName" element={<SearchGarden />} />
           </Route>
           
           <Route path="profile" element={<Profile />} />

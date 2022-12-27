@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import Cookies from 'js-cookie';
 import { Fragment, useEffect, useState } from 'react';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { getProfile } from '../../lib/profile';
 import { request } from '../../utils/axios-utils';
 import { Logo } from '../navigation/Logo';
 
@@ -25,10 +26,7 @@ export default function SideBar() {
     }
   }, []);
   
-  const { isLoading, isError, data, error } = useQuery(['profile'], async () => {
-    const response = await request({ url: '/api/profile/', method: 'GET' });
-    return response.data;
-  });
+  const { isLoading, isError, data, error } = getProfile();
 
   const {
     isLoading: imageLoading,

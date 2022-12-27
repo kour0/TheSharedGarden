@@ -25,13 +25,21 @@ export const patchProfile = () => {
     return response.data;
   });
   return mutation;
-}
+};
 
-export const patchProfilePersonnalInformations = () => {
-  const mutation = useMutation(['profile'], async (formData) => {
-    const response = await request({ url: '/api/profile', method: 'patch', data: formData });
-    toast.success('Profile updated');
-    return response.data;
-  });
+export const patchProfilePersonnalInformations = (queryClient) => {
+  const mutation = useMutation(
+    ['profile'],
+    async (formData) => {
+      const response = await request({ url: '/api/profile', method: 'patch', data: formData });
+      toast.success('Profile updated');
+      return response.data;
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('profile');
+      },
+    },
+  );
   return mutation;
-}
+};

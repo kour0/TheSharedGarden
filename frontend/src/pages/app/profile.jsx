@@ -3,14 +3,22 @@ import { useForm } from 'react-hook-form';
 import { Loader } from '../../components/loader/FullScreenLoader';
 import { SubmitButton } from '../../components/forms/SubmitButton';
 import { getProfile, getProfilePicture, patchProfile, patchProfilePersonnalInformations } from '../../lib/profile';
+import { useQueryClient } from '@tanstack/react-query';
 
 export default function Profile() {
+
+  const queryClient = useQueryClient()
   const [selectedImage, setSelectedImage] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
   const [profilePicture, setProfilePicture] = useState(null);
 
-  const { isLoading, isError, data, error } = getProfile();
+  const { isLoading, isError, data, error } = getProfile(queryClient);
   const { isLoading: imageLoading, isError: imageisError, data: imageData, error: imageError } = getProfilePicture();
+
+  const updateProfile = patchProfile(queryClient);
+  const updatePersonalInformation = patchProfilePersonnalInformations(queryClient);
+
+
 
   if (!imageLoading && !imageisError) {
     const reader = new FileReader();
@@ -32,7 +40,6 @@ export default function Profile() {
     updateProfile.mutate(formData);
   };
 
-  const updateProfile = patchProfile();
 
   const onSubmitPersonalInformation = async (data) => {
     const formData = new FormData();
@@ -44,7 +51,6 @@ export default function Profile() {
     updatePersonalInformation.mutate(formData);
   };
 
-  const updatePersonalInformation = patchProfilePersonnalInformations();
 
   const handleImageChange = (event) => {
     const image = event.target.files[0];
