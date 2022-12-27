@@ -16,15 +16,33 @@ export default function GardenModeling() {
     id: 'garden',
   });
 
+  const gridSize = 12;
+
   const grid = useMemo(() => {
     const grid = [];
-    for (let i = 0; i < 12; i++) {
-      for (let j = 0; j < 12; j++) {
+    for (let i = 0; i < gridSize; i++) {
+      for (let j = 0; j < gridSize; j++) {
         grid.push({ x: i, y: j });
       }
     }
     return grid;
   }, []);
+
+  const isBeside = (index) => {
+    if (selected.length === 0) {
+      return true;
+    }
+
+    if (
+      selected.includes(index - 1) ||
+      selected.includes(index + 1) ||
+      selected.includes(index - gridSize) ||
+      selected.includes(index + gridSize)
+    ) {
+      return true;
+    }
+    return false;
+  };
 
   const handleAddPlot = (index) => {
     if (selected.includes(index)) {
@@ -37,12 +55,10 @@ export default function GardenModeling() {
   const postCreatePlot = createPlot(gardenId);
 
   const handleAddPlotSubmit = () => {
-
     postCreatePlot.mutate(selected);
     setAddPlot(false);
     setSelected([]);
   };
-
 
   const handleAddPlotCancel = () => {
     setAddPlot(false);
@@ -65,7 +81,7 @@ export default function GardenModeling() {
                   selected.includes(index) && 'bg-green-500',
                 )}
                 onClick={() => handleAddPlot(index)}
-                disabled={!addPlot}
+                disabled={!addPlot || !isBeside(index)}
               ></button>
             ))}
           </div>
