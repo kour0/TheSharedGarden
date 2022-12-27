@@ -54,3 +54,15 @@ export const createPlot = (gardenId) => {
 
   return response;
 };
+
+export const getPlots = (gardenId) => {
+  const response = useQuery(['modelisation', gardenId], async () => {
+    try {
+      const response = await request({ url: `/api/garden/${gardenId}/plots`, method: 'get' });
+      return response.data;
+    } catch (error) {
+      console.warn(error?.data?.message);
+    }
+  });
+  return response;
+}

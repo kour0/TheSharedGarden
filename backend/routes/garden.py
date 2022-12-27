@@ -192,3 +192,38 @@ def modeling(garden_id):
         return {'message': 'Plot created successfully'}, 200
     except Exception as e:
         return {'message': str(e)}, 500
+
+@garden.get(BASE_URL + '/<garden_id>/plots')
+def get_plots(garden_id):
+    try:
+        user = g.user
+
+        garden = session.query(Garden).filter_by(id_garden=garden_id).first()
+
+        if not garden:
+            return {'message': 'Garden not found'}, 404
+
+        if garden.owner!= user.id:
+            return {'message': 'You are not the owner of this garden'}, 401
+
+        plots = session.query(Plot).filter_by(garden_id=garden_id).all()
+
+        for plot in plots:
+            units = session.query(PlotUnit).filter_by(plot_id=plot.plot_id).all()
+            plot.units = [unit.unit for unit in units]
+            print("unit",plot.units)
+
+        
+        return plots_to_json(plots)
+    except Exception as e:
+        return {'message': str(e)}, 500
+
+def plots_to_json(plots):
+    return [plot_to_json(plot) for plot in plots]
+
+def plot_to_json(plot):
+    return {
+        'plot_id': plot.plot_id,
+        'garden_id': plot.garden_id,
+        'units': plot.units
+    }

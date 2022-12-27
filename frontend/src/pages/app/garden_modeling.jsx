@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { createPlot, getGarden } from '../../lib/gardens';
+import { createPlot, getGarden, getPlots } from '../../lib/gardens';
 import { useDroppable } from '@dnd-kit/core';
 import { Loader } from '../../components/loader/FullScreenLoader';
 import { useMemo, useState } from 'react';
@@ -12,9 +12,7 @@ export default function GardenModeling() {
   const [selected, setSelected] = useState([]);
   const [addPlot, setAddPlot] = useState(false);
 
-  const { setNodeRef, isOver } = useDroppable({
-    id: 'garden',
-  });
+  const { isLoading : plotsIsLoading, isError : plotsIsError, data : plotsData, error : plotsError } = getPlots(gardenId);
 
   const gridSize = 12;
 
@@ -29,11 +27,10 @@ export default function GardenModeling() {
   }, []);
 
   const isBeside = (index) => {
-    if (selected.length === 0) {
-      return true;
-    }
 
     if (
+      selected.length == 0 ||
+      selected.includes(index) ||
       selected.includes(index - 1) ||
       selected.includes(index + 1) ||
       selected.includes(index - gridSize) ||
@@ -65,7 +62,7 @@ export default function GardenModeling() {
     setSelected([]);
   };
 
-  return !isLoading ? (
+  return !isLoading && !plotsIsLoading ? (
     <div className="flex flex-1 items-stretch overflow-hidden">
       <main className="flex-1 overflow-y-auto">
         {/* Primary column */}
@@ -77,8 +74,8 @@ export default function GardenModeling() {
               <button
                 key={index}
                 className={classNames(
-                  `h-8 bg-gray-200 border border-gray-300`,
-                  selected.includes(index) && 'bg-green-500',
+                  `h-8 bg-gray-200 border border-gray-300 disabled:bg-gray-400`,
+                  selected.includes(index) && 'bg-green-500', plotsData.includes(index) && 'bg-red-500'
                 )}
                 onClick={() => handleAddPlot(index)}
                 disabled={!addPlot || !isBeside(index)}
