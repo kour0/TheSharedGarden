@@ -198,6 +198,90 @@ def modeling(garden_id):
     except Exception as e:
         return {'message': str(e)}, 500
 
+@garden.post(BASE_URL + '/<garden_id>/modeling/<plot_id>')
+def update_modeling(garden_id, plot_id):
+    try:
+        user = g.user
+
+        garden = session.query(Garden).filter_by(id_garden=garden_id).first()
+
+        if not garden:
+            return {'message': 'Garden not found'}, 404
+
+        if garden.owner!= user.id:
+            return {'message': 'You are not the owner of this garden'}, 401
+        
+        plot = session.query(Plot).filter_by(plot_id=plot_id).first()
+
+        if not plot or plot.garden_id != garden.id_garden:
+            return {'message': 'Plot not found'}, 404
+        
+        body = request.get_json()
+        units = body['units']
+
+        print("units",units)
+
+        if not units:
+            return {'message': 'No units provided'}, 400
+        
+        if not plot_id:
+            return {'message': 'No plot id provided'}, 400
+        
+        
+        session.query(PlotUnit).filter(PlotUnit.plot_id == plot_id).delete()
+        session.commit()
+
+        for unit in units:
+            unit = PlotUnit(plot_id=plot.plot_id, unit= unit)
+            session.add(unit)
+        
+        session.commit()
+
+        plots = session.query(Plot).filter(Plot.garden_id == garden_id).all()
+        for plot in plots:
+            units = session.query(PlotUnit).filter(PlotUnit.plot_id == plot.plot_id).all()
+            plot.units = [unit.unit for unit in units]
+
+        return plots_to_json(plots)
+    except Exception as e:
+        return {'message': str(e)}, 500
+
+
+@garden.delete(BASE_URL + '/<garden_id>/modeling/<plot_id>')
+def delete_modeling(garden_id, plot_id):
+    try:
+        user = g.user
+
+        garden = session.query(Garden).filter_by(id_garden=garden_id).first()
+
+        if not garden:
+            return {'message': 'Garden not found'}, 404
+
+        if garden.owner!= user.id:
+            return {'message': 'You are not the owner of this garden'}, 401
+        
+        plot = session.query(Plot).filter_by(plot_id=plot_id).first()
+
+        if not plot or plot.garden_id != garden.id_garden:
+            return {'message': 'Plot not found'}, 404
+
+        session.query(PlotUnit).filter(PlotUnit.plot_id == plot_id).delete()
+        session.query(Plot).filter(Plot.plot_id == plot_id).delete()
+        session.commit()
+
+        plots = session.query(Plot).filter(Plot.garden_id == garden_id).all()
+        for plot in plots:
+            units = session.query(PlotUnit).filter(PlotUnit.plot_id == plot.plot_id).all()
+            plot.units = [unit.unit for unit in units]
+
+        return plots_to_json(plots)
+    except Exception as e:
+        return {'message': str(e)}, 500
+
+        
+        
+
+
 @garden.get(BASE_URL + '/<garden_id>/plots')
 def get_plots(garden_id):
     try:
