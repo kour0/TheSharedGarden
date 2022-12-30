@@ -13,7 +13,10 @@ import {
 import { classNames } from '../../utils/helpers';
 import { useQueryClient } from '@tanstack/react-query';
 
-import grass from '../../assets/images/grass.jpg';
+import grass from '../../assets/images/grass.png';
+import dirt from '../../assets/images/dirt.png';
+import grassIcon from '../../assets/images/grass-icon.png';
+import plant from '../../assets/images/plant.png';
 
 export default function GardenModeling() {
   const { gardenId } = useParams();
@@ -118,24 +121,33 @@ export default function GardenModeling() {
             <p className="mx-auto mt-3 max-w-2xl text-xl text-gray-500 sm:mt-4">Les jardins auquels vous participez.</p>
           </div>
 
-          <div className="grid grid-cols-12 max-w-md w-full my-5 mx-auto gap-2">
-            {grid.map((cell, index) => (
-              <button
-                key={index}
-                className={classNames(
-                  `h-8 border border-gray-300 `,
-                  unitIsClaimed(index)
-                    ? 'bg-red-500'
-                    : selected.includes(index)
-                    ? 'bg-green-500'
-                    : !modelingState || !isBeside(cell, index)
-                    ? 'bg-gray-400'
-                    : 'bg-gray-200',
-                )}
-                onClick={() => handleAddPlot(index)}
-                disabled={!modelingState || !isBeside(cell, index) || unitIsClaimed(index)}
-              ></button>
-            ))}
+          <div className="flex flex-col items-center justify-center mt-10">
+            <div className="grid grid-cols-12 gap-1">
+              {grid.map((cell, index) => (
+                <button
+                  key={index}
+                  className={classNames(
+                    'h-10 w-10 border-1 border-gray-300 rounded-md',
+                    selected.includes(index)
+                      ? 'bg-teal-700'
+                      : unitIsClaimed(index)
+                      ? 'bg-yellow-700'
+                      : !modelingState || !isBeside(cell, index)
+                      ? 'bg-green-400'
+                      : 'bg-green-200',
+                  )}
+                  onClick={() => handleAddPlot(index)}
+                  disabled={unitIsClaimed(index) || !isBeside(cell, index) || !modelingState}
+                >
+                  {(selected.includes(index) || unitIsClaimed(index)) && (
+                    <img src={plant} className="rounded-md" />
+                  )}
+                  {((!modelingState || !isBeside(cell, index)) && !unitIsClaimed(index)) && (
+                    <img src={grassIcon} className="rounded-md" />
+                  )}
+                </button>
+              ))}
+            </div>
           </div>
           {/* Your content */}
         </section>
