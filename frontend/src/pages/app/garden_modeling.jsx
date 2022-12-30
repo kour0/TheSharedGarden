@@ -1,11 +1,19 @@
 import { useParams } from 'react-router-dom';
 import { createPlot, deletePlot, editPlot, getGarden, getPlots } from '../../lib/gardens';
-import { useDroppable } from '@dnd-kit/core';
 import { Loader } from '../../components/loader/FullScreenLoader';
 import { useMemo, useState } from 'react';
-import { PlusIcon as PlusIconOutline } from '@heroicons/react/24/outline';
+import {
+  CheckIcon,
+  PencilSquareIcon,
+  PlusIcon,
+  PlusIcon as PlusIconOutline,
+  TrashIcon,
+  XMarkIcon,
+} from '@heroicons/react/24/outline';
 import { classNames } from '../../utils/helpers';
 import { useQueryClient } from '@tanstack/react-query';
+
+import grass from '../../assets/images/grass.jpg';
 
 export default function GardenModeling() {
   const { gardenId } = useParams();
@@ -102,15 +110,20 @@ export default function GardenModeling() {
     <div className="flex flex-1 items-stretch overflow-hidden">
       <main className="flex-1 overflow-y-auto">
         {/* Primary column */}
-        <section aria-labelledby="primary-heading" className="flex h-full min-w-0 flex-1 flex-col lg:order-last ">
-          <h1 className="text-2xl font-bold text-gray-900">Modélisation du jardin</h1>
+        <section aria-labelledby="primary-heading" className="flex h-full min-w-0 flex-1 flex-col lg:order-last">
+          <div className="text-center mt-5">
+            <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+              Modélisation de votre jardin
+            </h2>
+            <p className="mx-auto mt-3 max-w-2xl text-xl text-gray-500 sm:mt-4">Les jardins auquels vous participez.</p>
+          </div>
 
-          <div className="grid grid-cols-12 max-w-md w-full mt-10 gap-2">
+          <div className="grid grid-cols-12 max-w-md w-full my-5 mx-auto gap-2">
             {grid.map((cell, index) => (
               <button
                 key={index}
                 className={classNames(
-                  `h-8 border border-gray-300`,
+                  `h-8 border border-gray-300 `,
                   unitIsClaimed(index)
                     ? 'bg-red-500'
                     : selected.includes(index)
@@ -129,101 +142,84 @@ export default function GardenModeling() {
       </main>
 
       {/* Secondary column (hidden on smaller screens) */}
-      <aside className="hidden w-64 overflow-y-auto border-l border-gray-200 bg-white lg:block">
-        {/* Your content */}
+      <aside className="hidden w-64 overflow-y-auto border-l p-4 border-gray-200 bg-white lg:block">
         {!modelingState ? (
           <button
             type="button"
-            className="inline-flex items-center rounded-md border border-transparent bg-teal-700 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-teal-800 focus:outline-none"
+            className="inline-flex items-center justify-center rounded-md border border-transparent w-full bg-teal-700 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-teal-800 focus:outline-none"
             onClick={() => setModelingState(true)}
           >
             Ajouter une parcelle
-            <PlusIconOutline className="ml-2 -mr-1 h-5 w-5" aria-hidden="true" />
+            <PlusIcon className="ml-2 -mr-1 h-5 w-5" aria-hidden="true" />
           </button>
         ) : (
           <>
             <button
               type="button"
-              className="inline-flex items-center rounded-md border border-transparent bg-gray-400 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-gray-500 focus:outline-none"
+              className="inline-flex items-center justify-center rounded-md border border-transparent w-full mb-2 bg-gray-400 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-gray-500 focus:outline-none"
               onClick={handleAddPlotCancel}
             >
               Annuler
-              <PlusIconOutline className="ml-2 -mr-1 h-5 w-5" aria-hidden="true" />
+              <XMarkIcon className="ml-2 -mr-1 h-5 w-5" aria-hidden="true" />
             </button>
             <button
               type="button"
-              className="inline-flex items-center rounded-md border border-transparent bg-teal-700 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-teal-800 focus:outline-none"
+              className="inline-flex items-center justify-center rounded-md border border-transparent w-full bg-teal-700 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-teal-800 focus:outline-none"
               onClick={handleAddPlotSubmit}
             >
               Valider la parcelle
-              <PlusIconOutline className="ml-2 -mr-1 h-5 w-5" aria-hidden="true" />
+              <CheckIcon className="ml-2 -mr-1 h-5 w-5" aria-hidden="true" />
             </button>
           </>
         )}
 
-        <div>
-          <ul role="list" className="divide-y divide-gray-200">
+        <div className="my-5">
+          <h2 className="text-lg font-medium text-gray-900">Parcelles</h2>
+          <p className="mt-1 text-sm text-gray-500">Les parcelles que vous avez définies.</p>
+        </div>
+
+        {plotsData.length > 0 ? (
+          <ul role="list" className="grid grid-cols-1 gap-3 list-none">
             {plotsData.map((plot, index) => (
-              <li key={plot.id} className="py-4">
-                <div className="flex space-x-3">
-                  <div className="flex-1 space-y-1">
-                    <div className="flex items-center justify-between">
-                      <h3 className="text-sm font-medium">Parcelle {index}</h3>
-                      {/* TODO : ajouter un bouton pour modifier la parcelle */}
-                      <div className="flex-shrink-0">
-                        <button
-                          type="button"
-                          className="inline-flex items-center px-4 text-sm font-medium text-gray-500 hover:text-gray-700 focus:outline-none"
-                          onClick={() => handleEditPlot(index)}
-                        >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            strokeWidth={1.5}
-                            stroke="currentColor"
-                            className="w-6 h-6"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
-                            />
-                          </svg>
-                        </button>
-                      </div>
+              <li key={plot.plot_id} className="col-span-1 divide-y divide-gray-200 rounded-lg bg-white shadow">
+                <div className="w-full p-4">
+                  <h3 className="truncate text-sm font-medium text-gray-900">Parcelle {index}</h3>
+
+                  <p className="mt-1 truncate text-sm text-gray-500">{plot.units.length} unités </p>
+                </div>
+
+                <div>
+                  <div className="-mt-px flex divide-x divide-gray-200">
+                    <div className="flex w-0 flex-1">
+                      <button
+                        type="button"
+                        onClick={() => handleEditPlot(index)}
+                        className="relative -mr-px inline-flex w-0 flex-1 items-center justify-center rounded-bl-lg border border-transparent py-2 text-sm font-medium text-gray-700 hover:text-gray-500"
+                      >
+                        <PencilSquareIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                        <span className="ml-3">Modifier</span>
+                      </button>
                     </div>
-                    <div className="flex items-center justify-between">
-                      <div></div>
-                      <div className="flex-shrink-0">
-                        <button
-                          type="button"
-                          className="inline-flex items-center px-4 text-sm font-medium text-gray-500 hover:text-gray-700 focus:outline-none"
-                          onClick={() => handleDeletePlot(index)}
-                        >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            strokeWidth={1.5}
-                            stroke="currentColor"
-                            className="w-6 h-6"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
-                            />
-                          </svg>
-                        </button>
-                      </div>
+                    <div className="-ml-px flex w-0 flex-1">
+                      <button
+                        type="button"
+                        onClick={() => handleDeletePlot(index)}
+                        className="relative inline-flex w-0 flex-1 items-center justify-center rounded-br-lg border border-transparent py-2 text-sm font-medium text-gray-700 hover:text-gray-500"
+                      >
+                        <TrashIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                        <span className="ml-3">Supprimer</span>
+                      </button>
                     </div>
                   </div>
                 </div>
               </li>
             ))}
           </ul>
-        </div>
+        ) : (
+          <div className="my-10">
+            <p className="text-sm text-gray-500">Vous n'avez pas encore défini de parcelle.</p>
+          </div>
+        )}
       </aside>
     </div>
   ) : (
