@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { createPlot, deletePlot, editPlot, getGarden, getPlots } from '../../lib/gardens';
+import { createPlot, deletePlot, editPlot, getGarden, getPlots, updateNamePlot } from '../../lib/gardens';
 import { Loader } from '../../components/loader/FullScreenLoader';
 import { useMemo, useState } from 'react';
 import {
@@ -13,8 +13,6 @@ import {
 import { classNames } from '../../utils/helpers';
 import { useQueryClient } from '@tanstack/react-query';
 
-import grass from '../../assets/images/grass.png';
-import dirt from '../../assets/images/dirt.png';
 import grassIcon from '../../assets/images/grass-icon.png';
 import plant from '../../assets/images/plant.png';
 
@@ -26,7 +24,15 @@ export default function GardenModeling() {
   const [modelingState, setModelingState] = useState(false);
   const [editingPlot, setEditingPlot] = useState(null);
 
-  const { isLoading: plotsIsLoading, isError: plotsIsError, data: plotsData, error: plotsError } = getPlots(gardenId);
+  const [plots, setPlots] = useState([]);
+  const [units, setUnits] = useState([]);
+
+  const {
+    isLoading: plotsIsLoading,
+    isError: plotsIsError,
+    data: plotsData,
+    error: plotsError,
+  } = getPlots(gardenId, setPlots, setUnits);
 
   const gridSize = 12;
 
@@ -70,10 +76,10 @@ export default function GardenModeling() {
   const postCreatePlot = createPlot(gardenId, queryClient);
   const postUpdatePlot = editPlot(gardenId, queryClient);
   const postDeletePlot = deletePlot(gardenId, queryClient);
+  const postUpdateNamePlot = updateNamePlot(gardenId, queryClient);
 
   const handleAddPlotSubmit = () => {
     if (editingPlot != null) {
-      console.log(editingPlot);
       postUpdatePlot.mutate({ ...editingPlot, units: selected });
       setEditingPlot(null);
     } else {
@@ -92,26 +98,27 @@ export default function GardenModeling() {
   };
 
   const handleEditPlot = (plotIndex) => {
-    setEditingPlot(plotsData[plotIndex]);
-    setSelected(plotsData[plotIndex].units);
+    setEditingPlot(plots[plotIndex]);
+    setSelected(plots[plotIndex].units);
     setModelingState(true);
   };
 
   const handleDeletePlot = (plotIndex) => {
-    postDeletePlot.mutate(plotsData[plotIndex].plot_id);
+    postDeletePlot.mutate(plots[plotIndex].plot_id);
   };
 
-  let units = [];
+  const handleUpdateNamePlot = (index) => {
+    postUpdateNamePlot.mutate(plots[index]);
+  };
 
-  if (!plotsIsLoading) {
-    plotsData.forEach((plot) => {
-      units = [...units, ...plot.units];
-    });
-  }
+  const handleChangeNamePlot = (event, index) => {
+    plots[index].plot_name = event.target.value;
+    setPlots([...plots]);
+  };
 
   return !isLoading && !plotsIsLoading ? (
     <div className="flex flex-1 items-stretch overflow-hidden">
-      <main className="flex-1 overflow-y-auto">
+      <main className="flex-1 h-screen">
         {/* Primary column */}
         <section aria-labelledby="primary-heading" className="flex h-full min-w-0 flex-1 flex-col lg:order-last">
           <div className="text-center mt-5">
@@ -121,33 +128,29 @@ export default function GardenModeling() {
             <p className="mx-auto mt-3 max-w-2xl text-xl text-gray-500 sm:mt-4">Les jardins auquels vous participez.</p>
           </div>
 
-          <div className="flex flex-col items-center justify-center mt-10">
-            <div className="grid grid-cols-12 gap-1">
-              {grid.map((cell, index) => (
-                <button
-                  key={index}
-                  className={classNames(
-                    'h-10 w-10 border-1 border-gray-300 rounded-md',
-                    selected.includes(index)
-                      ? 'bg-teal-700'
-                      : unitIsClaimed(index)
-                      ? 'bg-yellow-700'
-                      : !modelingState || !isBeside(cell, index)
-                      ? 'bg-green-400'
-                      : 'bg-green-200',
-                  )}
-                  onClick={() => handleAddPlot(index)}
-                  disabled={unitIsClaimed(index) || !isBeside(cell, index) || !modelingState}
-                >
-                  {(selected.includes(index) || unitIsClaimed(index)) && (
-                    <img src={plant} className="rounded-md" />
-                  )}
-                  {((!modelingState || !isBeside(cell, index)) && !unitIsClaimed(index)) && (
-                    <img src={grassIcon} className="rounded-md" />
-                  )}
-                </button>
-              ))}
-            </div>
+          <div className="grid grid-cols-12 gap-1 my-10 mx-auto overflow-auto">
+            {grid.map((cell, index) => (
+              <button
+                key={index}
+                className={classNames(
+                  'h-10 w-10 border-1 border-gray-300 rounded-md',
+                  selected.includes(index)
+                    ? 'bg-teal-700'
+                    : unitIsClaimed(index)
+                    ? 'bg-yellow-700'
+                    : !modelingState || !isBeside(cell, index)
+                    ? 'bg-green-400'
+                    : 'bg-green-200',
+                )}
+                onClick={() => handleAddPlot(index)}
+                disabled={unitIsClaimed(index) || !isBeside(cell, index) || !modelingState}
+              >
+                {(selected.includes(index) || unitIsClaimed(index)) && <img src={plant} className="rounded-md" />}
+                {(!modelingState || !isBeside(cell, index)) && !unitIsClaimed(index) && (
+                  <img src={grassIcon} className="rounded-md" />
+                )}
+              </button>
+            ))}
           </div>
           {/* Your content */}
         </section>
@@ -185,17 +188,44 @@ export default function GardenModeling() {
           </>
         )}
 
-        <div className="my-5">
-          <h2 className="text-lg font-medium text-gray-900">Parcelles</h2>
-          <p className="mt-1 text-sm text-gray-500">Les parcelles que vous avez définies.</p>
+        <div className="relative mt-5">
+          <div className="absolute inset-0 flex items-center" aria-hidden="true">
+            <div className="w-full border-t border-gray-300" />
+          </div>
+          <div className="relative flex justify-center">
+            <span className="bg-white px-3 text-lg font-medium text-gray-900">Parcelles</span>
+          </div>
         </div>
 
-        {plotsData.length > 0 ? (
+        <p className="m-2 text-sm text-gray-500">Les parcelles que vous avez définies.</p>
+
+        {plots.length > 0 ? (
           <ul role="list" className="grid grid-cols-1 gap-3 list-none">
-            {plotsData.map((plot, index) => (
+            {plots.map((plot, index) => (
               <li key={plot.plot_id} className="col-span-1 divide-y divide-gray-200 rounded-lg bg-white shadow">
                 <div className="w-full p-4">
-                  <h3 className="truncate text-sm font-medium text-gray-900">Parcelle {index}</h3>
+                  <div>
+                    <label htmlFor="name" className="sr-only">
+                      Name
+                    </label>
+                    <div className="flex rounded-md shadow-sm">
+                      <input
+                        type="name"
+                        name="name"
+                        id="name"
+                        className="block w-full rounded-none rounded-l-md border-gray-300 pl-2 shadow-sm sm:text-sm"
+                        defaultValue={plot.plot_name || 'Parcelle' + index}
+                        onChange={(e) => handleChangeNamePlot(e, index)}
+                      />
+                      <button
+                        type="button"
+                        className="relative rounded-r-md border border-gray-300 bg-gray-50 px-4 py-2 hover:bg-gray-100 "
+                        onClick={() => handleUpdateNamePlot(index)}
+                      >
+                        <PencilSquareIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                      </button>
+                    </div>
+                  </div>
 
                   <p className="mt-1 truncate text-sm text-gray-500">{plot.units.length} unités </p>
                 </div>

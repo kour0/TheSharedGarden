@@ -52,8 +52,8 @@ export const createPlot = (gardenId, queryClient) => {
       }
     },
     {
-      onSuccess: (data) => {
-        queryClient.setQueryData(['modelisation', gardenId], data);
+      onSuccess: () => {
+        queryClient.invalidateQueries('modelisation');
       },
     },
   );
@@ -69,8 +69,8 @@ export const editPlot = (gardenId, queryClient) => {
         console.log(plot);
         const response = await request({
           url: `/api/garden/${gardenId}/modeling/${plot.plot_id}`,
-          method: 'post',
-          data: { units: plot.units},
+          method: 'PATCH',
+          data: { units: plot.units },
         });
 
         toast.success('Plot edited');
@@ -80,8 +80,35 @@ export const editPlot = (gardenId, queryClient) => {
       }
     },
     {
-      onSuccess: (data) => {
-        queryClient.setQueryData(['modelisation', gardenId], data);
+      onSuccess: () => {
+        queryClient.invalidateQueries('modelisation');
+      },
+    },
+  );
+
+  return response;
+};
+
+export const updateNamePlot = (gardenId, queryClient) => {
+  const response = useMutation(
+    ['modelisation', gardenId],
+    async (plot) => {
+      console.log(plot);
+      try {
+        const response = await request({
+          url: `/api/garden/${gardenId}/modeling/${plot.plot_id}`,
+          method: 'PATCH',
+          data: { name: plot.plot_name },
+        });
+        toast.success('Plot name edited');
+        return response.data;
+      } catch (error) {
+        console.warn(error?.data?.message);
+      }
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('modelisation');
       },
     },
   );
@@ -102,8 +129,8 @@ export const deletePlot = (gardenId, queryClient) => {
       }
     },
     {
-      onSuccess: (data) => {
-        queryClient.setQueryData(['modelisation', gardenId], data);
+      onSuccess: () => {
+        queryClient.invalidateQueries('modelisation');
       },
     },
   );
@@ -111,15 +138,23 @@ export const deletePlot = (gardenId, queryClient) => {
   return response;
 };
 
-
-export const getPlots = (gardenId) => {
-  const response = useQuery(['modelisation', gardenId], async () => {
-    try {
-      const response = await request({ url: `/api/garden/${gardenId}/plots`, method: 'get' });
-      return response.data;
-    } catch (error) {
-      console.warn(error?.data?.message);
-    }
-  });
+export const getPlots = (gardenId, setPlots, setUnits) => {
+  const response = useQuery(
+    ['modelisation', gardenId],
+    async () => {
+      try {
+        const response = await request({ url: `/api/garden/${gardenId}/plots`, method: 'get' });
+        return response.data;
+      } catch (error) {
+        console.warn(error?.data?.message);
+      }
+    },
+    {
+      onSuccess: (data) => {
+        setPlots(data);
+        setUnits(data.map((plot) => plot.units).flat(1));
+      },
+    },
+  );
   return response;
 };

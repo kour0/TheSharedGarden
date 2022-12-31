@@ -189,16 +189,11 @@ def modeling(garden_id):
 
         session.commit()
 
-        plots = session.query(Plot).filter(Plot.garden_id == garden_id).all()
-        for plot in plots:
-            units = session.query(PlotUnit).filter(PlotUnit.plot_id == plot.plot_id).all()
-            plot.units = [unit.unit for unit in units]
-
-        return plots_to_json(plots)
+        return {'message': 'Plot created successfully', 'plot_id': plot.plot_id}, 200
     except Exception as e:
         return {'message': str(e)}, 500
 
-@garden.post(BASE_URL + '/<garden_id>/modeling/<plot_id>')
+@garden.patch(BASE_URL + '/<garden_id>/modeling/<plot_id>')
 def update_modeling(garden_id, plot_id):
     try:
         user = g.user
@@ -217,32 +212,25 @@ def update_modeling(garden_id, plot_id):
             return {'message': 'Plot not found'}, 404
         
         body = request.get_json()
-        units = body['units']
 
-        print("units",units)
+        if ("units" in body.keys()):
+            units = body['units']
+            session.query(PlotUnit).filter(PlotUnit.plot_id == plot_id).delete()
+            session.commit()
 
-        if not units:
-            return {'message': 'No units provided'}, 400
+            for unit in units:
+                unit = PlotUnit(plot_id=plot.plot_id, unit= unit)
+                session.add(unit)
         
-        if not plot_id:
-            return {'message': 'No plot id provided'}, 400
-        
-        
-        session.query(PlotUnit).filter(PlotUnit.plot_id == plot_id).delete()
-        session.commit()
+            session.commit()
 
-        for unit in units:
-            unit = PlotUnit(plot_id=plot.plot_id, unit= unit)
-            session.add(unit)
-        
-        session.commit()
+        if("name" in body.keys()):
+            print(body['name'])
+            plot.plot_name = body['name']
+            session.add(plot)
+            session.commit()
 
-        plots = session.query(Plot).filter(Plot.garden_id == garden_id).all()
-        for plot in plots:
-            units = session.query(PlotUnit).filter(PlotUnit.plot_id == plot.plot_id).all()
-            plot.units = [unit.unit for unit in units]
-
-        return plots_to_json(plots)
+        return {'message': 'Plot updated successfully'}, 200
     except Exception as e:
         return {'message': str(e)}, 500
 
@@ -269,12 +257,7 @@ def delete_modeling(garden_id, plot_id):
         session.query(Plot).filter(Plot.plot_id == plot_id).delete()
         session.commit()
 
-        plots = session.query(Plot).filter(Plot.garden_id == garden_id).all()
-        for plot in plots:
-            units = session.query(PlotUnit).filter(PlotUnit.plot_id == plot.plot_id).all()
-            plot.units = [unit.unit for unit in units]
-
-        return plots_to_json(plots)
+        return {'message': 'Plot deleted successfully'}, 200
     except Exception as e:
         return {'message': str(e)}, 500
 
@@ -312,6 +295,7 @@ def plot_to_json(plot):
     return {
         'plot_id': plot.plot_id,
         'garden_id': plot.garden_id,
+        'plot_name': plot.plot_name,
         'units': plot.units
     }
 

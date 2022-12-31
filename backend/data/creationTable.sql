@@ -42,6 +42,7 @@ CREATE TABLE task (
 CREATE TABLE plot(
     plot_id INTEGER NOT NULL,
     garden_id INTEGER,
+    plot_name VARCHAR,
     plot_state VARCHAR,
     cultivated_vegetable VARCHAR,
     PRIMARY KEY (plot_id),
