@@ -204,7 +204,7 @@ export default function GardenModeling() {
             {plots.map((plot, index) => (
               <li key={plot.plot_id} className="col-span-1 divide-y divide-gray-200 rounded-lg bg-white shadow">
                 <div className="w-full p-4">
-                  <div>
+                  <div className='mb-2'>
                     <label htmlFor="name" className="sr-only">
                       Name
                     </label>
@@ -222,7 +222,7 @@ export default function GardenModeling() {
                         className="relative rounded-r-md border border-gray-300 bg-gray-50 px-4 py-2 hover:bg-gray-100 "
                         onClick={() => handleUpdateNamePlot(index)}
                       >
-                        <PencilSquareIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                        Valider
                       </button>
                     </div>
                   </div>
