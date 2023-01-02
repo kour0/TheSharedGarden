@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { GardenCard } from '../../components/GardenCard';
+import { GardenCard } from '../../components/garden/GardenCard';
 import { Loader } from '../../components/loader/FullScreenLoader';
 import { searchGardens } from '../../lib/gardens';
 

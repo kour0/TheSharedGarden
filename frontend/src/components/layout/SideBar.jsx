@@ -18,6 +18,7 @@ export default function SideBar() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [active, setActive] = useState(0);
   const [profilePicture, setProfilePicture] = useState(null)
+  
   const navigate = useNavigate();
 
   useEffect(() => {

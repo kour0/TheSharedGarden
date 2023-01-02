@@ -37,7 +37,6 @@ def create_map():
     # On récupère les coordonnées de chaque jardin qui sont publiques
     liste_garden = session.query(Garden).filter_by(garden_type="public").all()
     for garden in liste_garden:
-        print(garden)
         # On convertit l'adresse en coordonnées
         geolocator = Nominatim(user_agent="ppii-2022")
         location = geolocator.geocode(garden.street_address + " " + str(garden.postal_code) + " " + garden.city)

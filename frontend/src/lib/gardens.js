@@ -138,7 +138,7 @@ export const deletePlot = (gardenId, queryClient) => {
   return response;
 };
 
-export const getPlots = (gardenId, setPlots, setUnits) => {
+export const getPlots = (gardenId, setPlots) => {
   const response = useQuery(
     ['modelisation', gardenId],
     async () => {
@@ -152,7 +152,6 @@ export const getPlots = (gardenId, setPlots, setUnits) => {
     {
       onSuccess: (data) => {
         setPlots(data);
-        setUnits(data.map((plot) => plot.units).flat(1));
       },
     },
   );
