@@ -296,6 +296,7 @@ def plot_to_json(plot):
         'plot_id': plot.plot_id,
         'garden_id': plot.garden_id,
         'plot_name': plot.plot_name,
-        'units': plot.units
+        'units': plot.units,
+        'cultivated_vegetable': plot.cultivated_vegetable,
     }
 

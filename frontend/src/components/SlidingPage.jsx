@@ -5,7 +5,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { Fragment, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
-import { addTask, deleteTask, getPlants, getTasks } from '../lib/gardens';
+import { addTask, deleteTask, getPlants, getTasks, patchPlant } from '../lib/gardens';
 import { classNames } from '../utils/helpers';
 import { Loader } from './loader/FullScreenLoader';
 
@@ -36,7 +36,13 @@ export default function SlidingPage({ open, setOpen, selectedUnit }) {
     deleteTaskMutation.mutate(id);
   };
 
+  const patchPlantMutation = patchPlant(gardenId, selectedUnit.plot_id, queryClient);
 
+  const handleChangePlant = () => {
+    console.log(selectedUnit);
+    setQuery(selectedPlant.name);
+    patchPlantMutation.mutate(selectedPlant);
+  };
 
   const [query, setQuery] = useState('');
   const [selectedPlant, setSelectedPlant] = useState(null);
@@ -108,7 +114,7 @@ export default function SlidingPage({ open, setOpen, selectedUnit }) {
                       <div className="relative mt-1">
                         <Combobox.Input
                           className="w-full rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
-                          onChange={(event) => setQuery(event.target.value)}
+                          onChange={handleChangePlant}
                           displayValue={(plant) => plant?.name}
                         />
                         <Combobox.Button className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
@@ -124,7 +130,7 @@ export default function SlidingPage({ open, setOpen, selectedUnit }) {
                                 className={({ active }) =>
                                   classNames(
                                     'relative cursor-default select-none py-2 pl-3 pr-9',
-                                    active ? 'bg-indigo-600 text-white' : 'text-gray-900',
+                                    active ? 'bg-teal-600 text-white' : 'text-gray-900',
                                   )
                                 }
                               >
@@ -138,7 +144,7 @@ export default function SlidingPage({ open, setOpen, selectedUnit }) {
                                       <span
                                         className={classNames(
                                           'absolute inset-y-0 right-0 flex items-center pr-4',
-                                          active ? 'text-white' : 'text-indigo-600',
+                                          active ? 'text-white' : 'text-teal-600',
                                         )}
                                       >
                                         <CheckIcon className="h-5 w-5" aria-hidden="true" />

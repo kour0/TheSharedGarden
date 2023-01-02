@@ -13,7 +13,7 @@ import { getPlots } from '../../lib/gardens';
 export default function Garden() {
   const { gardenId } = useParams();
   const queryClient = useQueryClient();
-  const [selectedUnit, setSelectedUnit] = useState({id: 0, name: ''});
+  const [selectedUnit, setSelectedUnit] = useState({});
 
   const [open, setOpen] = useState(false);
   const [plots, setPlots] = useState([]);

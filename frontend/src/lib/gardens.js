@@ -213,7 +213,6 @@ export const deleteTask = (gardenId, plotId, queryClient) => {
 
 export const getPlants = () => {
   const response = useQuery(['plants'], async () => {
-    return [{id:1, name:'tomate', image:'https://www.lesgrainesduvivrier.com/1042-large_default/tomate-rouge-rouge-de-moscou.jpg'}]
     try {
       const response = await request({ url: `/api/garden/plants`, method: 'get' });
       return response.data;
@@ -224,13 +223,13 @@ export const getPlants = () => {
   return response;
 };
 
-export const patchPlant = (gardenId, plotId, plantId, queryClient) => {
+export const patchPlant = (gardenId, plotId, queryClient) => {
   const response = useMutation(
     ['plants', gardenId, plotId],
     async (plant) => {
       try {
         const response = await request({
-          url: `/api/garden/${gardenId}/${plotId}/plants/${plantId}`,
+          url: `/api/garden/${gardenId}/${plotId}/plants/${plant.id}`,
           method: 'PATCH',
           data: plant,
         });

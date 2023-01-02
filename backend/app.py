@@ -10,6 +10,7 @@ from routes import garden
 from routes import map
 from routes import profile
 from routes import task
+from routes import plant
 
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
@@ -19,6 +20,7 @@ app.register_blueprint(profile.profile)
 app.register_blueprint(garden.garden)
 app.register_blueprint(map.map)
 app.register_blueprint(task.task)
+app.register_blueprint(plant.plant)
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
