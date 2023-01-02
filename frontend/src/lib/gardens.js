@@ -190,13 +190,12 @@ export const addTask = (gardenId, plotId, queryClient) => {
   return response;
 };
 
-export const deleteTask = (gardenId, plotId, taskId, queryClient) => {
+export const deleteTask = (gardenId, plotId, queryClient) => {
   const response = useMutation(
     ['tasks', gardenId, plotId],
-    async () => {
+    async (taskId) => {
       try {
         const response = await request({ url: `/api/garden/${gardenId}/${plotId}/tasks/${taskId}`, method: 'delete' });
-        toast.success('Task deleted');
         return response.data;
       } catch (error) {
         console.warn(error?.data?.message);

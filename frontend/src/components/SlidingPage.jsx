@@ -1,20 +1,42 @@
 import { Combobox, Dialog, Transition } from '@headlessui/react';
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid';
 import { XMarkIcon } from '@heroicons/react/24/outline';
+import { useQueryClient } from '@tanstack/react-query';
 import { Fragment, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
-import { getPlants, getTasks } from '../lib/gardens';
+import { addTask, deleteTask, getPlants, getTasks } from '../lib/gardens';
 import { classNames } from '../utils/helpers';
 import { Loader } from './loader/FullScreenLoader';
 
 export default function SlidingPage({ open, setOpen, selectedUnit }) {
   const { gardenId } = useParams();
+  const queryClient = useQueryClient();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
   const { data: plants, isLoading: plantsIsLoading, isError: plantsIsError, error: plantsError } = getPlants();
   const { data: tasks, isLoading: tasksIsLoading, isError, error } = getTasks(gardenId, selectedUnit.id);
 
+  const addTaskMutation = addTask(gardenId, selectedUnit.id, queryClient);
+  const deleteTaskMutation = deleteTask(gardenId, selectedUnit.id, queryClient);
+
+  const submitTask = (data) => {
+    addTaskMutation.mutate(data);
+  };
+  
+  const handleDeleteTask = (id) => {
+    deleteTaskMutation.mutate(id);
+  };
+
+
+
   const [query, setQuery] = useState('');
   const [selectedPlant, setSelectedPlant] = useState(null);
+
 
   const filteredPlants =
     query === ''
@@ -169,9 +191,11 @@ export default function SlidingPage({ open, setOpen, selectedUnit }) {
                                         {task.description}
                                       </td>
                                       <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                                        <a href="#" className="text-red-600 hover:text-red-900">
+                                        <button type='button' className="text-red-600 hover:text-red-900" onClick={() => {
+                                          handleDeleteTask(task.id)
+                                        }}>
                                           Delete<span className="sr-only">, {task.title}</span>
-                                        </a>
+                                        </button>
                                       </td>
                                     </tr>
                                   ))}
@@ -184,7 +208,7 @@ export default function SlidingPage({ open, setOpen, selectedUnit }) {
                     </div>
 
                     <div className="px-4 sm:px-6 lg:px-8 pb-5 pt-7 isolate -space-y-px rounded-md">
-                      <form action="">
+                      <form action="" onSubmit={handleSubmit(submitTask)}>
                         <div className="relative rounded-md rounded-b-none border border-gray-300 px-3 py-2 focus-within:z-10 focus-within:border-indigo-600 focus-within:ring-1 focus-within:ring-indigo-600">
                           <label htmlFor="name" className="block text-xs font-medium text-gray-900">
                             Titre
@@ -195,6 +219,7 @@ export default function SlidingPage({ open, setOpen, selectedUnit }) {
                             id="name"
                             className="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
                             placeholder="Titre de la tache"
+                            {...register('title')}
                           />
                         </div>
                         <div className="relative rounded-md rounded-t-none border border-gray-300 px-3 py-2 focus-within:z-10 focus-within:border-indigo-600 focus-within:ring-1 focus-within:ring-indigo-600">
@@ -207,6 +232,7 @@ export default function SlidingPage({ open, setOpen, selectedUnit }) {
                             id="job-title"
                             className="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
                             placeholder="Courte description de la tache a réaliser"
+                            {...register('description')}
                           />
                         </div>
                         <button
