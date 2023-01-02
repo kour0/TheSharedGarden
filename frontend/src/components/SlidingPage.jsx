@@ -14,18 +14,22 @@ export default function SlidingPage({ open, setOpen, selectedUnit }) {
   const queryClient = useQueryClient();
   const {
     register,
+    resetField,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
   const { data: plants, isLoading: plantsIsLoading, isError: plantsIsError, error: plantsError } = getPlants();
-  const { data: tasks, isLoading: tasksIsLoading, isError, error } = getTasks(gardenId, selectedUnit.id);
+  const { data: tasks, isLoading: tasksIsLoading, isError, error } = getTasks(gardenId, selectedUnit.plot_id);
 
-  const addTaskMutation = addTask(gardenId, selectedUnit.id, queryClient);
-  const deleteTaskMutation = deleteTask(gardenId, selectedUnit.id, queryClient);
+  const addTaskMutation = addTask(gardenId, selectedUnit.plot_id, queryClient);
+  const deleteTaskMutation = deleteTask(gardenId, selectedUnit.plot_id, queryClient);
 
   const submitTask = (data) => {
     addTaskMutation.mutate(data);
+    resetField('title');
+    resetField('description');
+
   };
   
   const handleDeleteTask = (id) => {
