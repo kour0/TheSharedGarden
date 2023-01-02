@@ -6,7 +6,7 @@ export default function TwoColumnPage({ children, title, subtitle }) {
     const secondaryColumn = children[1];
 
     return (
-        <div className="flex flex-1 items-stretch overflow-hidden">
+        <div className="lg:flex flex-1 items-stretch overflow-hidden">
             <main className="flex-1 h-screen">
                 {/* Primary column */}
                 <section aria-labelledby="primary-heading">
@@ -20,8 +20,8 @@ export default function TwoColumnPage({ children, title, subtitle }) {
                 </section>
             </main>
 
-            {/* Secondary column (hidden on smaller screens) */}
-            <aside className="hidden w-64 overflow-y-auto border-l p-4 border-gray-200 bg-white lg:block">
+            {/* Secondary column*/}
+            <aside className="lg:w-64 w-2/3 lg:mx-0 mx-auto overflow-y-auto lg:border-l p-4 border-gray-200 bg-white lg:block">
                 {/* Your content */}
                 {secondaryColumn}
             </aside>
