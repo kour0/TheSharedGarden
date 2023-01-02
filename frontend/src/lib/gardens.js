@@ -168,7 +168,49 @@ export const getTasks = (gardenId, plotId) => {
     }
   });
   return response;
-}
+};
+
+export const addTask = (gardenId, plotId, queryClient) => {
+  const response = useMutation(
+    ['tasks', gardenId, plotId],
+    async (task) => {
+      try {
+        const response = await request({ url: `/api/garden/${gardenId}/${plotId}/tasks`, method: 'post', data: task });
+        return response.data;
+      } catch (error) {
+        console.warn(error?.data?.message);
+      }
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('tasks');
+      },
+    },
+  );
+  return response;
+};
+
+export const deleteTask = (gardenId, plotId, taskId, queryClient) => {
+  const response = useMutation(
+    ['tasks', gardenId, plotId],
+    async () => {
+      try {
+        const response = await request({ url: `/api/garden/${gardenId}/${plotId}/tasks/${taskId}`, method: 'delete' });
+        toast.success('Task deleted');
+        return response.data;
+      } catch (error) {
+        console.warn(error?.data?.message);
+      }
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('tasks');
+      },
+    },
+  );
+
+  return response;
+};
 
 export const getPlants = () => {
   const response = useQuery(['plants'], async () => {
@@ -179,5 +221,29 @@ export const getPlants = () => {
       console.warn(error?.data?.message);
     }
   });
+  return response;
+};
+
+export const patchPlant = (gardenId, plotId, plantId, queryClient) => {
+  const response = useMutation(
+    ['plants', gardenId, plotId],
+    async (plant) => {
+      try {
+        const response = await request({
+          url: `/api/garden/${gardenId}/${plotId}/plants/${plantId}`,
+          method: 'PATCH',
+          data: plant,
+        });
+        return response.data;
+      } catch (error) {
+        console.warn(error?.data?.message);
+      }
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('plants');
+      },
+    },
+  );
   return response;
 }
