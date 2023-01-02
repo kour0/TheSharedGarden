@@ -157,3 +157,27 @@ export const getPlots = (gardenId, setPlots) => {
   );
   return response;
 };
+
+export const getTasks = (gardenId, plotId) => {
+  const response = useQuery(['tasks', gardenId, plotId], async () => {
+    try {
+      const response = await request({ url: `/api/garden/${gardenId}/${plotId}/tasks`, method: 'get' });
+      return response.data;
+    } catch (error) {
+      console.warn(error?.data?.message);
+    }
+  });
+  return response;
+}
+
+export const getPlants = () => {
+  const response = useQuery(['plants'], async () => {
+    try {
+      const response = await request({ url: `/api/garden/plants`, method: 'get' });
+      return response.data;
+    } catch (error) {
+      console.warn(error?.data?.message);
+    }
+  });
+  return response;
+}

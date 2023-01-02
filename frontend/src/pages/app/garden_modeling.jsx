@@ -28,6 +28,7 @@ export default function GardenModeling() {
 
   const [plots, setPlots] = useState([]);
 
+  const gridSize = 12
   const {
     isLoading: plotsIsLoading,
     isError: plotsIsError,
