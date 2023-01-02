@@ -18,7 +18,6 @@ BASE_URL = '/api/profile'
 
 images = UploadSet('images', ALL)
 
-
 @profile.before_request
 def before_request():
     try:

@@ -28,13 +28,16 @@ CREATE TABLE garden (
 
 CREATE TABLE task (
     task_id INTEGER NOT NULL,
-    task_name VARCHAR,
+    plot_id INTEGER NOT NULL,
+    task_name VARCHAR NOT NULL,
+    task_description VARCHAR,
     task_manager VARCHAR,
     task_state VARCHAR,
     validation_state VARCHAR,
     completion_state VARCHAR,
     deadline date,
     PRIMARY KEY (task_id),
+    FOREIGN KEY (plot_id) REFERENCES plot(plot_id),
     FOREIGN KEY (task_manager) REFERENCES account(id)
 
 );
@@ -55,15 +58,6 @@ CREATE TABLE plot_unit(
     PRIMARY KEY (plot_id, unit),
     FOREIGN KEY (plot_id) REFERENCES plot(plot_id));
 
-SELECT * FROM plot_unit JOIN plot ON plot_unit.plot_id = plot.plot_id;
-
-CREATE TABLE own(
-    plot_id INTEGER NOT NULL,
-    task_id INTEGER NOT NULL,
-    PRIMARY KEY (plot_id, task_id),
-    FOREIGN KEY (plot_id) REFERENCES plot(plot_id),
-    FOREIGN KEY (task_id) REFERENCES task(task_id)
-);
 
 CREATE TABLE do(
     account_id INTEGER NOT NULL,

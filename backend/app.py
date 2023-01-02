@@ -9,6 +9,7 @@ from routes import authentication
 from routes import garden
 from routes import map
 from routes import profile
+from routes import task
 
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
@@ -17,7 +18,7 @@ app.register_blueprint(authentication.authentication)
 app.register_blueprint(profile.profile)
 app.register_blueprint(garden.garden)
 app.register_blueprint(map.map)
-
+app.register_blueprint(task.task)
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 

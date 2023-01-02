@@ -20,10 +20,10 @@ export default function SlidingPage({ open, setOpen, selectedUnit }) {
     query === ''
       ? plants
       : plants.filter((plant) => {
-          return plant.name.toLowerCase().includes(query.toLowerCase());
-        });
+        return plant.name.toLowerCase().includes(query.toLowerCase());
+      });
 
-  return !tasksIsLoading ? (
+  return !tasksIsLoading && !plantsIsLoading ? (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={setOpen}>
         <Transition.Child
@@ -225,7 +225,8 @@ export default function SlidingPage({ open, setOpen, selectedUnit }) {
         </div>
       </Dialog>
     </Transition.Root>
-  ) : (
+  ) : (<>
     <Loader></Loader>
+  </>
   );
 }
