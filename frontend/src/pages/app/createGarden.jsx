@@ -6,6 +6,7 @@ import { request } from '../../utils/axios-utils';
 import { Switch } from '@headlessui/react'
 import { classNames } from '../../utils/helpers';
 import { SubmitButton } from '../../components/forms/SubmitButton';
+import MainPage from '../../components/layout/MainPage';
 
 export function CreateGarden() {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -28,7 +29,7 @@ export function CreateGarden() {
     const formData = new FormData();
     formData.append('file', selectedImage);
 
-    formData.append('gardenType',privateGarden ? 'private' : 'public')
+    formData.append('gardenType', privateGarden ? 'private' : 'public')
     // Ajouter des données à un formulaire
     Object.keys(data).forEach((key) => {
       formData.append(key, data[key]);
@@ -58,7 +59,7 @@ export function CreateGarden() {
   };
 
   return (
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 lg:py-8">
+    <MainPage title="Créer un jardin" subtitle="Remplissez le formulaire pour créer un jardin">
       <form className="space-y-8 divide-y divide-gray-200" onSubmit={handleSubmit(onSubmit)}>
         <div className="space-y-8 divide-y divide-gray-200 sm:space-y-5">
           <div className="space-y-6 pt-8 sm:space-y-5 sm:pt-10">
@@ -249,6 +250,6 @@ export function CreateGarden() {
           </div>
         </div>
       </form>
-    </div>
+    </MainPage>
   );
 }

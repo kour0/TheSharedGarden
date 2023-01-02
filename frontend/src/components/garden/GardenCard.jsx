@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { request } from '../utils/axios-utils';
+import { request } from '../../utils/axios-utils';
 import { useState } from 'react';
 
 export function GardenCard({ garden }) {
@@ -37,7 +37,6 @@ export function GardenCard({ garden }) {
     readerProfile.onload = (e) => setProfilePicture(e.target.result);
     readerProfile.readAsDataURL(imageDataProfile);
   }
-  console.log(garden.id);
 
   return !imageLoadingGarden && !imageisErrorGarden && !imageLoadingProfile && !imageisErrorProfile ? (
     <>

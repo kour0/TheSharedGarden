@@ -2,6 +2,8 @@ import { NavBar } from '../../components/navigation/NavBar';
 import { UniqueFieldForm } from '../../components/forms/UniqueFieldForm';
 import { Map } from '../../components/Map';
 import SideBar from '../../components/layout/SideBar';
+import PageHeader from '../../components/PageHeader';
+import MainPage from '../../components/layout/MainPage';
 
 const form = {
   title: 'Recherchez un jardin',
@@ -16,11 +18,7 @@ const form = {
 
 export default function JoinGarden() {
   return (
-    <div className="relative bg-gray-50 px-4 pt-6 pb-16 sm:px-6 lg:px-8 lg:pb-28">
-      <div className="absolute inset-0">
-        <div className="bg-white" />
-      </div>
-      <div className="max-w-7xl mx-auto">
+    <MainPage title="Rejoindre un jardin" subtitle="Rechercher ou cliquer sur la carte pour rejoindre un jardin public.">
         <UniqueFieldForm form={form}></UniqueFieldForm>
         <div className="text-center">
           <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">La carte</h2>
@@ -29,7 +27,6 @@ export default function JoinGarden() {
           </p>
           <Map></Map>
         </div>
-      </div>
-    </div>
+    </MainPage>
   );
 }

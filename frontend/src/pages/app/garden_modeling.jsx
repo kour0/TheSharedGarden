@@ -15,38 +15,29 @@ import { useQueryClient } from '@tanstack/react-query';
 
 import grassIcon from '../../assets/images/grass-icon.png';
 import plant from '../../assets/images/plant.png';
+import TwoColumnPage from '../../components/layout/TwoColumnPage';
+import GardenGrid from '../../components/garden/GardenGrid';
 
 export default function GardenModeling() {
   const { gardenId } = useParams();
   const queryClient = useQueryClient();
-  const { isLoading, isError, data, error } = getGarden(gardenId, queryClient);
+
   const [selected, setSelected] = useState([]);
   const [modelingState, setModelingState] = useState(false);
   const [editingPlot, setEditingPlot] = useState(null);
 
   const [plots, setPlots] = useState([]);
-  const [units, setUnits] = useState([]);
 
   const {
     isLoading: plotsIsLoading,
     isError: plotsIsError,
     data: plotsData,
     error: plotsError,
-  } = getPlots(gardenId, setPlots, setUnits);
+  } = getPlots(gardenId, setPlots);
 
-  const gridSize = 12;
 
-  const grid = useMemo(() => {
-    const grid = [];
-    for (let i = 0; i < gridSize; i++) {
-      for (let j = 0; j < gridSize; j++) {
-        grid.push({ x: i, y: j });
-      }
-    }
-    return grid;
-  }, []);
-
-  const isBeside = (cell, index) => {
+  const isBeside = (cell) => {
+    const index = cell.index;
     return (
       selected.length == 0 ||
       selected.includes(index) ||
@@ -57,26 +48,35 @@ export default function GardenModeling() {
     );
   };
 
-  const unitIsClaimed = (index) => {
-    if (editingPlot != null) {
-      return units.filter((unit) => !editingPlot.units.includes(unit)).includes(index);
-    } else {
-      return units.includes(index);
-    }
-  };
+  const unitIsClaimed = (cell) => cell.plot != null && cell.plot !== editingPlot;
 
-  const handleAddPlot = (index) => {
+  const cellIsSelected = (cell) => selected.includes(cell.index);
+
+  const isDisabled = (cell) => unitIsClaimed(cell) || !isBeside(cell) || !modelingState;
+
+  const className = (cell) => cellIsSelected(cell)
+    ? 'bg-teal-700'
+    : unitIsClaimed(cell)
+      ? 'bg-yellow-700'
+      : !modelingState || !isBeside(cell)
+        ? 'bg-green-400' : 'bg-green-200';
+
+  const getImage = (cell) => (cellIsSelected(cell) || unitIsClaimed(cell)) ? plant : (!modelingState || !isBeside(cell)) ? grassIcon : null;
+
+
+  const postCreatePlot = createPlot(gardenId, queryClient);
+  const postUpdatePlot = editPlot(gardenId, queryClient);
+  const postDeletePlot = deletePlot(gardenId, queryClient);
+  const postUpdateNamePlot = updateNamePlot(gardenId, queryClient);
+
+  const handleAddPlot = (cell) => {
+    const index = cell.index;
     if (selected.includes(index)) {
       setSelected(selected.filter((item) => item !== index));
     } else {
       setSelected([...selected, index]);
     }
   };
-
-  const postCreatePlot = createPlot(gardenId, queryClient);
-  const postUpdatePlot = editPlot(gardenId, queryClient);
-  const postDeletePlot = deletePlot(gardenId, queryClient);
-  const postUpdateNamePlot = updateNamePlot(gardenId, queryClient);
 
   const handleAddPlotSubmit = () => {
     if (editingPlot != null) {
@@ -116,48 +116,17 @@ export default function GardenModeling() {
     setPlots([...plots]);
   };
 
-  return !isLoading && !plotsIsLoading ? (
-    <div className="flex flex-1 items-stretch overflow-hidden">
-      <main className="flex-1 h-screen">
-        {/* Primary column */}
-        <section aria-labelledby="primary-heading" className="flex h-full min-w-0 flex-1 flex-col lg:order-last">
-          <div className="text-center mt-5">
-            <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-              Modélisation de votre jardin
-            </h2>
-            <p className="mx-auto mt-3 max-w-2xl text-xl text-gray-500 sm:mt-4">Les jardins auquels vous participez.</p>
-          </div>
 
-          <div className="grid grid-cols-12 gap-1 my-10 mx-auto overflow-auto">
-            {grid.map((cell, index) => (
-              <button
-                key={index}
-                className={classNames(
-                  'h-10 w-10 border-1 border-gray-300 rounded-md',
-                  selected.includes(index)
-                    ? 'bg-teal-700'
-                    : unitIsClaimed(index)
-                    ? 'bg-yellow-700'
-                    : !modelingState || !isBeside(cell, index)
-                    ? 'bg-green-400'
-                    : 'bg-green-200',
-                )}
-                onClick={() => handleAddPlot(index)}
-                disabled={unitIsClaimed(index) || !isBeside(cell, index) || !modelingState}
-              >
-                {(selected.includes(index) || unitIsClaimed(index)) && <img src={plant} className="rounded-md" />}
-                {(!modelingState || !isBeside(cell, index)) && !unitIsClaimed(index) && (
-                  <img src={grassIcon} className="rounded-md" />
-                )}
-              </button>
-            ))}
-          </div>
-          {/* Your content */}
-        </section>
-      </main>
+  return !plotsIsLoading ? (
 
-      {/* Secondary column (hidden on smaller screens) */}
-      <aside className="hidden w-64 overflow-y-auto border-l p-4 border-gray-200 bg-white lg:block">
+    <TwoColumnPage title="Modélisation de votre jardin" subtitle="Les jardins auquels vous participez.">
+
+      {/* primary column */}
+      <GardenGrid className={className} plots={plots} isDisabled={isDisabled} getImage={getImage} handleCaseClick={handleAddPlot} />
+
+      {/* secondary column */}
+      <div>
+
         {!modelingState ? (
           <button
             type="button"
@@ -215,8 +184,7 @@ export default function GardenModeling() {
                         id="name"
                         className="block w-full rounded-none rounded-l-md border-gray-300 pl-2 shadow-sm sm:text-sm"
                         defaultValue={plot.plot_name || 'Parcelle' + index}
-                        onChange={(e) => handleChangeNamePlot(e, index)}
-                      />
+                        onChange={(e) => handleChangeNamePlot(e, index)} />
                       <button
                         type="button"
                         className="relative rounded-r-md border border-gray-300 bg-gray-50 px-4 py-2 hover:bg-gray-100 "
@@ -262,8 +230,8 @@ export default function GardenModeling() {
             <p className="text-sm text-gray-500">Vous n'avez pas encore défini de parcelle.</p>
           </div>
         )}
-      </aside>
-    </div>
+      </div>
+    </TwoColumnPage >
   ) : (
     <Loader />
   );
