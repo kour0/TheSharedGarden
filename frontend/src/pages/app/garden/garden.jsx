@@ -2,13 +2,14 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import grassIcon from '../../assets/images/grass-icon.png';
-import plant from '../../assets/images/plant.png';
-import GardenGrid from '../../components/garden/GardenGrid';
-import TwoColumnPage from '../../components/layout/TwoColumnPage';
-import { Loader } from '../../components/loader/FullScreenLoader';
-import SlidingPage from '../../components/SlidingPage';
-import { getPlots } from '../../lib/gardens';
+import grassIcon from '../../../assets/images/grass-icon.png';
+import plant from '../../../assets/images/plant.png';
+import GardenGrid from '../../../components/garden/GardenGrid';
+import TwoColumnPage from '../../../components/layout/TwoColumnPage';
+import { Loader } from '../../../components/loader/FullScreenLoader';
+import NavTitle from '../../../components/navigation/NavTitle';
+import SlidingPage from '../../../components/SlidingPage';
+import { getPlots } from '../../../lib/gardens';
 
 export default function Garden() {
   const { gardenId } = useParams();
@@ -49,14 +50,19 @@ export default function Garden() {
 
         {/* secondary column */}
         <div>
-          <div className="relative mt-5">
-            <div className="absolute inset-0 flex items-center" aria-hidden="true">
-              <div className="w-full border-t border-gray-300" />
-            </div>
-            <div className="relative flex justify-center">
-              <span className="bg-white px-3 text-lg font-medium text-gray-900">Modelisation</span>
-            </div>
-          </div>
+
+          <NavTitle title="Informations" />
+          <p className="m-2 text-sm text-gray-500">Voir les informations du jardin</p>
+          <Link
+            to={`/app/dashboard/${gardenId}/info`}
+            relative="path"
+            className="inline-flex items-center justify-center rounded-md border border-transparent w-full bg-teal-700 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-teal-800 focus:outline-none"
+          >
+            Informations
+          </Link>
+
+          
+          <NavTitle title="Modelisation" />
 
           <p className="m-2 text-sm text-gray-500">Editez les parcelles du jardin</p>
           <Link

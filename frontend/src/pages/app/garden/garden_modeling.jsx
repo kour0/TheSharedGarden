@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
-import { createPlot, deletePlot, editPlot, getGarden, getPlots, updateNamePlot } from '../../lib/gardens';
-import { Loader } from '../../components/loader/FullScreenLoader';
-import { useMemo, useState } from 'react';
+import { createPlot, deletePlot, editPlot, getPlots, updateNamePlot } from '../../../lib/gardens';
+import { Loader } from '../../../components/loader/FullScreenLoader';
+import { useState } from 'react';
 import {
   CheckIcon,
   PencilSquareIcon,
@@ -10,13 +10,13 @@ import {
   TrashIcon,
   XMarkIcon,
 } from '@heroicons/react/24/outline';
-import { classNames } from '../../utils/helpers';
 import { useQueryClient } from '@tanstack/react-query';
 
-import grassIcon from '../../assets/images/grass-icon.png';
-import plant from '../../assets/images/plant.png';
-import TwoColumnPage from '../../components/layout/TwoColumnPage';
-import GardenGrid from '../../components/garden/GardenGrid';
+import grassIcon from '../../../assets/images/grass-icon.png';
+import plant from '../../../assets/images/plant.png';
+import TwoColumnPage from '../../../components/layout/TwoColumnPage';
+import GardenGrid from '../../../components/garden/GardenGrid';
+import NavTitle from '../../../components/navigation/NavTitle';
 
 export default function GardenModeling() {
   const { gardenId } = useParams();
@@ -158,19 +158,12 @@ export default function GardenModeling() {
           </>
         )}
 
-        <div className="relative mt-5">
-          <div className="absolute inset-0 flex items-center" aria-hidden="true">
-            <div className="w-full border-t border-gray-300" />
-          </div>
-          <div className="relative flex justify-center">
-            <span className="bg-white px-3 text-lg font-medium text-gray-900">Parcelles</span>
-          </div>
-        </div>
+        <NavTitle title="Parcelles" />
 
         <p className="m-2 text-sm text-gray-500">Les parcelles que vous avez définies.</p>
 
         {plots.length > 0 ? (
-          <ul role="list" className="grid grid-cols-1 gap-3 list-none">
+          <ul className="grid grid-cols-1 gap-3 list-none">
             {plots.map((plot, index) => (
               <li key={plot.plot_id} className="col-span-1 divide-y divide-gray-200 rounded-lg bg-white shadow">
                 <div className="w-full p-4">
