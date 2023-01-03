@@ -19,6 +19,13 @@ export default function SideBar() {
   const [active, setActive] = useState(0);
   const [profilePicture, setProfilePicture] = useState(null)
   
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!Cookies.get('token')) {
+      navigate('/login');
+    }
+  }, []);
   
   const { isLoading, isError, data, error } = getProfile();
 
