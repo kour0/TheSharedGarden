@@ -32,7 +32,7 @@ export default function GardenGrid({ className, plots, isDisabled, getImage, han
                     onClick={() => handleCaseClick(cell)}
                     disabled={isDisabled(cell)}
                 >
-                    <img src={getImage(cell)} className="rounded-md" alt="grass or dirt" />
+                    <img src={getImage(cell)} className="rounded-md" />
                 </button>
             ))}
         </div>

@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { createPlot, deletePlot, editPlot, getPlots, updateNamePlot } from '../../../lib/gardens';
 import { Loader } from '../../../components/loader/FullScreenLoader';
 import { useState } from 'react';
@@ -17,6 +17,7 @@ import plant from '../../../assets/images/plant.png';
 import TwoColumnPage from '../../../components/layout/TwoColumnPage';
 import GardenGrid from '../../../components/garden/GardenGrid';
 import NavTitle from '../../../components/navigation/NavTitle';
+import { ArrowLeftIcon } from '@heroicons/react/20/solid';
 
 export default function GardenModeling() {
   const { gardenId } = useParams();
@@ -127,6 +128,14 @@ export default function GardenModeling() {
 
       {/* secondary column */}
       <div>
+       {/* button to go back to garden */}
+        <div className="flex items-center mb-4">
+          <Link to={`/app/dashboard/${gardenId}`} relative="path"  className="flex items-center text-sm font-medium text-teal-700 hover:text-teal-800">
+            <ArrowLeftIcon className="h-5 w-5 mr-2" aria-hidden="true" />
+            Retour au jardin
+          </Link>
+        </div>
+
 
         {!modelingState ? (
           <button
