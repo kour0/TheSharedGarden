@@ -1,17 +1,18 @@
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import Index from './pages/Index';
 import Login from './pages/login';
 import Dashboard from './pages/app/dashboard';
 import { CreateGarden } from './pages/app/createGarden';
 import JoinGarden from './pages/app/joinGarden';
 import SideBar from './components/layout/SideBar';
-import Cookies from 'js-cookie';
 import Error404 from './components/Error404';
 import Profile from './pages/app/profile';
 import SearchGarden from './pages/app/searchGarden';
 import Garden from './pages/app/garden/garden';
 import GardenModeling from './pages/app/garden/garden_modeling';
 import GardenInfo from './pages/app/garden/garden_info';
+import { isLoggedIn } from './lib/permissions';
+import { toast } from 'react-hot-toast';
 
 function App() {
   return (
@@ -20,7 +21,7 @@ function App() {
         <Route path="/" element={<Index />} />
         <Route path="/login" element={<Login />} />
 
-        <Route path="/app" element={<SideBar />}>
+        <Route path="/app" element={ isLoggedIn() ? <SideBar /> :  (toast.error('You must be logged in to access this page'), <Navigate to="/login" />) }>
           <Route path="create-garden" element={<CreateGarden />} />
           <Route path="dashboard" element={<Dashboard />} />
 
