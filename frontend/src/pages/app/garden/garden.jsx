@@ -1,7 +1,8 @@
 
 import { useQueryClient } from '@tanstack/react-query';
-import { useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { toast } from 'react-hot-toast';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import grassIcon from '../../../assets/images/grass-icon.png';
 import plant from '../../../assets/images/plant.png';
 import GardenGrid from '../../../components/garden/GardenGrid';
@@ -9,9 +10,10 @@ import TwoColumnPage from '../../../components/layout/TwoColumnPage';
 import { Loader } from '../../../components/loader/FullScreenLoader';
 import NavTitle from '../../../components/navigation/NavTitle';
 import SlidingPage from '../../../components/SlidingPage';
-import { getPlots } from '../../../lib/gardens';
+import { getGardens, getPlots } from '../../../lib/gardens';
 
 export default function Garden() {
+  const navigate = useNavigate();
   const { gardenId } = useParams();
   const queryClient = useQueryClient();
   const [selectedUnit, setSelectedUnit] = useState({});
@@ -19,12 +21,13 @@ export default function Garden() {
   const [open, setOpen] = useState(false);
   const [plots, setPlots] = useState([]);
 
+
   const {
     isLoading: plotsIsLoading,
     isError: plotsIsError,
     data: plotsData,
     error: plotsError,
-  } = getPlots(gardenId, setPlots);
+  } = getPlots(gardenId, setPlots, navigate);
 
   const isDisabled = (cell) => !cell.plot;
 
