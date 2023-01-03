@@ -2,7 +2,7 @@ import { Combobox, Dialog, Transition } from '@headlessui/react';
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { useQueryClient } from '@tanstack/react-query';
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 import { addTask, deleteTask, getPlants, getTasks, patchPlant } from '../lib/gardens';
@@ -12,6 +12,10 @@ import { Loader } from './loader/FullScreenLoader';
 export default function SlidingPage({ open, setOpen, selectedUnit }) {
   const { gardenId } = useParams();
   const queryClient = useQueryClient();
+
+  const [query, setQuery] = useState('');
+  const [selectedPlant, setSelectedPlant] = useState(null);
+
   const {
     register,
     resetField,
@@ -22,6 +26,14 @@ export default function SlidingPage({ open, setOpen, selectedUnit }) {
   const { data: plants, isLoading: plantsIsLoading, isError: plantsIsError, error: plantsError } = getPlants();
   const { data: tasks, isLoading: tasksIsLoading, isError, error } = getTasks(gardenId, selectedUnit.plot_id);
 
+  useEffect(() => {
+    if (!plantsIsLoading) {
+      selectedUnit.cultivated_vegetable ? setSelectedPlant(plants.find((plant) => plant.id == selectedUnit.cultivated_vegetable))
+        : setSelectedPlant({ name: 'Aucune plante sélectionnée' });
+    }
+  }, [selectedUnit, plants, plantsIsLoading]);
+
+
   const addTaskMutation = addTask(gardenId, selectedUnit.plot_id, queryClient);
   const deleteTaskMutation = deleteTask(gardenId, selectedUnit.plot_id, queryClient);
 
@@ -31,7 +43,7 @@ export default function SlidingPage({ open, setOpen, selectedUnit }) {
     resetField('description');
 
   };
-  
+
   const handleDeleteTask = (id) => {
     deleteTaskMutation.mutate(id);
   };
@@ -43,9 +55,6 @@ export default function SlidingPage({ open, setOpen, selectedUnit }) {
     setQuery(selectedPlant.name);
     patchPlantMutation.mutate(selectedPlant);
   };
-
-  const [query, setQuery] = useState('');
-  const [selectedPlant, setSelectedPlant] = useState(null);
 
 
   const filteredPlants =
