@@ -7,7 +7,7 @@ import Form from '../../../components/forms/Form';
 import FormField from '../../../components/forms/FormField'
 import MainPage from '../../../components/layout/MainPage'
 import { Loader } from '../../../components/loader/FullScreenLoader';
-import { getGarden, patchGarden, getGardenPicture } from '../../../lib/gardens';
+import { getGarden, patchGarden, getGardenPicture, deleteGarden } from '../../../lib/gardens';
 import { classNames } from '../../../utils/helpers';
 import { request } from '../../../utils/axios-utils';
 import { toast } from 'react-hot-toast';
@@ -24,6 +24,7 @@ export default function GardenInfo() {
     const [privateGarden, setPrivateGarden] = useState(false);
     const [gardenPicture, setGardenPicture] = useState(null);
     const updateGarden = patchGarden(queryClient, gardenId);
+    const postDeleteGarden = deleteGarden(queryClient, gardenId);
 
     const { isLoading, data, isError, error } = getGarden(gardenId);
     const { isLoading: imageLoading, isError: imageisError, data: imageData, error: imageError } = getGardenPicture(gardenId);
@@ -33,6 +34,7 @@ export default function GardenInfo() {
         handleSubmit,
         formState: { errors },
     } = useForm();
+
 
     const onSubmit = async (data) => {
         console.log(typeof data);
@@ -49,6 +51,11 @@ export default function GardenInfo() {
         updateGarden.mutate(formData, gardenId);
 
     };
+
+    const handleDeleteGarden = async () => {
+        postDeleteGarden.mutate();
+    }
+
 
     const handleImageChange = (event) => {
         const image = event.target.files[0];
@@ -118,13 +125,13 @@ export default function GardenInfo() {
                                 <img src={previewUrl} alt="Preview" className="w-32 h-32 object-cover rounded-md" />
                             </div>
                         ) : imageLoading ? (
-                          <p>Load</p>
+                            <p>Load</p>
                         ) : (
-                          imageData && (
-                            <div className="pt-5">
-                                <img src={gardenPicture} alt="Preview" className="w-32 h-32 object-cover rounded-md" />
-                            </div>
-                          )
+                            imageData && (
+                                <div className="pt-5">
+                                    <img src={gardenPicture} alt="Preview" className="w-32 h-32 object-cover rounded-md" />
+                                </div>
+                            )
                         )}
                     </div>
                 </div>
@@ -158,6 +165,40 @@ export default function GardenInfo() {
                 </div>
 
             </Form>
+
+            <div className="hidden sm:block" aria-hidden="true">
+                <div className="py-5">
+                    <div className="border-t border-gray-200" />
+                </div>
+            </div>
+
+            <div className="mt-10 sm:mt-0">
+                <div className="md:grid md:grid-cols-3 md:gap-6">
+                    <div className="md:col-span-1">
+                        <div className="px-4 sm:px-0">
+                            <h3 className="text-lg font-medium leading-6 text-gray-900">Supprimer le jardin</h3>
+                            <p className="mt-1 text-sm text-gray-600">Vous pouvez supprimer votre jardin en cliquant sur le bouton ci-dessous. Cette action est irréversible.</p>
+                        </div>
+                    </div>
+                    <div className="mt-5 md:col-span-2 md:mt-0">
+                        <div className="overflow-hidden shadow sm:rounded-md">
+                            <div className="bg-white px-4 py-5 sm:p-6">
+                                <div className="col-span-6 sm:col-span-3 flex justify-center">
+                                    <button
+                                        type="button"
+                                        onClick={handleDeleteGarden}
+                                        className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                                    >
+                                        Supprimer le jardin
+                                    </button>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
         </MainPage>
     ) : (
         <Loader />

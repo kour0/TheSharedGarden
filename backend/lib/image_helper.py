@@ -19,9 +19,13 @@ def get_image_name(id,folder):
 def save_image(image, id, folder):
     # On récupère l'extension de l'image
     extension = image.filename.split('.')[-1]
-    # On sauvegarde l'image
+
+    delete_image(id, folder)
     
-    if get_image_name(id, folder) != 'default_photo.jpg':
-        os.remove(os.path.join('static/images/' + folder, get_image_name(id, folder)))
+    # On sauvegarde l'image
 
     images.save(image, name=str(id) + '.' + extension, folder=folder)
+
+def delete_image(id, folder):
+    if get_image_name(id, folder) != 'default_photo.jpg':
+        os.remove(os.path.join('static/images/' + folder, get_image_name(id, folder)))

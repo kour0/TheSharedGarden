@@ -4,7 +4,7 @@ from flask import Blueprint, request, redirect
 from flask import send_from_directory, g
 from flask_cors import CORS
 from flask_uploads import UploadSet, ALL
-from lib.image_helper import get_image_name, save_image
+from lib.image_helper import get_image_name, save_image, delete_image
 from lib.garden_helper import gardens_to_json, garden_to_json
 from geopy.geocoders import Nominatim
 
@@ -15,6 +15,7 @@ from models.Garden import Garden
 from models.Link import Link
 from models.Plot import Plot
 from models.PlotUnit import PlotUnit
+from models.Task import Task
 from routes.map import add_map, delete_map
 
 gardenManage = Blueprint('gardenManage', __name__)
@@ -105,3 +106,46 @@ def modify(garden_id):
         print(e)
         return {'message': str(e)}, 500
 
+@gardenManage.delete(BASE_URL + '/')
+def delete(garden_id):
+    try:
+        user = g.user
+        garden = session.query(Garden).filter_by(id_garden=garden_id).first()
+
+        if garden.manager != user.id:
+            return {'message': 'You are not the manager of this garden'}, 403
+
+        session.delete(garden)
+        session.commit()
+
+        links = session.query(Link).filter_by(garden_id=garden_id).all()
+        for link in links:
+            session.delete(link)
+
+        session.commit()
+
+        plots = session.query(Plot).filter_by(garden_id=garden_id).all()
+        for plot in plots:
+            plot_units = session.query(PlotUnit).filter_by(plot_id=plot.plot_id).all()
+            for plot_unit in plot_units:
+                session.delete(plot_unit)
+
+            plot_tasks = session.query(Task).filter_by(plot_id=plot.plot_id).all()
+            for plot_task in plot_tasks:
+                session.delete(plot_task)
+
+            session.delete(plot)
+        session.commit()
+
+
+
+        delete_image(garden_id, folder='garden')
+
+        if garden.garden_type == 'public':
+            delete_map(garden.id_garden)
+        
+        return {'message': 'Garden deleted successfully'}, 200
+    except Exception as e:
+        session.rollback()
+        print(e)
+        return {'message': str(e)}, 500

@@ -66,16 +66,30 @@ export const searchGardens = (gardenName) => {
 
 
 export const patchGarden = (queryClient, garden_id) => {
-  const mutation = useMutation(['garden_' + garden_id], async (formData) => {
+  const mutation = useMutation(['garden', garden_id], async (formData) => {
     const response = await request({ url: '/api/garden/' + garden_id, method: 'patch', data: formData });
     toast.success('Garden updated');
     return response.data;
   }, {
     onSuccess: () => {
-      queryClient.invalidateQueries('garden_' + garden_id);
+      queryClient.invalidateQueries('garden', garden_id);
     },
   });
   return mutation;
+};
+
+export const deleteGarden = (queryClient, garden_id) => {
+  const navigate = useNavigate();
+  const response = useMutation(['garden'], async () => {
+    const response = await request({ url: '/api/garden/' + garden_id, method: 'delete' });
+    toast.success('Garden deleted');
+    return response.data;
+  }, {
+    onSuccess: () => {
+      navigate('/app/dashboard/');
+    },
+  });
+  return response;
 };
 
 export const getGardenPicture = (garden_id) => {
