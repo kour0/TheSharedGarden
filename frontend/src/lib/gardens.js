@@ -249,3 +249,24 @@ export const patchPlant = (gardenId, plotId, queryClient) => {
   );
   return response;
 };
+
+export const patchGarden = (queryClient, garden_id) => {
+  const mutation = useMutation(['garden_'+garden_id], async (formData) => {
+    const response = await request({ url: '/api/garden/modify/'+garden_id, method: 'patch', data: formData });
+    toast.success('Garden updated');
+    return response.data;
+  }, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('garden_'+garden_id);
+    },
+  });
+  return mutation;
+};
+
+export const getGardenPicture = (garden_id) => {
+  const response = useQuery(['gardenImage_'+garden_id], async () => {
+    const response = await request({ url: '/api/garden/'+garden_id+'/image', method: 'get', responseType: 'blob' });
+    return response.data;
+  });
+  return response;
+};

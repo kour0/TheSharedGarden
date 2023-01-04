@@ -5,6 +5,7 @@ from flask import send_from_directory, g
 from flask_cors import CORS
 from flask_uploads import UploadSet, ALL
 from lib.image_helper import get_image_name, save_image
+from geopy.geocoders import Nominatim
 
 from bdd import Session
 from middlewares import auth
@@ -13,7 +14,7 @@ from models.Garden import Garden
 from models.Link import Link
 from models.Plot import Plot
 from models.PlotUnit import PlotUnit
-from routes.map import add_map
+from routes.map import add_map, delete_map
 
 garden = Blueprint('garden', __name__)
 session = Session()
@@ -139,6 +140,57 @@ def create():
         return {'message': 'Garden created successfully', 'garden_id': garden.id_garden}, 200
     except Exception as e:
         session.rollback()
+        return {'message': str(e)}, 500
+
+
+@garden.patch(BASE_URL + '/modify/<garden_id>')
+def modify(garden_id):
+    try:
+        user = g.user
+        # Recupération de l'image
+        try:
+            image = request.files['file']
+        except:
+            image = None
+        # Recupération des données
+        body = request.form
+        garden_name = body['gardenName']
+        garden_type = body['gardenType']
+        country = body['country']
+        street_address = body['street-address']
+        city = body['city']
+        region = body['region']
+        postal_code = body['postal-code']
+        owner, manager = user.id, user.id
+        # Création du jardin et check si le user a le droit de le modifier
+        garden = session.query(Garden).filter_by(id_garden=garden_id).first()
+        if garden.manager != user.id:
+            return {'message': 'You are not the manager of this garden'}, 403
+        garden.garden_name = garden_name
+        if garden.street_address != street_address or garden.city != city or garden.country != country or garden.province != region or garden.postal_code != postal_code:
+            geolocator = Nominatim(user_agent="ppii-2022")
+            location = geolocator.geocode(street_address + ' ' + city + ' ' + country)
+            if location is None:
+                return {'message': 'Invalid address'}, 403
+            garden.street_address = street_address
+            garden.city = city
+            garden.country = country
+            garden.province = region
+            garden.postal_code = postal_code
+        print('good')
+        if garden_type == 'private' and garden.garden_type == 'public':
+            delete_map(garden.id_garden)
+        if garden_type == 'public':
+            add_map(garden)
+        garden.garden_type = garden_type
+        session.commit()
+        # Sauvegarde de l'image (Après la création du jardin pour garantir l'unicité du nom)
+        if image is not None:
+            save_image(image, garden.id_garden, folder='garden')
+        return {'message': 'Garden modified successfully', 'garden_id': garden.id_garden}, 200
+    except Exception as e:
+        session.rollback()
+        print(e)
         return {'message': str(e)}, 500
 
 

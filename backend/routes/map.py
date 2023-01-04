@@ -138,3 +138,9 @@ def add_map(last_garden):
                            tooltip=htmlentities.encode(last_garden.garden_name))
     marker.add_child(icon, index=str(last_garden.id_garden), name='icon_' + str(last_garden.id_garden))
     m.add_child(marker, index=str(last_garden.id_garden), name=str(last_garden.id_garden))
+
+
+def delete_map(id_garden):
+    print(m._children)
+    print(id_garden)
+    m._children.pop(str(id_garden))

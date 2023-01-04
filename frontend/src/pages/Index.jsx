@@ -79,7 +79,7 @@ export default function Index() {
               </Link>
               <h1>
                 <span className="mt-4 block text-4xl font-bold tracking-tight sm:text-5xl xl:text-6xl">
-                  <span className="block text-gray-900">Créez ton</span>
+                  <span className="block text-gray-900">Crée ton</span>
                   <span className="block text-teal-700">jardin</span>
                   <span className="block text-gray-900">et partage le !</span>
                 </span>

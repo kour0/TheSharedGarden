@@ -1,29 +1,54 @@
 import { Switch } from '@headlessui/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Form from '../../../components/forms/Form';
 import FormField from '../../../components/forms/FormField'
 import MainPage from '../../../components/layout/MainPage'
 import { Loader } from '../../../components/loader/FullScreenLoader';
-import { getGarden } from '../../../lib/gardens';
+import { getGarden, patchGarden, getGardenPicture } from '../../../lib/gardens';
 import { classNames } from '../../../utils/helpers';
+import { request } from '../../../utils/axios-utils';
+import { toast } from 'react-hot-toast';
+import { getProfilePicture, patchProfile } from '../../../lib/profile';
+import { useQueryClient } from '@tanstack/react-query';
 
 export default function GardenInfo() {
 
     const { gardenId } = useParams();
+    const queryClient = useQueryClient()
 
     const [selectedImage, setSelectedImage] = useState(null);
     const [previewUrl, setPreviewUrl] = useState(null);
-    const [privateGarden, setPrivateGarden] = useState(false)
+    const [privateGarden, setPrivateGarden] = useState(false);
+    const [gardenPicture, setGardenPicture] = useState(null);
+    const updateGarden = patchGarden(queryClient, gardenId);
 
     const { isLoading, data, isError, error } = getGarden(gardenId);
+    const { isLoading: imageLoading, isError: imageisError, data: imageData, error: imageError } = getGardenPicture(gardenId);
 
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm();
+
+    const onSubmit = async (data) => {
+        console.log(typeof data);
+        const formData = new FormData();
+        formData.append('file', selectedImage);
+
+        formData.append('gardenType', privateGarden ? 'private' : 'public')
+        // Ajouter des données à un formulaire
+        console.log(data);
+        Object.keys(data).forEach((key) => {
+            formData.append(key, data[key]);
+        });
+
+        updateGarden.mutate(formData, gardenId);
+
+    };
 
     const handleImageChange = (event) => {
         const image = event.target.files[0];
@@ -34,10 +59,15 @@ export default function GardenInfo() {
         reader.readAsDataURL(image);
     };
 
+    if (!imageLoading && !imageisError) {
+        const reader = new FileReader();
+        reader.onload = (e) => setGardenPicture(e.target.result);
+        reader.readAsDataURL(imageData);
+    }
+
     return !isLoading ? (
         <MainPage title="Les informations du jardin" subtitle="Retrouvez ici toutes les informations concernant votre jardin">
-            {console.log(data)}
-            <Form title="Informations" subtitle="Retrouvez ici toutes les informations concernant votre jardin">
+            <Form onSubmit={handleSubmit(onSubmit)} title="Informations" subtitle="Retrouvez ici toutes les informations concernant votre jardin" submitIsLoading={updateGarden.isLoading}>
                 <FormField register={register} name="gardenName" label="Nom du jardin" type="text" placeholder="Mon jardin" required={true} defaultValue={data.name} />
 
                 <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
@@ -71,7 +101,7 @@ export default function GardenInfo() {
                     <label htmlFor="postal-code" className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
                         Image du jardin
                     </label>
-                    <div className="overflow-hidden relative inline-block mt-1 sm:col-span-2 sm:mt-0">
+                    <div className="overflow-hidden relative inline-block mt-1 flex flex-col items-center justify-center sm:mt-0">
                         <button className="rounded-md w-full max-w-lg border border-gray-300 bg-white py-2 px-3 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-teal-600 focus:ring-offset-2">
                             Ajouter une image
                             <input
@@ -83,10 +113,18 @@ export default function GardenInfo() {
                                 className="absolute top-0 left-0 text-2xl opacity-0"
                             />
                         </button>
-                        {previewUrl && (
-                            <div className="flex flex-col items-center justify-center pt-5">
+                        {previewUrl ? (
+                            <div className="pt-5">
                                 <img src={previewUrl} alt="Preview" className="w-32 h-32 object-cover rounded-md" />
                             </div>
+                        ) : imageLoading ? (
+                          <p>Load</p>
+                        ) : (
+                          imageData && (
+                            <div className="pt-5">
+                                <img src={gardenPicture} alt="Preview" className="w-32 h-32 object-cover rounded-md" />
+                            </div>
+                          )
                         )}
                     </div>
                 </div>
