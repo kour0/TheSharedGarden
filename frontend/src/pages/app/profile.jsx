@@ -6,10 +6,14 @@ import { getProfile, getProfilePicture, patchProfile, patchProfilePersonnalInfor
 import { useQueryClient } from '@tanstack/react-query';
 import PageHeader from '../../components/PageHeader';
 import MainPage from '../../components/layout/MainPage';
+import { request } from '../../utils/axios-utils';
+import { useNavigate } from 'react-router-dom';
 
 export default function Profile() {
 
   const queryClient = useQueryClient()
+  const navigate = useNavigate();
+
   const [selectedImage, setSelectedImage] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
   const [profilePicture, setProfilePicture] = useState(null);
@@ -52,6 +56,12 @@ export default function Profile() {
 
     updatePersonalInformation.mutate(formData);
   };
+
+  const handleLogout = async () => {
+    await request({ url: '/api/auth/logout', withCredentials: true, method: 'POST' });
+    navigate('/login');
+  };
+
 
 
   const handleImageChange = (event) => {
@@ -200,6 +210,43 @@ export default function Profile() {
             </div>
           </div>
         </div>
+
+        <div className="hidden sm:block" aria-hidden="true">
+          <div className="py-5">
+            <div className="border-t border-gray-200" />
+          </div>
+        </div>
+
+        <div className="mt-10 sm:mt-0">
+          <div className="md:grid md:grid-cols-3 md:gap-6">
+            <div className="md:col-span-1">
+              <div className="px-4 sm:px-0">
+                <h3 className="text-lg font-medium leading-6 text-gray-900">Se déconnecter</h3>
+                <p className="mt-1 text-sm text-gray-600">Vous pouvez vous déconnecter de votre compte</p>
+              </div>
+            </div>
+            {/*logout button*/}
+            <div className="mt-5 md:col-span-2 md:mt-0">
+              <div className="overflow-hidden shadow sm:rounded-md">
+                <div className="bg-white px-4 py-5 sm:p-6">
+                  <div className="col-span-6 sm:col-span-3 flex justify-center">
+                    <button
+                      type="button"
+                      onClick={handleLogout}
+                      className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                    >
+                      Se déconnecter
+                    </button>
+
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+
       </MainPage>
     </>
   ) : (

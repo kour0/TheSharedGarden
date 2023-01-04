@@ -1,12 +1,11 @@
 import { Link, useParams } from 'react-router-dom';
-import { createPlot, deletePlot, editPlot, getPlots, updateNamePlot } from '../../../lib/gardens';
+import { createPlot, deletePlot, editPlot, getPlots, updateNamePlot } from '../../../lib/plots';
 import { Loader } from '../../../components/loader/FullScreenLoader';
 import { useState } from 'react';
 import {
   CheckIcon,
   PencilSquareIcon,
   PlusIcon,
-  PlusIcon as PlusIconOutline,
   TrashIcon,
   XMarkIcon,
 } from '@heroicons/react/24/outline';
@@ -32,9 +31,6 @@ export default function GardenModeling() {
   const gridSize = 12
   const {
     isLoading: plotsIsLoading,
-    isError: plotsIsError,
-    data: plotsData,
-    error: plotsError,
   } = getPlots(gardenId, setPlots);
 
 

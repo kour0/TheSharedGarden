@@ -62,6 +62,14 @@ def signup():
     except Exception as e:
         return {'message': str(e)}, 500
 
+@authentication.post(BASE_URL + '/logout')
+def signout():
+    try:
+        response = make_response({'message': 'Successfully logged out'})
+        response.set_cookie('token', '', expires=0)
+        return response
+    except Exception as e:
+        return {'message': str(e)}, 500
 
 @authentication.get(BASE_URL + '/authtest')
 def authtest():

@@ -5,7 +5,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { Fragment, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
-import { addTask, deleteTask, getPlants, getTasks, patchPlant } from '../lib/gardens';
+import { addTask, deleteTask, getPlants, getTasks, patchPlant } from '../lib/tasks';
 import { classNames } from '../utils/helpers';
 import { Loader } from './loader/FullScreenLoader';
 
@@ -20,11 +20,10 @@ export default function SlidingPage({ open, setOpen, selectedUnit }) {
     register,
     resetField,
     handleSubmit,
-    formState: { errors },
   } = useForm();
 
-  const { data: plants, isLoading: plantsIsLoading, isError: plantsIsError, error: plantsError } = getPlants();
-  const { data: tasks, isLoading: tasksIsLoading, isError, error } = getTasks(gardenId, selectedUnit.plot_id);
+  const { data: plants, isLoading: plantsIsLoading} = getPlants();
+  const { data: tasks, isLoading: tasksIsLoading} = getTasks(gardenId, selectedUnit.plot_id);
 
   useEffect(() => {
     if (!plantsIsLoading) {

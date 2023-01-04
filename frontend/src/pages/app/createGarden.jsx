@@ -9,13 +9,18 @@ import { SubmitButton } from '../../components/forms/SubmitButton';
 import MainPage from '../../components/layout/MainPage';
 import Form from '../../components/forms/Form';
 import FormField from '../../components/forms/FormField';
+import { createGarden } from '../../lib/gardens';
+import { useQueryClient } from '@tanstack/react-query';
 
 export function CreateGarden() {
+
+  const queryClient = useQueryClient();
+
   const [selectedImage, setSelectedImage] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
   const [privateGarden, setPrivateGarden] = useState(false)
 
-  const [submitIsLoading, setSubmitIsLoading] = useState(false);
+  const postCreateGarden = createGarden(queryClient);
 
   const navigate = useNavigate();
   const {
@@ -24,10 +29,9 @@ export function CreateGarden() {
     formState: { errors },
   } = useForm();
 
+
   const onSubmit = async (data) => {
 
-    setSubmitIsLoading(true);
-    console.log(typeof data);
     const formData = new FormData();
     formData.append('file', selectedImage);
 
@@ -37,20 +41,14 @@ export function CreateGarden() {
       formData.append(key, data[key]);
     });
 
-    try {
-      const response = await request({ url: '/api/garden/create', method: 'POST', data: formData });
-      // navigate('/app/dashboard');
-
-      // afficher la reponse dans un toast
-      toast.success(response.data.message);
-      navigate('/app/dashboard/' + response.data.garden_id);
-
-    } catch (error) {
-      console.log(error);
+    for (var pair of formData.entries()) {
+      console.log(pair[0] + ', ' + pair[1]);
     }
-    setSubmitIsLoading(false);
+
+    postCreateGarden.mutate(formData);
 
   };
+
   const handleImageChange = (event) => {
     const image = event.target.files[0];
     setSelectedImage(image);
@@ -62,7 +60,7 @@ export function CreateGarden() {
 
   return (
     <MainPage title="Créer un jardin" subtitle="Remplissez le formulaire pour créer un jardin">
-      <Form onSubmit={handleSubmit(onSubmit)} title="Informations" subtitle="Remplissez le formulaire pour créer un jardin" submitIsLoading={submitIsLoading}>
+      <Form onSubmit={handleSubmit(onSubmit)} title="Informations" subtitle="Remplissez le formulaire pour créer un jardin" submitIsLoading={postCreateGarden.isLoading}>
 
         <FormField register={register} name="gardenName" label="Nom du jardin" type="text" placeholder="Mon jardin" required={true} />
 
