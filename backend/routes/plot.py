@@ -42,8 +42,9 @@ def get_plots(garden_id):
         if not garden:
             return {'message': 'Garden not found'}, 404
 
-        if garden.owner!= user.id:
-            return {'message': 'You are not the owner of this garden'}, 401
+        link = session.query(Link).filter_by(garden_id=garden_id, account_id=user.id).first()
+        if not link:
+            return {'message': 'You are not a member of this garden'}, 401
 
         #plots = session.query(PlotUnit).join(Plot).filter(Plot.garden_id == garden_id).all()
         plots = session.query(Plot).filter(Plot.garden_id == garden_id).all()

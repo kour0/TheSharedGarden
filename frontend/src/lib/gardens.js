@@ -16,6 +16,7 @@ export const getGardens = () => {
 };
 
 export const getGarden = (gardenId) => {
+  const navigate = useNavigate();
   const response = useQuery(['garden', gardenId], async () => {
     try {
       const response = await request({ url: `/api/garden/${gardenId}`, method: 'get' });
@@ -23,6 +24,10 @@ export const getGarden = (gardenId) => {
     } catch (error) {
       console.warn(error?.data?.message);
     }
+  }, {
+    onError: () => {
+      navigate('/app/dashboard');
+    },
   });
   return response;
 };

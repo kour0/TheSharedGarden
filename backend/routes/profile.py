@@ -37,7 +37,7 @@ def get_informations():
         user = session.query(Accounts).filter_by(id=account_id).first()
 
         # On retourne nom et prénom de l'utilisateur
-        return {'email': user.email, 'username': user.username, 'first_name': user.first_name,
+        return {'id': user.id ,'email': user.email, 'username': user.username, 'first_name': user.first_name,
                 'last_name': user.last_name}
     except Exception as e:
         return {'message': str(e)}, 500
