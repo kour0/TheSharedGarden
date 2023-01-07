@@ -7,13 +7,14 @@ from bdd import Session
 from middlewares import auth
 from flask_uploads import UploadSet, ALL
 from models.Task import Task
+from models.Link import Link
 
 task = Blueprint('task', __name__)
 session = Session()
 
 CORS(task, supports_credentials=True)
 
-BASE_URL = '/api/garden/<garden_id>/<plot_id>/tasks'
+BASE_URL = '/api/garden/<garden_id>/plot/<plot_id>/tasks'
 
 @task.before_request
 def before_request():
@@ -26,6 +27,7 @@ def before_request():
 @task.get(BASE_URL + '/')
 def get_tasks(garden_id, plot_id):
     try:
+
         link = session.query(Link).filter_by(garden_id=garden_id, account_id=g.user.id).first()
         if not link:
             return {'message': 'You are not in this garden'}, 403

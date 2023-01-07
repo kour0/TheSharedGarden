@@ -1,5 +1,6 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { toast } from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 import { request } from '../utils/axios-utils';
 
 export const createPlot = (gardenId, queryClient) => {
@@ -103,6 +104,7 @@ export const createPlot = (gardenId, queryClient) => {
   };
   
   export const getPlots = (gardenId, setPlots, navigate) => {
+    navigate = useNavigate();
     const response = useQuery(
       ['modelisation', gardenId],
       async () => {

@@ -72,7 +72,7 @@ export default function GardenInfo() {
         reader.readAsDataURL(imageData);
     }
 
-    return !isLoading ? (
+    return !isLoading && !isError ? (
         <MainPage title="Les informations du jardin" subtitle="Retrouvez ici toutes les informations concernant votre jardin">
             <Form onSubmit={handleSubmit(onSubmit)} title="Informations" subtitle="Retrouvez ici toutes les informations concernant votre jardin" submitIsLoading={updateGarden.isLoading}>
                 <FormField register={register} name="gardenName" label="Nom du jardin" type="text" placeholder="Mon jardin" required={true} defaultValue={data.name} />

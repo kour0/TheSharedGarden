@@ -8,12 +8,14 @@ import TwoColumnPage from '../../../components/layout/TwoColumnPage';
 import { Loader } from '../../../components/loader/FullScreenLoader';
 import NavTitle from '../../../components/navigation/NavTitle';
 import SlidingPage from '../../../components/SlidingPage';
+import { getGarden } from '../../../lib/gardens';
+import { getProfile } from '../../../lib/profile';
 import { getPlots } from '../../../lib/plots';
 
 export default function Garden() {
   const navigate = useNavigate();
   const { gardenId } = useParams();
-  const [selectedUnit, setSelectedUnit] = useState({});
+  const [selectedUnit, setSelectedUnit] = useState(null);
 
   const [open, setOpen] = useState(false);
   const [plots, setPlots] = useState([]);
@@ -22,6 +24,11 @@ export default function Garden() {
   const {
     isLoading: plotsIsLoading,
   } = getPlots(gardenId, setPlots, navigate);
+
+  const garden = getGarden(gardenId);
+  const profile = getProfile();
+
+
 
   const isDisabled = (cell) => !cell.plot;
 
@@ -36,9 +43,12 @@ export default function Garden() {
     }
   };
 
-  return !plotsIsLoading ? (
+  return !plotsIsLoading && !garden.isLoading && !profile.isLoading ? (
     <>
-      <SlidingPage open={open} setOpen={setOpen} selectedUnit={selectedUnit} />
+      {selectedUnit != null && (<SlidingPage open={open} setOpen={setOpen} selectedUnit={selectedUnit} />)}
+
+      {console.log(garden.data)}
+      {console.log(profile.data)}
 
       <TwoColumnPage title="Visualisation de votre jardin" subtitle="Editez, visualisez les taches et les plantations">
 
@@ -85,17 +95,21 @@ export default function Garden() {
             Invitations
           </Link>
 
+          {profile.data.id === garden.data.manager && (<>
 
-          <NavTitle title="Modelisation" />
+            <NavTitle title="Modelisation" />
 
-          <p className="m-2 text-sm text-gray-500">Editez les parcelles du jardin</p>
-          <Link
-            to={`/app/dashboard/${gardenId}/modeling`}
-            relative="path"
-            className="inline-flex items-center justify-center rounded-md border border-transparent w-full bg-teal-700 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-teal-800 focus:outline-none"
-          >
-            Modelisation
-          </Link>
+            <p className="m-2 text-sm text-gray-500">Editez les parcelles du jardin</p>
+            <Link
+              to={`/app/dashboard/${gardenId}/modeling`}
+              relative="path"
+              className="inline-flex items-center justify-center rounded-md border border-transparent w-full bg-teal-700 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-teal-800 focus:outline-none"
+            >
+              Modelisation
+            </Link>
+
+          </>
+          )}
         </div>
       </TwoColumnPage>
     </>
