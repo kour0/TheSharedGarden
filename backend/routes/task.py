@@ -26,6 +26,10 @@ def before_request():
 @task.get(BASE_URL + '/')
 def get_tasks(garden_id, plot_id):
     try:
+        link = session.query(Link).filter_by(garden_id=garden_id, account_id=g.user.id).first()
+        if not link:
+            return {'message': 'You are not in this garden'}, 403
+    
         tasks = session.query(Task).filter_by(plot_id=plot_id).all()
         return tasks_to_json(tasks)
 
@@ -47,6 +51,10 @@ def create_task(garden_id, plot_id):
 
     try:
 
+        link = session.query(Link).filter_by(garden_id=garden_id, account_id=g.user.id).first()
+        if not link:
+            return {'message': 'You are not in this garden'}, 403
+
         body = request.get_json()
         task_name = body['title']
         task_description = body['description']
@@ -67,6 +75,10 @@ def create_task(garden_id, plot_id):
 @task.delete(BASE_URL + '/<task_id>')
 def delete_task(garden_id, plot_id, task_id):
     try:
+        link = session.query(Link).filter_by(garden_id=garden_id, account_id=g.user.id).first()
+        if not link:
+            return {'message': 'You are not in this garden'}, 403
+            
         task = session.query(Task).filter_by(task_id=task_id).first()
 
         if not task:

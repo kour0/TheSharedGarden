@@ -57,7 +57,7 @@ def get_plots(garden_id):
     
 
 @plot.post(BASE_URL + '/')
-def modeling(garden_id):
+def create_plot(garden_id):
     try:
         user = g.user
 
@@ -90,7 +90,7 @@ def modeling(garden_id):
         return {'message': str(e)}, 500
 
 @plot.patch(BASE_URL + '/<plot_id>')
-def update_modeling(garden_id, plot_id):
+def upate_plot(garden_id, plot_id):
     try:
         user = g.user
 
@@ -132,7 +132,7 @@ def update_modeling(garden_id, plot_id):
 
 
 @plot.delete(BASE_URL + '/<plot_id>')
-def delete_modeling(garden_id, plot_id):
+def delete_plot(garden_id, plot_id):
     try:
         user = g.user
 

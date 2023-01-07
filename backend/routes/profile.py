@@ -69,6 +69,9 @@ def modify_profile():
     try:
 
         account = session.query(Accounts).filter_by(id=g.user.id).first()
+        if not account:
+            return {'message': 'Account not found'}, 404
+
         body = request.form
 
         if ("username" in body.keys()):

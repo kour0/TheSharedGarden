@@ -39,7 +39,16 @@ def before_request():
 @gardenManage.get(BASE_URL + '/')
 def get_garden(garden_id):
     try:
+        
         garden = session.query(Garden).filter_by(id_garden=garden_id).first()
+
+        if not garden:
+            return {'message': 'Garden not found'}, 404
+        
+        link = session.query(Link).filter_by(garden_id=garden_id, account_id=g.user.id).first()
+        if not link:
+            return {'message': 'You are not in this garden'}, 403
+        
         return garden_to_json(garden)
     except Exception as e:
         print(e)
@@ -50,6 +59,14 @@ def get_garden(garden_id):
 @gardenManage.get(BASE_URL + '/image')
 def get_garden_image(garden_id):
     try:
+        garden = session.query(Garden).filter_by(id_garden=garden_id).first()
+        if not garden:
+            return {'message': 'Garden not found'}, 404
+        
+        link = session.query(Link).filter_by(garden_id=garden_id, account_id=g.user.id).first()
+        if not link:
+            return {'message': 'You are not in this garden'}, 403
+
         image_uri = get_image_name(garden_id, 'garden')
         return send_from_directory('static/images/garden', image_uri)
     except Exception as e:
@@ -60,6 +77,14 @@ def get_garden_image(garden_id):
 def modify(garden_id):
     try:
         user = g.user
+
+        garden = session.query(Garden).filter_by(id_garden=garden_id).first()
+        if not garden:
+            return {'message': 'Garden not found'}, 404
+        
+        if garden.manager != user.id:
+            return {'message': 'You are not the manager of this garden'}, 403
+
         # Recupération de l'image
         try:
             image = request.files['file']
@@ -111,6 +136,9 @@ def delete(garden_id):
     try:
         user = g.user
         garden = session.query(Garden).filter_by(id_garden=garden_id).first()
+
+        if not garden:
+            return {'message': 'Garden not found'}, 404
 
         if garden.manager != user.id:
             return {'message': 'You are not the manager of this garden'}, 403

@@ -100,9 +100,11 @@ def get_join(garden_id):
         garden = session.query(Garden).filter_by(id_garden=garden_id).all()
         if not garden:
             return {'message': 'Garden not found'}, 404
+
         deja = session.query(Link).filter_by(account_id=account.id, garden_id=garden_id).all()
         if deja:
             return {'message': 'Vous êtes déjà membre de ce jardin'}, 401
+            
         link = Link(account_id=account.id, garden_id=garden_id)
         session.add(link)
         session.commit()
