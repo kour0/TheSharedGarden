@@ -13,7 +13,7 @@ import { getPlots } from '../../../lib/plots';
 export default function Garden() {
   const navigate = useNavigate();
   const { gardenId } = useParams();
-  const [selectedUnit, setSelectedUnit] = useState({});
+  const [selectedUnit, setSelectedUnit] = useState(null);
 
   const [open, setOpen] = useState(false);
   const [plots, setPlots] = useState([]);
@@ -38,7 +38,7 @@ export default function Garden() {
 
   return !plotsIsLoading ? (
     <>
-      <SlidingPage open={open} setOpen={setOpen} selectedUnit={selectedUnit} />
+      {selectedUnit != null && (<SlidingPage open={open} setOpen={setOpen} selectedUnit={selectedUnit} />)}
 
       <TwoColumnPage title="Visualisation de votre jardin" subtitle="Editez, visualisez les taches et les plantations">
 

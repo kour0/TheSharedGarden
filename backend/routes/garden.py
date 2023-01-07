@@ -55,7 +55,6 @@ def get_all_gardens():
 def create():
     try:
 
-        print ("Create garden")
         user = g.user
         # Recupération de l'image
         image = request.files['file']
@@ -70,7 +69,6 @@ def create():
         postal_code = body['postal-code']
         owner, manager = user.id, user.id
 
-        print(garden_name, garden_type, country, street_address, city, region, postal_code, owner, manager)
         # Création du jardin
         garden = Garden(garden_name=garden_name, owner=owner, manager=manager, garden_type=garden_type,
                         street_address=street_address, country=country, city=city, province=region,
@@ -104,7 +102,7 @@ def get_join(garden_id):
         deja = session.query(Link).filter_by(account_id=account.id, garden_id=garden_id).all()
         if deja:
             return {'message': 'Vous êtes déjà membre de ce jardin'}, 401
-            
+
         link = Link(account_id=account.id, garden_id=garden_id)
         session.add(link)
         session.commit()
