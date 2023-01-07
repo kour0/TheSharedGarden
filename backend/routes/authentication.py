@@ -15,7 +15,11 @@ CORS(authentication, supports_credentials=True)
 
 BASE_URL = '/api/auth'
 
-
+"""
+It takes in a user's email and password, checks if the user exists and if the password is correct,
+and if so, it returns a cookie with a JWT token
+:return: A response object is being returned.
+"""
 @authentication.post(BASE_URL + '/signin')
 def signin():
     try:
@@ -36,7 +40,11 @@ def signin():
         session.rollback()
         return {'message': str(e)}, 500
 
-
+"""
+It takes in user infos, checks if the email is already registered, hashes the password, creates a new
+account, and returns a response with a cookie (JWT token)
+:return: A response object is being returned.
+"""
 @authentication.post(BASE_URL + '/signup')
 def signup():
     try:
@@ -62,6 +70,11 @@ def signup():
     except Exception as e:
         return {'message': str(e)}, 500
 
+
+"""
+Logs out the user by deleting the cookie
+:return: A response object is being returned.
+"""
 @authentication.post(BASE_URL + '/logout')
 def signout():
     try:
