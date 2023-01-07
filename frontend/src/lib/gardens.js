@@ -3,6 +3,10 @@ import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { request } from '../utils/axios-utils';
 
+/**
+ * Fetches all gardens of the user
+ * @returns {Object} response
+ */
 export const getGardens = () => {
   const response = useQuery(['garden'], async () => {
     try {
@@ -15,23 +19,37 @@ export const getGardens = () => {
   return response;
 };
 
+/**
+ * Fetches a single garden by id
+ * @param {String} gardenId
+ * @returns {Object} response
+ */
 export const getGarden = (gardenId) => {
   const navigate = useNavigate();
-  const response = useQuery(['garden', gardenId], async () => {
-    try {
-      const response = await request({ url: `/api/garden/${gardenId}`, method: 'get' });
-      return response.data;
-    } catch (error) {
-      console.warn(error?.data?.message);
-    }
-  }, {
-    onError: () => {
-      navigate('/app/dashboard');
+  const response = useQuery(
+    ['garden', gardenId],
+    async () => {
+      try {
+        const response = await request({ url: `/api/garden/${gardenId}`, method: 'get' });
+        return response.data;
+      } catch (error) {
+        console.warn(error?.data?.message);
+      }
     },
-  });
+    {
+      onError: () => {
+        navigate('/app/dashboard');
+      },
+    },
+  );
   return response;
 };
 
+/**
+ * Creates a new garden
+ * @param {Object} queryClient - The queryClient
+ * @returns {Object} response
+ */
 export const createGarden = (queryClient) => {
   const navigate = useNavigate();
   const response = useMutation(
@@ -49,7 +67,6 @@ export const createGarden = (queryClient) => {
       onSuccess: (data) => {
         queryClient.invalidateQueries('garden');
         navigate('/app/dashboard/' + data.garden_id);
-
       },
     },
   );
@@ -57,6 +74,11 @@ export const createGarden = (queryClient) => {
   return response;
 };
 
+/**
+ * Searches for gardens by name
+ * @param {String} gardenName - The name of the garden
+ * @returns {Object} response - The garden(s) or null if not found
+ */
 export const searchGardens = (gardenName) => {
   const response = useQuery(['garden', gardenName], async () => {
     try {
@@ -69,34 +91,58 @@ export const searchGardens = (gardenName) => {
   return response;
 };
 
-
+/**
+ * Updates a garden
+ * @param {Object} queryClient - The queryClient
+ * @param {String} garden_id - The id of the garden
+ * @returns {Object} response
+ */
 export const patchGarden = (queryClient, garden_id) => {
-  const mutation = useMutation(['garden', garden_id], async (formData) => {
-    const response = await request({ url: '/api/garden/' + garden_id, method: 'patch', data: formData });
-    toast.success('Garden updated');
-    return response.data;
-  }, {
-    onSuccess: () => {
-      queryClient.invalidateQueries('garden', garden_id);
+  const mutation = useMutation(
+    ['garden', garden_id],
+    async (formData) => {
+      const response = await request({ url: '/api/garden/' + garden_id, method: 'patch', data: formData });
+      toast.success('Garden updated');
+      return response.data;
     },
-  });
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('garden', garden_id);
+      },
+    },
+  );
   return mutation;
 };
 
+/**
+ * Deletes a garden
+ * @param {Object} queryClient - The queryClient
+ * @param {String} garden_id - The id of the garden
+ * @returns {Object} response
+ */
 export const deleteGarden = (queryClient, garden_id) => {
   const navigate = useNavigate();
-  const response = useMutation(['garden'], async () => {
-    const response = await request({ url: '/api/garden/' + garden_id, method: 'delete' });
-    toast.success('Garden deleted');
-    return response.data;
-  }, {
-    onSuccess: () => {
-      navigate('/app/dashboard/');
+  const response = useMutation(
+    ['garden'],
+    async () => {
+      const response = await request({ url: '/api/garden/' + garden_id, method: 'delete' });
+      toast.success('Garden deleted');
+      return response.data;
     },
-  });
+    {
+      onSuccess: () => {
+        navigate('/app/dashboard/');
+      },
+    },
+  );
   return response;
 };
 
+/**
+ * Fetches the picture of a garden
+ * @param {String} garden_id - The id of the garden
+ * @returns {Blob} response - The garden picture
+ */
 export const getGardenPicture = (garden_id) => {
   const response = useQuery(['gardenImage_' + garden_id], async () => {
     const response = await request({ url: '/api/garden/' + garden_id + '/image', method: 'get', responseType: 'blob' });
