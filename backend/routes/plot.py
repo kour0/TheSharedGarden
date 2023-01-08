@@ -53,6 +53,8 @@ def get_plots(garden_id):
             units = session.query(PlotUnit).filter(PlotUnit.plot_id == plot.plot_id).all()
             plot.units = [unit.unit for unit in units]
 
+        # replace plant id by plant object
+
         return plots_to_json(plots)
     except Exception as e:
         return {'message': str(e)}, 500

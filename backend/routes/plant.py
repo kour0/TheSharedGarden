@@ -4,6 +4,7 @@ import os
 from sqlalchemy import update
 
 from bdd import Session
+from lib.plant_helper import plants_to_json
 from middlewares import auth
 from flask_uploads import UploadSet, ALL
 from models.Plot import Plot
@@ -25,16 +26,7 @@ def before_request():
         return {'message': str(e)}, 500
 
 
-def plant_to_json(plant):
-    return {
-        'id': plant.id,
-        'name': plant.name,
-        'image': plant.image,
-    }
 
-
-def plants_to_json(plants):
-    return [plant_to_json(plant) for plant in plants]
 
 
 @plant.get(BASE_URL + '/plants/')

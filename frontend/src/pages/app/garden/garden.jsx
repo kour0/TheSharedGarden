@@ -28,6 +28,10 @@ export default function Garden() {
   const className = (cell) => (cell.plot ? 'bg-yellow-700' : 'bg-green-500');
 
   const getImage = (cell) => {
+    console.log(cell);
+    if (cell?.plot?.plant) {
+      return cell.plot.plant.image;
+    }
     return cell.plot ? plant : grassIcon;
   };
 
