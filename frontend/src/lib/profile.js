@@ -10,9 +10,11 @@ export const getProfile = () => {
   return response;
 };
 
-export const getProfilePicture = () => {
-  const response = useQuery(['profileImage'], async () => {
-    const response = await request({ url: '/api/profile/image', method: 'get', responseType: 'blob' });
+export const getProfileImage = (id = undefined) => {
+  const response = useQuery(['profileImage', id],async () => {
+    const url = id ? `/api/profile/${id}/image` : '/api/profile/image';
+
+    const response = await request({ url: url, method: 'get' , responseType: 'blob'});
     return response.data;
   });
   return response;

@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Loader } from '../../components/loader/FullScreenLoader';
 import { SubmitButton } from '../../components/forms/SubmitButton';
-import { getProfile, getProfilePicture, patchProfile, patchProfilePersonnalInformations } from '../../lib/profile';
+import { getProfile, getProfileImage, patchProfile, patchProfilePersonnalInformations } from '../../lib/profile';
 import { useQueryClient } from '@tanstack/react-query';
-import PageHeader from '../../components/PageHeader';
 import MainPage from '../../components/layout/MainPage';
 import { request } from '../../utils/axios-utils';
 import { useNavigate } from 'react-router-dom';
@@ -19,7 +18,7 @@ export default function Profile() {
   const [profilePicture, setProfilePicture] = useState(null);
 
   const { isLoading, isError, data, error } = getProfile();
-  const { isLoading: imageLoading, isError: imageisError, data: imageData, error: imageError } = getProfilePicture();
+  const { isLoading: imageLoading, isError: imageisError, data: imageData, error: imageError } = getProfileImage();
 
   const updateProfile = patchProfile(queryClient);
   const updatePersonalInformation = patchProfilePersonnalInformations(queryClient);
@@ -38,6 +37,7 @@ export default function Profile() {
     const formData = new FormData();
 
     formData.append('image', selectedImage);
+
 
     Object.keys(profile).forEach((key) => {
       formData.append(key, profile[key]);

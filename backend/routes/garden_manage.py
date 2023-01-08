@@ -6,6 +6,7 @@ from flask_cors import CORS
 from flask_uploads import UploadSet, ALL
 from lib.image_helper import get_image_name, save_image, delete_image
 from lib.garden_helper import gardens_to_json, garden_to_json
+from lib.profile_helper import members_to_json, member_to_json
 from geopy.geocoders import Nominatim
 
 from bdd import Session
@@ -177,3 +178,56 @@ def delete(garden_id):
         session.rollback()
         print(e)
         return {'message': str(e)}, 500
+
+@gardenManage.get(BASE_URL + '/members')
+def get_members(garden_id):
+    try:
+        user = g.user
+        garden = session.query(Garden).filter_by(id_garden=garden_id).first()
+
+        if not garden:
+            return {'message': 'Garden not found'}, 404
+
+        link = session.query(Link).filter_by(garden_id=garden_id, account_id=user.id).first()
+        if not link:
+            return {'message': 'You are not in this garden'}, 403
+
+        members = session.query(Link).filter_by(garden_id=garden_id).all()
+        if not members:
+            return {'message': 'No members in this garden'}, 404
+        
+
+        return members_to_json(members), 200
+    except Exception as e:
+        print(e)
+        return {'message': str(e)}, 500
+
+@gardenManage.delete(BASE_URL + '/members/<member_id>')
+def delete_member(garden_id, member_id):
+    try:
+        user = g.user
+        garden = session.query(Garden).filter_by(id_garden=garden_id).first()
+
+        if not garden:
+            return {'message': 'Garden not found'}, 404
+
+        if garden.manager != user.id:
+            return {'message': 'You are not the manager of this garden'}, 403
+
+        if garden.manager == int(member_id):
+            return {'message': 'You can\'t delete the manager of this garden'}, 403
+
+        link = session.query(Link).filter_by(garden_id=garden_id, account_id=member_id).first()
+        if not link:
+            return {'message': 'Member not found'}, 404
+
+        session.delete(link)
+        session.commit()
+
+        return {'message': 'Member deleted successfully'}, 200
+    except Exception as e:
+        session.rollback()
+        print(e)
+        return {'message': str(e)}, 500
+
+

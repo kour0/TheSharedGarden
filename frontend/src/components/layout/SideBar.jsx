@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import Cookies from 'js-cookie';
 import { Fragment, useEffect, useState } from 'react';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
-import { getProfile } from '../../lib/profile';
+import { getProfile, getProfileImage } from '../../lib/profile';
 import { request } from '../../utils/axios-utils';
 import { Logo } from '../navigation/Logo';
 
@@ -34,10 +34,7 @@ export default function SideBar() {
     isError: imageisError,
     data: imageData,
     error: imageError,
-  } = useQuery(['profileImage'], async () => {
-    const response = await request({ url: '/api/profile/image', method: 'get', responseType: 'blob' });
-    return response.data;
-  });
+  } = getProfileImage();
 
   if (!imageLoading && !imageisError) {
     const reader = new FileReader();

@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { request } from '../../utils/axios-utils';
 import { useState } from 'react';
+import { getProfileImage } from '../../lib/profile';
 
 export function GardenCard({ garden }) {
   // const image_url = 'http://127.0.0.1:5454/api/garden/' + garden.name + '/image';
@@ -24,10 +25,7 @@ export function GardenCard({ garden }) {
     isError: imageisErrorProfile,
     data: imageDataProfile,
     error: imageErrorProfile,
-  } = useQuery(['profileImage'], async () => {
-    const response = await request({ url: '/api/profile/image', method: 'get', responseType: 'blob' });
-    return response.data;
-  });
+  } = getProfileImage(garden.owner.id)
 
   if (!imageLoadingGarden && !imageisErrorGarden && !imageLoadingProfile && !imageisErrorProfile) {
     const readerGarden = new FileReader();

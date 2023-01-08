@@ -1,5 +1,6 @@
 import os
 
+import numpy as np
 from flask import Blueprint, request, redirect
 from flask import send_from_directory, g
 from flask_cors import CORS
@@ -16,6 +17,7 @@ from models.Link import Link
 from models.Plot import Plot
 from models.PlotUnit import PlotUnit
 from routes.map import add_map, delete_map
+from middlewares import garden_water
 
 garden = Blueprint('garden', __name__)
 session = Session()
@@ -121,3 +123,26 @@ def get_gardens(garden_name):
         print(e)
         return {'message': str(e)}, 500
 
+
+@garden.get(BASE_URL + '/<garden_id>/water')
+def water(garden_id):
+    try:
+        field = np.zeros((6, 6))
+        field_water = np.zeros((6, 6))
+        quantity = 0
+        garden = session.query(Garden).filter_by(id_garden=garden_id).first()
+        if not garden:
+            return {'message': 'Garden not found'}, 404
+        plot = session.query(Plot).filter_by(garden_id=garden_id).all()
+        if not plot:
+            return {'message': 'Plot not found'}, 404
+        for p in plot:
+            plot_unit = session.query(PlotUnit).filter_by(plot_id=p.plot_id).all()
+            for pu in plot_unit:
+                field[pu.unit // 6][pu.unit % 6] = 1
+                field_water[pu.unit // 6][pu.unit % 6] = 2
+                quantity += 1
+        list_water = garden_water.trouver_points_d_eau(field, 6, 6, field_water, quantity)
+        return {'message': 'Water found', 'water': list_water}, 200
+    except Exception as e:
+        return {'message': str(e)}, 500

@@ -151,6 +151,37 @@ export const getGardenPicture = (garden_id) => {
   return response;
 };
 
+
+/**
+ * Fetches the members of a garden
+ * @param {String} garden_id - The id of the garden
+ * @returns {Object} response - The garden members
+ */
+export const getGardenMembers = (garden_id) => {
+  const response = useQuery(['gardenMembers_' + garden_id], async () => {
+    const response = await request({ url: '/api/garden/' + garden_id + '/members', method: 'get' });
+    return response.data;
+  });
+  return response;
+}
+
+export const deleteGardenMember = (queryClient, garden_id, user_id) => {
+  const response = useMutation(
+    ['gardenMembers_' + garden_id],
+    async () => {
+      const response = await request({ url: '/api/garden/' + garden_id + '/members/' + user_id, method: 'delete' });
+      toast.success('Member deleted');
+      return response.data;
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('gardenMembers_' + garden_id);
+      },
+    },
+  );
+  return response;
+}
+
 export const joinGarden = (queryClient) => {
   const response = useMutation(
     ['garden'],

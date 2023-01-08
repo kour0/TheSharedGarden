@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import grassIcon from '../../../assets/images/grass-icon.png';
 import plant from '../../../assets/images/plant.png';
 import GardenGrid from '../../../components/garden/GardenGrid';
@@ -13,7 +13,6 @@ import { getProfile } from '../../../lib/profile';
 import { getPlots } from '../../../lib/plots';
 
 export default function Garden() {
-  const navigate = useNavigate();
   const { gardenId } = useParams();
   const [selectedUnit, setSelectedUnit] = useState(null);
 
@@ -23,7 +22,7 @@ export default function Garden() {
 
   const {
     isLoading: plotsIsLoading,
-  } = getPlots(gardenId, setPlots, navigate);
+  } = getPlots(gardenId, setPlots);
 
   const garden = getGarden(gardenId);
   const profile = getProfile();
@@ -46,9 +45,6 @@ export default function Garden() {
   return !plotsIsLoading && !garden.isLoading && !profile.isLoading ? (
     <>
       {selectedUnit != null && (<SlidingPage open={open} setOpen={setOpen} selectedUnit={selectedUnit} />)}
-
-      {console.log(garden.data)}
-      {console.log(profile.data)}
 
       <TwoColumnPage title="Visualisation de votre jardin" subtitle="Editez, visualisez les taches et les plantations">
 
