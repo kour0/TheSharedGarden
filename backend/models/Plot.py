@@ -12,12 +12,12 @@ class Plot(Base):
     garden_id = Column('garden_id', Integer(), ForeignKey('garden.id_garden'), nullable=False)
     plot_name = Column('plot_name', String(300))
     plot_state = Column('plot_state', String(300))
-    cultivated_vegetable = Column('cultivated_vegetable', String(300))
+    plant = Column('plant', Integer(), ForeignKey('plant.id'), nullable=True)
 
     garden = relationship("Garden")
 
-    def __init__(self, garden_id, plot_name=None, plot_state=None, cultivated_vegetable=None):
+    def __init__(self, garden_id, plot_name=None, plot_state=None, plant=None):
         self.garden_id = garden_id
         self.plot_name = plot_name
         self.plot_state = plot_state
-        self.cultivated_vegetable = cultivated_vegetable
+        self.plant = plant

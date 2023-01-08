@@ -7,5 +7,5 @@ def plot_to_json(plot):
         'garden_id': plot.garden_id,
         'plot_name': plot.plot_name,
         'units': plot.units,
-        'cultivated_vegetable': plot.cultivated_vegetable,
+        'plant': plot.plant,
     }

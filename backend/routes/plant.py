@@ -7,6 +7,7 @@ from bdd import Session
 from middlewares import auth
 from flask_uploads import UploadSet, ALL
 from models.Plot import Plot
+from models.Plant import Plant
 
 plant = Blueprint('plant', __name__)
 session = Session()
@@ -23,14 +24,24 @@ def before_request():
     except Exception as e:
         return {'message': str(e)}, 500
 
+
+def plant_to_json(plant):
+    return {
+        'id': plant.id,
+        'name': plant.name,
+        'image': plant.image,
+    }
+
+
+def plants_to_json(plants):
+    return [plant_to_json(plant) for plant in plants]
+
+
 @plant.get(BASE_URL + '/plants/')
 def get_plants():
     try:
-       return [{'id': 1, 'name': 'Tomate', 'image': 'https://www.lesjardinsdegaia.com/1048-thickbox_default/tomate-rose-de-berne.jpg'}, {'id': 2, 'name': 'Carotte', 'image': 'https://www.lesjardinsdegaia.com/1048-thickbox_default/tomate-rose-de-berne.jpg'}
-       , {'id': 3, 'name': 'Salade', 'image': 'https://www.lesjardinsdegaia.com/1048-thickbox_default/tomate-rose-de-berne.jpg'}, {'id': 4, 'name': 'Haricot', 'image': 'https://www.lesjardinsdegaia.com/1048-thickbox_default/tomate-rose-de-berne.jpg'}
-       , {'id': 5, 'name': 'Courgette', 'image': 'https://www.lesjardinsdegaia.com/1048-thickbox_default/tomate-rose-de-berne.jpg'}, {'id': 6, 'name': 'Aubergine', 'image': 'https://www.lesjardinsdegaia.com/1048-thickbox_default/tomate-rose-de-berne.jpg'}
-       , {'id': 7, 'name': 'Pomme de terre', 'image': 'https://www.lesjardinsdegaia.com/1048-thickbox_default/tomate-rose-de-berne.jpg'}, {'id': 8, 'name': 'Poireau', 'image': 'https://www.lesjardinsdegaia.com/1048-thickbox_default/tomate-rose-de-berne.jpg'}]
-       
+        plants = session.query(Plant).all()
+        return plants_to_json(plants)
     except Exception as e:
         return {'message': str(e)}, 500
 
@@ -41,7 +52,7 @@ def update_plant(gardens_id, plot_id, plant_id):
 
         plot = session.query(Plot).filter_by(plot_id=plot_id).first()
 
-        plot.cultivated_vegetable = plant_id
+        plot.plant = int(plant_id)
 
         session.add(plot)
         session.commit()

@@ -14,8 +14,6 @@ export default function SlidingPage({ open, setOpen, selectedUnit }) {
   const { gardenId } = useParams();
   const queryClient = useQueryClient();
   const { data: vegetable, isLoading: vegetableIsLoading } = getPlotVegetable(gardenId, selectedUnit.plot_id);
-
-  console.log(vegetable);
   const [query, setQuery] = useState('');
   const [selectedPlant, setSelectedPlant] = useState(null);
 
@@ -24,13 +22,7 @@ export default function SlidingPage({ open, setOpen, selectedUnit }) {
   const { data: plants, isLoading: plantsIsLoading } = getPlants();
   const { data: tasks, isLoading: tasksIsLoading } = getTasks(gardenId, selectedUnit.plot_id);
 
-  useEffect(() => {
-    if (!plantsIsLoading) {
-      selectedUnit.cultivated_vegetable
-        ? setSelectedPlant(plants.find((plant) => plant.id == selectedUnit.cultivated_vegetable))
-        : setSelectedPlant({ name: 'Aucune plante sélectionnée' });
-    }
-  }, [selectedUnit, plants, plantsIsLoading]);
+  console.log(plants, vegetable);
 
   const addTaskMutation = addTask(gardenId, selectedUnit.plot_id, queryClient);
   const deleteTaskMutation = deleteTask(gardenId, selectedUnit.plot_id, queryClient);
@@ -170,7 +162,7 @@ export default function SlidingPage({ open, setOpen, selectedUnit }) {
                         className=" ml-8 mb-4 inline-flex items-center rounded-md border border-transparent bg-indigo-100 px-6 py-3 text-base font-medium text-indigo-700 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                         onClick={() => {
                           let plot = selectedUnit;
-                          plot.cultivated_vegetable = selectedPlant.name;
+                          plot.id = selectedPlant.name;
                           patchVegetableMutation.mutate(plot);
                         }}
                       >

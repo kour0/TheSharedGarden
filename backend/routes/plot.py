@@ -14,6 +14,7 @@ from models.Garden import Garden
 from models.Link import Link
 from models.Plot import Plot
 from models.PlotUnit import PlotUnit
+from models.Plant import Plant
 from routes.map import add_map, delete_map
 
 plot = Blueprint('plot', __name__)
@@ -71,6 +72,7 @@ def create_plot(garden_id):
             return {'message': 'You are not the owner of this garden'}, 401
         
         body = request.get_json()
+        print(body)
         units = body['units']
 
         if not units:
@@ -88,6 +90,7 @@ def create_plot(garden_id):
 
         return {'message': 'Plot created successfully', 'plot_id': plot.plot_id}, 200
     except Exception as e:
+        print (e)
         return {'message': str(e)}, 500
 
 @plot.patch(BASE_URL + '/<plot_id>')
@@ -163,7 +166,6 @@ def delete_plot(garden_id, plot_id):
 @plot.patch(BASE_URL + '/<plot_id>/modifyvegetable')
 def modify_vegetable(garden_id, plot_id):
     try:
-        print('ok')
         user = g.user
 
         garden = session.query(Garden).filter_by(id_garden=garden_id).first()
@@ -179,7 +181,8 @@ def modify_vegetable(garden_id, plot_id):
         body = request.get_json()
 
         if ("vegetable" in body.keys()):
-            plot.cultivated_vegetable = body['vegetable']
+            plant = session.query(Plant).filter_by(name=body['vegetable']).first()
+            plot.plant = plant.id
             session.add(plot)
             session.commit()
 
@@ -197,11 +200,12 @@ def get_vegetable(garden_id, plot_id):
         if not garden:
             return {'message': 'Garden not found'}, 404
         
-        plot = session.query(Plot).filter_by(plot_id=plot_id).first()
+        plotf = session.query(Plot).filter_by(plot_id=plot_id).first()
 
-        if not plot or plot.garden_id != garden.id_garden:
+        if not plotf or plotf.garden_id != garden.id_garden:
             return {'message': 'Plot not found'}, 404
-        
-        return {'vegetable': plot.cultivated_vegetable}, 200
+
+        plant = session.query(Plant).filter_by(id=plotf.plant).first()
+        return {'vegetable': plant.name}, 200
     except Exception as e:
         return {'message': str(e)}, 500

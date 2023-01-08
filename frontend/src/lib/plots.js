@@ -31,7 +31,6 @@ export const editPlot = (gardenId, queryClient) => {
     ['modelisation', gardenId],
     async (plot) => {
       try {
-        console.log(plot);
         const response = await request({
           url: `/api/garden/${gardenId}/plot/${plot.plot_id}`,
           method: 'PATCH',
@@ -58,7 +57,6 @@ export const updateNamePlot = (gardenId, queryClient) => {
   const response = useMutation(
     ['modelisation', gardenId],
     async (plot) => {
-      console.log(plot);
       try {
         const response = await request({
           url: `/api/garden/${gardenId}/plot/${plot.plot_id}`,
@@ -129,7 +127,7 @@ export const getPlots = (gardenId, setPlots) => {
 
 export const getPlotVegetable = (gardenId, plotId) => {
   const response = useQuery(
-    ['modelisation', gardenId],
+    ['modelisation', gardenId, plotId],
     async () => {
       try {
         const response = await request({ url: `/api/garden/${gardenId}/plot/${plotId}/vegetable`, method: 'get' });
@@ -151,7 +149,7 @@ export const modifyPlotVegetable = (gardenId, queryClient) => {
         const response = await request({
           url: `/api/garden/${gardenId}/plot/${plot.plot_id}/modifyvegetable`,
           method: 'PATCH',
-          data: { vegetable: plot.cultivated_vegetable },
+          data: { vegetable: plot.id },
         });
         toast.success('Plot vegetable edited');
         return response.data;

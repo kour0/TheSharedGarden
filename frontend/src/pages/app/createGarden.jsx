@@ -41,10 +41,6 @@ export function CreateGarden() {
       formData.append(key, data[key]);
     });
 
-    for (var pair of formData.entries()) {
-      console.log(pair[0] + ', ' + pair[1]);
-    }
-
     postCreateGarden.mutate(formData);
 
   };

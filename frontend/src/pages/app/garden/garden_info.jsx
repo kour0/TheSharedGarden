@@ -46,7 +46,6 @@ export default function GardenInfo() {
 
         formData.append('gardenType', privateGarden ? 'private' : 'public')
         // Ajouter des données à un formulaire
-        console.log(data);
         Object.keys(data).forEach((key) => {
             formData.append(key, data[key]);
         });

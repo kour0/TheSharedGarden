@@ -47,9 +47,17 @@ CREATE TABLE plot(
     garden_id INTEGER,
     plot_name VARCHAR,
     plot_state VARCHAR,
-    cultivated_vegetable VARCHAR,
+    plant VARCHAR,
     PRIMARY KEY (plot_id),
-    FOREIGN KEY (garden_id) REFERENCES garden(id_garden)
+    FOREIGN KEY (garden_id) REFERENCES garden(id_garden),
+    FOREIGN KEY (plant) REFERENCES plant(id)
+);
+
+CREATE TABLE plant (
+    id INTEGER NOT NULL,
+    name VARCHAR NOT NULL,
+    image VARCHAR,
+    PRIMARY KEY (id)
 );
 
 CREATE TABLE plot_unit(
