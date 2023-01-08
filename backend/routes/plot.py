@@ -46,6 +46,7 @@ def get_plots(garden_id):
         link = session.query(Link).filter_by(garden_id=garden_id, account_id=user.id).first()
         if not link:
             return {'message': 'You are not a member of this garden'}, 401
+        print('ok')
 
         #plots = session.query(PlotUnit).join(Plot).filter(Plot.garden_id == garden_id).all()
         plots = session.query(Plot).filter(Plot.garden_id == garden_id).all()
