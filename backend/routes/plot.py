@@ -186,3 +186,22 @@ def modify_vegetable(garden_id, plot_id):
         return {'message': 'Plot updated successfully'}, 200
     except Exception as e:
         return {'message': str(e)}, 500
+
+@plot.get(BASE_URL + '/<plot_id>/vegetable')
+def get_vegetable(garden_id, plot_id):
+    try:
+        user = g.user
+
+        garden = session.query(Garden).filter_by(id_garden=garden_id).first()
+
+        if not garden:
+            return {'message': 'Garden not found'}, 404
+        
+        plot = session.query(Plot).filter_by(plot_id=plot_id).first()
+
+        if not plot or plot.garden_id != garden.id_garden:
+            return {'message': 'Plot not found'}, 404
+        
+        return {'vegetable': plot.cultivated_vegetable}, 200
+    except Exception as e:
+        return {'message': str(e)}, 500

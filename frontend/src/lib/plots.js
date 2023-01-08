@@ -127,6 +127,22 @@ export const getPlots = (gardenId, setPlots) => {
   return response;
 };
 
+export const getPlotVegetable = (gardenId, plotId) => {
+  const response = useQuery(
+    ['modelisation', gardenId],
+    async () => {
+      try {
+        const response = await request({ url: `/api/garden/${gardenId}/plot/${plotId}/vegetable`, method: 'get' });
+        return response.data;
+      } catch (error) {
+        console.warn(error?.data?.message);
+      }
+    },
+  );
+  return response;
+};
+
+
 export const modifyPlotVegetable = (gardenId, queryClient) => {
   const response = useMutation(
     ['modelisation', gardenId],

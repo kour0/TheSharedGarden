@@ -5,7 +5,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { Fragment, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
-import { modifyPlotVegetable } from '../lib/plots';
+import { getPlotVegetable, modifyPlotVegetable } from '../lib/plots';
 import { addTask, deleteTask, getPlants, getTasks, patchPlant } from '../lib/tasks';
 import { classNames } from '../utils/helpers';
 import { Loader } from './loader/FullScreenLoader';
@@ -13,7 +13,9 @@ import { Loader } from './loader/FullScreenLoader';
 export default function SlidingPage({ open, setOpen, selectedUnit }) {
   const { gardenId } = useParams();
   const queryClient = useQueryClient();
+  const { data: vegetable, isLoading: vegetableIsLoading } = getPlotVegetable(gardenId, selectedUnit.plot_id);
 
+  console.log(vegetable);
   const [query, setQuery] = useState('');
   const [selectedPlant, setSelectedPlant] = useState(null);
 
@@ -47,7 +49,6 @@ export default function SlidingPage({ open, setOpen, selectedUnit }) {
   const patchPlantMutation = patchPlant(gardenId, selectedUnit.plot_id, queryClient);
 
   const handleChangePlant = () => {
-    console.log(selectedUnit);
     setQuery(selectedPlant.name);
     patchPlantMutation.mutate(selectedPlant);
   };
@@ -59,7 +60,7 @@ export default function SlidingPage({ open, setOpen, selectedUnit }) {
           return plant.name.toLowerCase().includes(query.toLowerCase());
         });
 
-  return !tasksIsLoading && !plantsIsLoading ? (
+  return !tasksIsLoading && !plantsIsLoading && !vegetableIsLoading ? (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={setOpen}>
         <Transition.Child
@@ -119,6 +120,7 @@ export default function SlidingPage({ open, setOpen, selectedUnit }) {
                         <Combobox.Input
                           className="w-full rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
                           onChange={handleChangePlant}
+                          placeholder={vegetable.vegetable}
                           displayValue={(plant) => plant?.name}
                         />
                         <Combobox.Button className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
@@ -162,18 +164,19 @@ export default function SlidingPage({ open, setOpen, selectedUnit }) {
                         )}
                       </div>
                     </Combobox>
-                    <button
-                      type="button"
-                      className=" ml-8 mb-4 inline-flex items-center rounded-md border border-transparent bg-indigo-100 px-6 py-3 text-base font-medium text-indigo-700 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                      onClick={() => {
-                        let plot = selectedUnit;
-                        plot.cultivated_vegetable = selectedPlant.name;
-                        console.log(plot, selectedPlant);
-                        patchVegetableMutation.mutate(plot);
-                      }}
-                    >
-                      Sauvegarder
-                    </button>
+                    {selectedPlant && selectedPlant.name !== 'Aucune plante sélectionnée' && (
+                      <button
+                        type="button"
+                        className=" ml-8 mb-4 inline-flex items-center rounded-md border border-transparent bg-indigo-100 px-6 py-3 text-base font-medium text-indigo-700 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                        onClick={() => {
+                          let plot = selectedUnit;
+                          plot.cultivated_vegetable = selectedPlant.name;
+                          patchVegetableMutation.mutate(plot);
+                        }}
+                      >
+                        Sauvegarder
+                      </button>
+                    )}
                     <div className="px-4 sm:px-6 lg:px-8">
                       <div className="sm:flex sm:items-center">
                         <div className="sm:flex-auto">
