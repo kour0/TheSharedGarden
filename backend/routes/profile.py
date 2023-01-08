@@ -67,6 +67,7 @@ def get_image_by_id(id):
 @profile.patch(BASE_URL + '/')
 def modify_profile():
     try:
+        print ("bb")
 
         account = session.query(Accounts).filter_by(id=g.user.id).first()
         if not account:
@@ -76,9 +77,11 @@ def modify_profile():
 
         if ("username" in body.keys()):
             account.username = body["username"]
+
         
         if ("image" in request.files.keys()):
             image = request.files['image']
+            print ("image")
             save_image(image, g.user.id, 'profile')
          
         if ("last_name" in body.keys()) :

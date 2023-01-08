@@ -103,8 +103,8 @@ export const createPlot = (gardenId, queryClient) => {
     return response;
   };
   
-  export const getPlots = (gardenId, setPlots, navigate) => {
-    navigate = useNavigate();
+  export const getPlots = (gardenId, setPlots) => {
+    const navigate = useNavigate();
     const response = useQuery(
       ['modelisation', gardenId],
       async () => {

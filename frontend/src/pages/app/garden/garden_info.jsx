@@ -1,18 +1,16 @@
 import { Switch } from '@headlessui/react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
 import Form from '../../../components/forms/Form';
 import FormField from '../../../components/forms/FormField'
 import MainPage from '../../../components/layout/MainPage'
 import { Loader } from '../../../components/loader/FullScreenLoader';
-import { getGarden, patchGarden, getGardenPicture, deleteGarden } from '../../../lib/gardens';
+import { getGarden, patchGarden, getGardenPicture, deleteGarden, getGardenMembers } from '../../../lib/gardens';
 import { classNames } from '../../../utils/helpers';
-import { request } from '../../../utils/axios-utils';
-import { toast } from 'react-hot-toast';
-import { getProfilePicture, patchProfile } from '../../../lib/profile';
 import { useQueryClient } from '@tanstack/react-query';
+import MemberCard from '../../../components/memberCard';
+
 
 export default function GardenInfo() {
 
@@ -28,6 +26,7 @@ export default function GardenInfo() {
 
     const { isLoading, data, isError, error } = getGarden(gardenId);
     const { isLoading: imageLoading, isError: imageisError, data: imageData, error: imageError } = getGardenPicture(gardenId);
+    const { isLoading: membersIsLoading, isError: membersIsError, data: members, error: membersError } = getGardenMembers(gardenId);
 
     const {
         register,
@@ -72,7 +71,7 @@ export default function GardenInfo() {
         reader.readAsDataURL(imageData);
     }
 
-    return !isLoading && !isError ? (
+    return !isLoading && !isError && !imageLoading && !membersIsLoading ? (
         <MainPage title="Les informations du jardin" subtitle="Retrouvez ici toutes les informations concernant votre jardin">
             <Form onSubmit={handleSubmit(onSubmit)} title="Informations" subtitle="Retrouvez ici toutes les informations concernant votre jardin" submitIsLoading={updateGarden.isLoading}>
                 <FormField register={register} name="gardenName" label="Nom du jardin" type="text" placeholder="Mon jardin" required={true} defaultValue={data.name} />
@@ -172,6 +171,30 @@ export default function GardenInfo() {
                 </div>
             </div>
 
+            <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+                <dt className="px-4 sm:px-0">
+                    <h3 className="text-lg font-medium leading-6 text-gray-900">Liste des membres du jardin</h3>
+                    <p className="mt-1 text-sm text-gray-600">Vous pouvez voir toutes les personnes qui ont accès à ce jardin.</p>
+                </dt>
+                <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                    <ul className="divide-y divide-gray-200 rounded-md border border-gray-200">
+                        {members.map((person) => (
+                           
+                            <li key={person.email} className="flex items-center py-3 pl-3 pr-4 text-sm">
+                                 {console.log(person)}
+                                <MemberCard member={person} gardenId = {gardenId} />
+                            </li>
+                        ))}
+                    </ul>
+                </dd>
+            </div>
+
+            <div className="hidden sm:block" aria-hidden="true">
+                <div className="py-5">
+                    <div className="border-t border-gray-200" />
+                </div>
+            </div>
+
             <div className="mt-10 sm:mt-0">
                 <div className="md:grid md:grid-cols-3 md:gap-6">
                     <div className="md:col-span-1">
@@ -199,7 +222,7 @@ export default function GardenInfo() {
                     </div>
                 </div>
             </div>
-        </MainPage>
+        </MainPage >
     ) : (
         <Loader />
     );

@@ -15,6 +15,7 @@ def garden_to_json(garden):
         'id': garden.id_garden,
         'name': garden.garden_name,
         'owner': {
+            'id': owner.id,
             'username': owner.username,
         },
         'manager': garden.manager,
