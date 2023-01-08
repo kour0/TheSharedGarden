@@ -15,7 +15,7 @@ def trouver_points_d_eau(potager, n, m, potager_voulue, parcelle_a_arroser):
                 for l in range(j - 1, j + 2):
                     test = test or (0 <= k < n and 0 <= l < m and potager_voulue[k][l] > 1)
             return test
-        return 0 <= i < n and 0 <= j < m and potager_voulue[i][j] > 1
+        return 0 <= i < n and 0 <= j < m and potager_voulue[i][j] > 0
 
     def backtrack(potager_clean, i, j, points_d_eau_clean, taille_optimale, parcelle_arrosee):
         global potager_voulue
@@ -70,14 +70,15 @@ def trouver_points_d_eau(potager, n, m, potager_voulue, parcelle_a_arroser):
         # à la case (i, j)
         else:
             # On essaie la solution sans point d'eau
-            solution, taille_optimale_potentielle = backtrack(potager_clean, i, j + 1,
+            solution_sans_point_d_eau, taille_optimale_potentielle = backtrack(potager_clean, i, j + 1,
                                                               points_d_eau_clean, taille_optimale,
                                                               parcelle_arrosee)
             if taille_optimale_potentielle != float('inf') and taille_optimale_potentielle < taille_optimale:
                 taille_optimale = taille_optimale_potentielle
+                solution = solution_sans_point_d_eau
         return solution, taille_optimale
 
-    return backtrack(potager, 0, 0, [], parcelle_a_arroser, 0)
+    return backtrack(potager, 0, 0, [], 18, 0)
 
 
 # Exemple de potager de dimensions 6x6
@@ -95,10 +96,10 @@ n, m = potager.shape
 
 potager_voulue = np.array([
     [2, 2, 2, 2, 2, 2],
-    [2, 3, 2, 2, 3, 2],
     [2, 2, 2, 2, 2, 2],
-    [3, 2, 2, 3, 2, 2],
-    [2, 2, 3, 2, 2, 2],
+    [2, 2, 2, 2, 2, 2],
+    [2, 2, 2, 2, 2, 2],
+    [2, 2, 2, 2, 3, 2],
     [2, 2, 2, 2, 2, 2]
 ])
 

@@ -128,8 +128,9 @@ def get_gardens(garden_name):
 @garden.get(BASE_URL + '/<garden_id>/water')
 def water(garden_id):
     try:
-        field = np.zeros((12, 12))
-        field_water = np.zeros((12, 12))
+        field = np.zeros((6, 6))
+        field_water = np.zeros((6, 6))
+        quantity = 0
         garden = session.query(Garden).filter_by(id_garden=garden_id).first()
         if not garden:
             return {'message': 'Garden not found'}, 404
@@ -139,9 +140,10 @@ def water(garden_id):
         for p in plot:
             plot_unit = session.query(PlotUnit).filter_by(plot_id=p.plot_id).all()
             for pu in plot_unit:
-                field[pu.unit // 12][pu.unit % 12] = 1
-                field_water[pu.unit // 12][pu.unit % 12] = 2
-        list_water = garden_water.trouver_points_d_eau(field, 12, 12, field_water)
+                field[pu.unit // 6][pu.unit % 6] = 1
+                field_water[pu.unit // 6][pu.unit % 6] = 2
+                quantity += 1
+        list_water = garden_water.trouver_points_d_eau(field, 6, 6, field_water, quantity)
         return {'message': 'Water found', 'water': list_water}, 200
     except Exception as e:
         return {'message': str(e)}, 500
