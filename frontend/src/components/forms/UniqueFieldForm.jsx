@@ -120,6 +120,7 @@ export function UniqueFieldForm({ form }) {
                 <div className="min-w-0 flex-1">
                   <label htmlFor='code' className="sr-only"></label>
                   <input
+                    name='code'
                     id='code'
                     type="text"
                     className="block w-full rounded-md border border-transparent px-5 py-3 text-base text-gray-900 placeholder-gray-500 shadow-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-teal-700"

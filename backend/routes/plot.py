@@ -160,6 +160,29 @@ def delete_plot(garden_id, plot_id):
 
         
 
+@plot.patch(BASE_URL + '/<plot_id>/modifyvegetable')
+def modify_vegetable(garden_id, plot_id):
+    try:
+        print('ok')
+        user = g.user
 
+        garden = session.query(Garden).filter_by(id_garden=garden_id).first()
 
+        if not garden:
+            return {'message': 'Garden not found'}, 404
+        
+        plot = session.query(Plot).filter_by(plot_id=plot_id).first()
 
+        if not plot or plot.garden_id != garden.id_garden:
+            return {'message': 'Plot not found'}, 404
+        
+        body = request.get_json()
+
+        if ("vegetable" in body.keys()):
+            plot.cultivated_vegetable = body['vegetable']
+            session.add(plot)
+            session.commit()
+
+        return {'message': 'Plot updated successfully'}, 200
+    except Exception as e:
+        return {'message': str(e)}, 500

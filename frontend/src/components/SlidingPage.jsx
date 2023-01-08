@@ -5,6 +5,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { Fragment, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
+import { modifyPlotVegetable } from '../lib/plots';
 import { addTask, deleteTask, getPlants, getTasks, patchPlant } from '../lib/tasks';
 import { classNames } from '../utils/helpers';
 import { Loader } from './loader/FullScreenLoader';
@@ -16,22 +17,18 @@ export default function SlidingPage({ open, setOpen, selectedUnit }) {
   const [query, setQuery] = useState('');
   const [selectedPlant, setSelectedPlant] = useState(null);
 
-  const {
-    register,
-    resetField,
-    handleSubmit,
-  } = useForm();
+  const { register, resetField, handleSubmit } = useForm();
 
-  const { data: plants, isLoading: plantsIsLoading} = getPlants();
-  const { data: tasks, isLoading: tasksIsLoading} = getTasks(gardenId, selectedUnit.plot_id);
+  const { data: plants, isLoading: plantsIsLoading } = getPlants();
+  const { data: tasks, isLoading: tasksIsLoading } = getTasks(gardenId, selectedUnit.plot_id);
 
   useEffect(() => {
     if (!plantsIsLoading) {
-      selectedUnit.cultivated_vegetable ? setSelectedPlant(plants.find((plant) => plant.id == selectedUnit.cultivated_vegetable))
+      selectedUnit.cultivated_vegetable
+        ? setSelectedPlant(plants.find((plant) => plant.id == selectedUnit.cultivated_vegetable))
         : setSelectedPlant({ name: 'Aucune plante sélectionnée' });
     }
   }, [selectedUnit, plants, plantsIsLoading]);
-
 
   const addTaskMutation = addTask(gardenId, selectedUnit.plot_id, queryClient);
   const deleteTaskMutation = deleteTask(gardenId, selectedUnit.plot_id, queryClient);
@@ -40,13 +37,13 @@ export default function SlidingPage({ open, setOpen, selectedUnit }) {
     addTaskMutation.mutate(data);
     resetField('title');
     resetField('description');
-
   };
 
   const handleDeleteTask = (id) => {
     deleteTaskMutation.mutate(id);
   };
 
+  const patchVegetableMutation = modifyPlotVegetable(gardenId, queryClient);
   const patchPlantMutation = patchPlant(gardenId, selectedUnit.plot_id, queryClient);
 
   const handleChangePlant = () => {
@@ -55,13 +52,12 @@ export default function SlidingPage({ open, setOpen, selectedUnit }) {
     patchPlantMutation.mutate(selectedPlant);
   };
 
-
   const filteredPlants =
     query === ''
       ? plants
       : plants.filter((plant) => {
-        return plant.name.toLowerCase().includes(query.toLowerCase());
-      });
+          return plant.name.toLowerCase().includes(query.toLowerCase());
+        });
 
   return !tasksIsLoading && !plantsIsLoading ? (
     <Transition.Root show={open} as={Fragment}>
@@ -166,7 +162,18 @@ export default function SlidingPage({ open, setOpen, selectedUnit }) {
                         )}
                       </div>
                     </Combobox>
-
+                    <button
+                      type="button"
+                      className=" ml-8 mb-4 inline-flex items-center rounded-md border border-transparent bg-indigo-100 px-6 py-3 text-base font-medium text-indigo-700 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                      onClick={() => {
+                        let plot = selectedUnit;
+                        plot.cultivated_vegetable = selectedPlant.name;
+                        console.log(plot, selectedPlant);
+                        patchVegetableMutation.mutate(plot);
+                      }}
+                    >
+                      Sauvegarder
+                    </button>
                     <div className="px-4 sm:px-6 lg:px-8">
                       <div className="sm:flex sm:items-center">
                         <div className="sm:flex-auto">
@@ -209,9 +216,13 @@ export default function SlidingPage({ open, setOpen, selectedUnit }) {
                                         {task.description}
                                       </td>
                                       <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                                        <button type='button' className="text-red-600 hover:text-red-900" onClick={() => {
-                                          handleDeleteTask(task.id)
-                                        }}>
+                                        <button
+                                          type="button"
+                                          className="text-red-600 hover:text-red-900"
+                                          onClick={() => {
+                                            handleDeleteTask(task.id);
+                                          }}
+                                        >
                                           Delete<span className="sr-only">, {task.title}</span>
                                         </button>
                                       </td>
@@ -269,8 +280,9 @@ export default function SlidingPage({ open, setOpen, selectedUnit }) {
         </div>
       </Dialog>
     </Transition.Root>
-  ) : (<>
-    <Loader></Loader>
-  </>
+  ) : (
+    <>
+      <Loader></Loader>
+    </>
   );
 }
