@@ -5,7 +5,7 @@ import { deleteGardenMember } from "../lib/gardens";
 import { useQueryClient } from "@tanstack/react-query";
 
 
-export default function MemberCard({ member, gardenId }) {
+export default function MemberCard({ member, gardenId, isManager }) {
 
     const queryClient = useQueryClient()
 
@@ -34,15 +34,18 @@ export default function MemberCard({ member, gardenId }) {
                 <p className="text-sm text-gray-500">{member.first_name + ' ' + member.last_name}</p>
             </div>
         </div>
-        <div className="ml-auto">
-            <button
-                type="button"
-                className="inline-flex items-center px-2.5 py-1.5 "
-                onClick={handleDelete}
-            >
-                <TrashIcon className="-ml-1 mr-0.5 h-5 w-5" aria-hidden="true" />
-            </button>
-        </div>
+        {isManager && (
+            <div className="ml-auto">
+                <button
+                    type="button"
+                    className="inline-flex items-center px-2.5 py-1.5 "
+                    onClick={handleDelete}
+                >
+                    <TrashIcon className="-ml-1 mr-0.5 h-5 w-5" aria-hidden="true" />
+                </button>
+            </div>
+        )}
+
     </>
     ) : null
 }

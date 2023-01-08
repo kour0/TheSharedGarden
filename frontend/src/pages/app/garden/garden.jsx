@@ -46,9 +46,6 @@ export default function Garden() {
     <>
       {selectedUnit != null && (<SlidingPage open={open} setOpen={setOpen} selectedUnit={selectedUnit} />)}
 
-      {console.log(garden.data)}
-      {console.log(profile.data)}
-
       <TwoColumnPage title="Visualisation de votre jardin" subtitle="Editez, visualisez les taches et les plantations">
 
         {/* primary column */}
