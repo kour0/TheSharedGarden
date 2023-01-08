@@ -91,7 +91,7 @@ def create():
         session.rollback()
         return {'message': str(e)}, 500
 
-@garden.get(BASE_URL + '/join/<garden_id>')
+@garden.post(BASE_URL + '/join/<garden_id>')
 def get_join(garden_id):
     try:
         account = g.user

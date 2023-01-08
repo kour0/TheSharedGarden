@@ -150,3 +150,20 @@ export const getGardenPicture = (garden_id) => {
   });
   return response;
 };
+
+export const joinGarden = (queryClient) => {
+  const response = useMutation(
+    ['garden'],
+    async (garden_id) => {
+      const response = await request({ url: `/api/garden/join/${garden_id}`, method: 'post' });
+      toast.success('Joined garden');
+      return response.data;
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('garden');
+      },
+    },
+  );
+  return response;
+}

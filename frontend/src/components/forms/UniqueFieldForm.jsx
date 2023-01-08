@@ -1,20 +1,36 @@
+import { useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import { joinGarden } from '../../lib/gardens';
 
 export function UniqueFieldForm({ form }) {
+  const queryClient = useQueryClient();
+  const joinPostGarden = joinGarden(queryClient);
   const navigate = useNavigate();
   const {
     register,
     handleSubmit,
-    formState: { errors },
   } = useForm();
   const onSubmit = async (data) => {
     try {
       navigate(`/app/join-garden/${data.gardenName}`);
     } catch (error) {
       toast.error(error.response.data.message);
+    }
+  };
+
+  const {
+    register : registerCode,
+    handleSubmit: handleSubmitCode,
+  } = useForm();
+  const onSubmitCode = async (data) => {
+    try {
+      const response = joinPostGarden.mutate(data.code);
+      toast.success('Vous avez rejoint le jardin');
+    } catch (error) {
+      toast.error('Une erreur est survenue');
     }
   };
 
@@ -88,6 +104,31 @@ export function UniqueFieldForm({ form }) {
                     className="block w-full rounded-md border border-transparent bg-teal-800 px-5 py-3 text-base font-medium text-white shadow hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-teal-700 sm:px-10"
                   >
                     {form.button.name}
+                  </button>
+                </div>
+              </form>
+              <form
+                action="#"
+                method="POST"
+                onSubmit={handleSubmitCode(onSubmitCode)}
+                className="mt-12 sm:mx-auto sm:flex sm:max-w-lg"
+              >
+                <div className="min-w-0 flex-1">
+                  <label htmlFor='code' className="sr-only"></label>
+                  <input
+                    id='code'
+                    type="text"
+                    className="block w-full rounded-md border border-transparent px-5 py-3 text-base text-gray-900 placeholder-gray-500 shadow-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-teal-700"
+                    placeholder='code du jardin'
+                    {...registerCode("code", { required: true })}
+                  />
+                </div>
+                <div className="mt-4 sm:mt-0 sm:ml-3">
+                  <button
+                    type="submit"
+                    className="block w-full rounded-md border border-transparent bg-teal-800 px-5 py-3 text-base font-medium text-white shadow hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-teal-700 sm:px-10"
+                  >
+                    Rejoindre
                   </button>
                 </div>
               </form>

@@ -73,7 +73,7 @@ def render_map():
             try {
             const div = document.getElementById(id_garden);
             var xhttp = new XMLHttpRequest();
-            xhttp.open("GET", "http://127.0.0.1:5454/api/garden/join/" + id_garden, true);
+            xhttp.open("POST", "http://127.0.0.1:5454/api/garden/join/" + id_garden, true);
             xhttp.setRequestHeader("Content-type", "application/json");
             xhttp.setRequestHeader("x-access-token", """ + '"' + cookie + '"' + """);
             xhttp.onreadystatechange = function() {
