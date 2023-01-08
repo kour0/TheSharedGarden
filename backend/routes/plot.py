@@ -209,6 +209,10 @@ def get_vegetable(garden_id, plot_id):
             return {'message': 'Plot not found'}, 404
 
         plant = session.query(Plant).filter_by(id=plotf.plant).first()
+
+        if not plant:
+            return {'vegetable': 'Aucune plante'}, 200
+
         return {'vegetable': plant.name}, 200
     except Exception as e:
         return {'message': str(e)}, 500

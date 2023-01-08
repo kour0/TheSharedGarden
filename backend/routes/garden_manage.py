@@ -64,9 +64,6 @@ def get_garden_image(garden_id):
         if not garden:
             return {'message': 'Garden not found'}, 404
         
-        link = session.query(Link).filter_by(garden_id=garden_id, account_id=g.user.id).first()
-        if not link:
-            return {'message': 'You are not in this garden'}, 403
 
         image_uri = get_image_name(garden_id, 'garden')
         return send_from_directory('static/images/garden', image_uri)

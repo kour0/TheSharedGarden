@@ -22,7 +22,6 @@ export default function SlidingPage({ open, setOpen, selectedUnit }) {
   const { data: plants, isLoading: plantsIsLoading } = getPlants();
   const { data: tasks, isLoading: tasksIsLoading } = getTasks(gardenId, selectedUnit.plot_id);
 
-  console.log(plants, vegetable);
 
   const addTaskMutation = addTask(gardenId, selectedUnit.plot_id, queryClient);
   const deleteTaskMutation = deleteTask(gardenId, selectedUnit.plot_id, queryClient);
@@ -41,16 +40,18 @@ export default function SlidingPage({ open, setOpen, selectedUnit }) {
   const patchPlantMutation = patchPlant(gardenId, selectedUnit.plot_id, queryClient);
 
   const handleChangePlant = () => {
-    setQuery(selectedPlant.name);
-    patchPlantMutation.mutate(selectedPlant);
+    if (selectedPlant) {
+      setQuery(selectedPlant.name);
+      patchPlantMutation.mutate(selectedPlant);
+    }
   };
 
   const filteredPlants =
     query === ''
       ? plants
       : plants.filter((plant) => {
-          return plant.name.toLowerCase().includes(query.toLowerCase());
-        });
+        return plant.name.toLowerCase().includes(query.toLowerCase());
+      });
 
   return !tasksIsLoading && !plantsIsLoading && !vegetableIsLoading ? (
     <Transition.Root show={open} as={Fragment}>

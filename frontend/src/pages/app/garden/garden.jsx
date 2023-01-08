@@ -28,7 +28,6 @@ export default function Garden() {
   const className = (cell) => (cell.plot ? 'bg-yellow-700' : 'bg-green-500');
 
   const getImage = (cell) => {
-    console.log(cell);
     if (cell?.plot?.plant) {
       return cell.plot.plant.image;
     }
@@ -56,7 +55,8 @@ export default function Garden() {
             getImage={getImage}
             handleCaseClick={handleCaseClick}
           />
-        ) : (
+        ) : profile.data.id === garden.data.manager ? (
+          
           <div className="flex flex-col items-center justify-center h-96 lg:w-1/2 mx-auto text-center">
             <p className="text-2xl text-gray-500">Vous n'avez pas encore de parcelles</p>
             <p className="text-sm text-gray-500 mb-3">Ajoutez des parcelles pour pouvoir visualiser votre jardin</p>
@@ -68,7 +68,13 @@ export default function Garden() {
               Modelisation
             </Link>
           </div>
+        ) : (
+          <div className="flex flex-col items-center justify-center h-96 lg:w-1/2 mx-auto text-center">
+            <p className="text-2xl text-gray-500">Le jardin n'a pas encore été modelisé</p>
+            <p className="text-sm text-gray-500 mb-3">Le jardin n'a pas encore été modelisé par son manager</p>
+          </div>
         )}
+        
 
         {/* secondary column */}
         <div>
