@@ -107,6 +107,10 @@ export function UniqueFieldForm({ form }) {
                   </button>
                 </div>
               </form>
+              <div className="sm:text-center pt-7">
+                <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">Invitation</h2>
+                <p className="mx-auto mt-6 max-w-2xl text-lg text-teal-300">Rejoindre un jardin avec son code</p>
+              </div>
               <form
                 action="#"
                 method="POST"
