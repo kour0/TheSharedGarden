@@ -22,7 +22,7 @@
 
     \includegraphics[width=0.5\textwidth]{tele_univ.png}
 
-    \textsc{\Large Rapport finale de Projet Pluridisciplinaire d'Informatique Intégrative}\\[1.5cm]
+    \textsc{\Large Rapport final de Projet Pluridisciplinaire d'Informatique Intégrative}\\[1.5cm]
 
     \HRule \\[0.4cm]
     { \huge \bfseries Les jardins partagés\\[0.4cm] }
@@ -58,16 +58,83 @@
 \section{Base de donnée}
 \subsection{Conception}
 \subsubsection{Que faut-il dans notre base ?}
+Pour la base de donnée, nous aurons besoin de stocker plusieurs informations. Nous aurons besoin en premier lieu de stocker 
+toutes les données concernant l'utilisateur (les informations de son compte à savoir son identifiant ou son mot de passe par ex), nous
+aurons également de stocker des données concernant les jardins que les utilisateurs vont créer (comme l'endroit où il se trouve par exemple, 
+le nombre de personne qui en font partie). Lorsque les jardins seront crées, nous aurons besoin de caractériser les parcelles de jardin 
+(les légumes qu'on y cultive ou encore l'état dans lequel elle est : a t'elle été labouré). Afin d'avoir une vue d'ensemble sur les 
+différentes missions au sein des jardins, nous aurons également besoin de caracteriser les differentes tâches à faire (date limite,
+la personne qui s'en occupera...). 
 \subsubsection{Schéma entité-association}
+
+Maintenant que nous savons ce que nous aurons à stocker, nous ponvons commencer la réalisation de notre schéma entité-asociation
+en respectant les contraintes logiques de cardinalités suivantes : 
+\begin{itemize}
+    \item Une personnes peut posséder un ou plusieurs jardins mais un jardin ne peut avoir qu'un propriétaire
+    \item Un jardin peut avoir plusieurs parcelles mais une parcelle est completement associé à son jardin.
+    \item Une personne peut faire autant de tache qu'elle veut, et de même, plusieurs personnes peuvent participer à une même tache.
+\end{itemize}
+Ainsi, on obtient le schéma suivant : 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{img/Schema_entite_association_PPIIversion2.drawio.png}
+    \caption{Schéma entité-association}
+\end{figure}
+
 \subsubsection{Mise en 3ème forme normale}
+Pour finaliser la conception de notre base, il faut maintenant transformer les entités et associations décrites dans le schéma en 
+relation, que nous mettrons ensuite sous troisieme forme normale : on obtient ainsi les relations suivantes : 
+\begin{itemize}
+    \item account(id, email, username, first_name, last_name, password, created_at)
+    \item garden(id_garden, owner, garden_name, manager, garden_type, street_adress, country, city, province, postal_code)
+    \item plot(plot_id, garden_id, plot_state, plot_name, cultivated_vegetables)
+    \item task(task_id, plot_id, task_name, task_description, task_manager, task_state, completion_state, validation_state, deadline)
+    \item plot_unit(plot_id, unit)
+    \item do(account_id, task_id)
+    \item link(account_id, garden_id)
+\end{itemize}
 \subsection{Implémentation}
-\subsubsection{Connection à la base}
 \subsubsection{SQL alchemy}
+SQLAlchemy est un ORM (Object-Relational Mapping) permettant de manipuler la base de données via des objets python. Les requêtes en 
+python sont ainsi « traduite » en SQL et la réponse reçu se présentera sous la forme d’un objet python avec lequel on peut interagir. 
+SQLAlchemy constitue donc un pont entre la base de données et notre application. Pour que l’ORM puisse savoir où se situe notre 
+base de données (pour pouvoir l’interroger), on doit définir des modèles. 
+On doit ainsi lier les éléments de notre table avec des classes python dans lesquels on indiquera le type de chaque champ. 
+Les sessions de SQLAlchemy permettent de gérer les transactions SQL, autrement dit un ensemble de requêtes. Si l'une d'elles échoue,
+l'ensemble de la transaction est annulée et aucune requête n'est communiquée à la base. L’avantage de ce système est la sécurité. 
+Par exemple, si on crée un utilisateur et que le requête permettant la création des propriété de l’utilisateur dans une autre table 
+(mot de passe) échoue,l’ensemble des requêtes est alors annulé et la base est corrompu par un utilisateur sans permission.
+
+ \subsubsection{Création de la base}
+ En utilisant le systeme de gestion de base de données sqlite, nous avons crée notre base dans un fichier data.db avec le script 
+ sauvegarder dans un fichier nommée creation_table. Ces deux fichiers sont dans le dossier Data situé à la racine du Backend.  
+
+ Dans le dossier models, situé à la racine du backend, nous avons crée les modèles, les classes python associé aux élements de la base. 
+ La connection à la base de donnée via SQLAlchemy est codé dans fichier intitulé bdd.py
 
 \newpage
 \section{Implémentation Partie Web}
 \subsection{Backend}
-\subsubsection{}
+\subsubsection{Authentification}
+Pour accèder aux fonctionnalités de l'application, une insciption est nécessaire. Nous avons ainsi besoin de creer une Authentification.
+L'utilisateur doit d'abord se créer un compte. Par la suite, si l'utilisateur veut se connecter, il devra rentrer les informations données lors de 
+son inscription. 
+
+Nous avons ainsi séparé l'Authentification en plusieurs parties : les trois premieres situé dans le fichier Authentification.py situé
+la dossier Route (racine backend) et la dernieres dans le fichier auth.py situé dans middlewares.
+\begin{itemize}
+    \item La fonction signup (inscription) récupère dans un permier temps les données rentrées par l'utilisateur. Ensuite, la fonction 
+verifie si l'email est déjà enregister. Si il l'est alors l'utilisateur ne peut pas s'inscire. Sinon, la fonction hache le mot de 
+passe (elle le crypte), avant de crée un nouveau compte. Pour finir, la fonction renvoie une réponse avec un cookie (jeton JWT).
+    \item La fonction signin (connexion) récupère l'e-mail et le mot de passe d'un utilisateur, vérifie si l'utilisateur existe et si 
+le mot de passe est correct, et si c'est le cas, il renvoie un cookie avec un jeton JWT.
+    \item La fonction signout (déconnexion) déconnecte l'utilisateur en supprimant le cookies.
+    \item La fonction authtest utilise la fonction authentificate se trouvant dans le fichier auth.py du dossier middlewares. Cette 
+fonction récupère d'abord le token se trouvant dans le cookies (envoyé par la fonction signin ou signup), et verifie si le token existe
+avant de donner l'accès à l'application.
+\end{itemize}
+
 \subsubsection{}
 \subsubsection{}
 \subsection{Frontend}
@@ -203,11 +270,20 @@ Maintenant que toutes les étapes sont planifiées, nous devons répartir le tra
     \caption{Matrice RACI}
 \end{figure} 
 
+\subsection{Gestion des risques}
+Nous avons également penser à prévoir une partie des risques pouvant se dresser sur notre route, les risques les plus classiques étant 
+la gestion du temps et le manque de comprehension de certaines personnes de l'équipe
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{img/Plan_gestion_risque.png}
+    \caption{Plan de gestion des risques}
+\end{figure} 
+
 \section{Conclusion}
 
-\section{Annexe}
-\subsection[Annexe1]{Annexe 1\hypertarget{annexe1}{}}
-
+\section{Annexes}
+\includepdf[pages=1]{../../cr_reu/octobre/16/cr_16_octobre.pdf}
+\includepdf[pages=1]{../../cr_reu/octobre/18/cr_18_octobre.pdf}
 \includepdf[pages=1]{../../cr_reu/novembre/cr_18_novembre.pdf}
 \includepdf[pages=1]{../../cr_reu/novembre/cr_30_novembre.pdf}
 \includepdf[pages=1]{../../cr_reu/decembre/cr_16_decembre.pdf}
