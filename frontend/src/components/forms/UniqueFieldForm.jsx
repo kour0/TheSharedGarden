@@ -1,5 +1,4 @@
 import { useQueryClient } from '@tanstack/react-query';
-import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
@@ -9,10 +8,7 @@ export function UniqueFieldForm({ form }) {
   const queryClient = useQueryClient();
   const joinPostGarden = joinGarden(queryClient);
   const navigate = useNavigate();
-  const {
-    register,
-    handleSubmit,
-  } = useForm();
+  const { register, handleSubmit } = useForm();
   const onSubmit = async (data) => {
     try {
       navigate(`/app/join-garden/${data.gardenName}`);
@@ -21,10 +17,7 @@ export function UniqueFieldForm({ form }) {
     }
   };
 
-  const {
-    register : registerCode,
-    handleSubmit: handleSubmitCode,
-  } = useForm();
+  const { register: registerCode, handleSubmit: handleSubmitCode } = useForm();
   const onSubmitCode = async (data) => {
     try {
       const response = joinPostGarden.mutate(data.code);
@@ -95,7 +88,7 @@ export function UniqueFieldForm({ form }) {
                     type="text"
                     className="block w-full rounded-md border border-transparent px-5 py-3 text-base text-gray-900 placeholder-gray-500 shadow-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-teal-700"
                     placeholder={form.placeholder}
-                    {...register("gardenName", { required: true })}
+                    {...register('gardenName', { required: true })}
                   />
                 </div>
                 <div className="mt-4 sm:mt-0 sm:ml-3">
@@ -118,14 +111,14 @@ export function UniqueFieldForm({ form }) {
                 className="mt-12 sm:mx-auto sm:flex sm:max-w-lg"
               >
                 <div className="min-w-0 flex-1">
-                  <label htmlFor='code' className="sr-only"></label>
+                  <label htmlFor="code" className="sr-only"></label>
                   <input
-                    name='code'
-                    id='code'
+                    name="code"
+                    id="code"
                     type="text"
                     className="block w-full rounded-md border border-transparent px-5 py-3 text-base text-gray-900 placeholder-gray-500 shadow-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-teal-700"
-                    placeholder='code du jardin'
-                    {...registerCode("code", { required: true })}
+                    placeholder="code du jardin"
+                    {...registerCode('code', { required: true })}
                   />
                 </div>
                 <div className="mt-4 sm:mt-0 sm:ml-3">

@@ -1,17 +1,16 @@
-import { Route, Routes, useNavigate } from 'react-router-dom';
-import Index from './pages/Index';
-import Login from './pages/login';
-import Dashboard from './pages/app/dashboard';
-import { CreateGarden } from './pages/app/createGarden';
-import JoinGarden from './pages/app/joinGarden';
-import SideBar from './components/layout/SideBar';
-import Cookies from 'js-cookie';
+import { Route, Routes } from 'react-router-dom';
 import Error404 from './components/Error404';
+import SideBar from './components/layout/SideBar';
+import { CreateGarden } from './pages/app/createGarden';
+import Dashboard from './pages/app/dashboard';
+import Garden from './pages/app/garden/garden';
+import GardenInfo from './pages/app/garden/garden_info';
+import GardenModeling from './pages/app/garden/garden_modeling';
+import JoinGarden from './pages/app/joinGarden';
 import Profile from './pages/app/profile';
 import SearchGarden from './pages/app/searchGarden';
-import Garden from './pages/app/garden/garden';
-import GardenModeling from './pages/app/garden/garden_modeling';
-import GardenInfo from './pages/app/garden/garden_info';
+import Index from './pages/Index';
+import Login from './pages/login';
 
 function App() {
   return (
@@ -34,9 +33,8 @@ function App() {
             <Route index element={<JoinGarden />} />
             <Route path=":gardenName" element={<SearchGarden />} />
           </Route>
-          
-          <Route path="profile" element={<Profile />} />
 
+          <Route path="profile" element={<Profile />} />
         </Route>
         <Route path="*" element={<Error404 />} />
       </Routes>

@@ -1,23 +1,15 @@
-import os
-
-import numpy as np
-from flask import Blueprint, request, redirect
-from flask import send_from_directory, g
+from flask import Blueprint, request
+from flask import g
 from flask_cors import CORS
 from flask_uploads import UploadSet, ALL
-from lib.image_helper import get_image_name, save_image
-from lib.garden_helper import gardens_to_json, garden_to_json
-from geopy.geocoders import Nominatim
 
 from bdd import Session
+from lib.garden_helper import gardens_to_json
+from lib.image_helper import save_image
 from middlewares import auth
-from models.Accounts import Accounts
 from models.Garden import Garden
 from models.Link import Link
-from models.Plot import Plot
-from models.PlotUnit import PlotUnit
-from routes.map import add_map, delete_map
-from middlewares import garden_water
+from routes.map import add_map
 
 garden = Blueprint('garden', __name__)
 session = Session()
@@ -93,6 +85,7 @@ def create():
         session.rollback()
         return {'message': str(e)}, 500
 
+
 @garden.post(BASE_URL + '/join/<garden_id>')
 def get_join(garden_id):
     try:
@@ -122,5 +115,3 @@ def get_gardens(garden_name):
     except Exception as e:
         print(e)
         return {'message': str(e)}, 500
-
-

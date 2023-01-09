@@ -20,6 +20,8 @@ It takes in a user's email and password, checks if the user exists and if the pa
 and if so, it returns a cookie with a JWT token
 :return: A response object is being returned.
 """
+
+
 @authentication.post(BASE_URL + '/signin')
 def signin():
     try:
@@ -40,11 +42,14 @@ def signin():
         session.rollback()
         return {'message': str(e)}, 500
 
+
 """
 It takes in user infos, checks if the email is already registered, hashes the password, creates a new
 account, and returns a response with a cookie (JWT token)
 :return: A response object is being returned.
 """
+
+
 @authentication.post(BASE_URL + '/signup')
 def signup():
     try:
@@ -60,7 +65,7 @@ def signup():
             return {'message': 'Email already registered.'}, 401
         password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
         password = password.decode('utf-8')
-        account = Accounts(email,username, first_name, last_name, password)
+        account = Accounts(email, username, first_name, last_name, password)
         session.add(account)
         session.commit()
         token = jwt.encode({'email': email}, config('JWT_SECRET'), algorithm='HS256')
@@ -75,6 +80,8 @@ def signup():
 Logs out the user by deleting the cookie
 :return: A response object is being returned.
 """
+
+
 @authentication.post(BASE_URL + '/logout')
 def signout():
     try:
@@ -83,6 +90,7 @@ def signout():
         return response
     except Exception as e:
         return {'message': str(e)}, 500
+
 
 @authentication.get(BASE_URL + '/authtest')
 def authtest():

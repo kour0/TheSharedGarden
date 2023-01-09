@@ -1,6 +1,6 @@
 from sqlalchemy import Column, ForeignKey
-from sqlalchemy.types import String, Integer
 from sqlalchemy.orm import relationship
+from sqlalchemy.types import Integer
 
 from bdd import Base
 

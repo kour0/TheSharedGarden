@@ -1,17 +1,11 @@
 import os
 
-from flask import Flask
-from flask import send_from_directory, request, Response, g
+from flask import Flask, Response, request, send_from_directory
 from flask_cors import CORS
-from flask_uploads import configure_uploads, UploadSet, ALL
+from flask_uploads import ALL, UploadSet, configure_uploads
 
-from routes import authentication
-from routes import garden
-from routes import map
-from routes import profile
-from routes import task
-from routes import plant
-from routes import garden_manage , plot
+from routes import (authentication, garden, garden_manage, map, plant, plot,
+                    profile, task)
 
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
@@ -36,10 +30,12 @@ DATABASE = 'data/data.db'
 # Creation de la carte
 map.create_map()
 
+
 @app.before_request
 def before_request():
     if request.method.lower() == 'options':
         return Response()
+
 
 @app.errorhandler(404)
 def page_not_found(e):

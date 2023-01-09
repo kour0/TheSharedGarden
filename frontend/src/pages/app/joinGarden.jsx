@@ -1,9 +1,6 @@
-import { NavBar } from '../../components/navigation/NavBar';
 import { UniqueFieldForm } from '../../components/forms/UniqueFieldForm';
-import { Map } from '../../components/Map';
-import SideBar from '../../components/layout/SideBar';
-import PageHeader from '../../components/PageHeader';
 import MainPage from '../../components/layout/MainPage';
+import { Map } from '../../components/Map';
 
 const form = {
   title: 'Recherchez un jardin',
@@ -18,15 +15,18 @@ const form = {
 
 export default function JoinGarden() {
   return (
-    <MainPage title="Rejoindre un jardin" subtitle="Rechercher ou cliquer sur la carte pour rejoindre un jardin public.">
-        <UniqueFieldForm form={form}></UniqueFieldForm>
-        <div className="text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">La carte</h2>
-          <p className="mx-auto mt-3 max-w-2xl text-xl text-gray-500 sm:mt-4">
-            Vous pouvez rejoindre un jardin en cliquant sur la carte.
-          </p>
-          <Map></Map>
-        </div>
+    <MainPage
+      title="Rejoindre un jardin"
+      subtitle="Rechercher ou cliquer sur la carte pour rejoindre un jardin public."
+    >
+      <UniqueFieldForm form={form}></UniqueFieldForm>
+      <div className="text-center">
+        <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">La carte</h2>
+        <p className="mx-auto mt-3 max-w-2xl text-xl text-gray-500 sm:mt-4">
+          Vous pouvez rejoindre un jardin en cliquant sur la carte.
+        </p>
+        <Map></Map>
+      </div>
     </MainPage>
   );
 }

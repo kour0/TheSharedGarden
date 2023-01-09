@@ -1,21 +1,15 @@
-import os
-
-from flask import Blueprint, request, redirect
-from flask import send_from_directory, g
+from flask import Blueprint, request
+from flask import g
 from flask_cors import CORS
-from flask_uploads import UploadSet, ALL
-from lib.image_helper import get_image_name, save_image
-from lib.plot_helper import plots_to_json, plot_to_json
 
 from bdd import Session
+from lib.plot_helper import plots_to_json
 from middlewares import auth
-from models.Accounts import Accounts
 from models.Garden import Garden
 from models.Link import Link
+from models.Plant import Plant
 from models.Plot import Plot
 from models.PlotUnit import PlotUnit
-from models.Plant import Plant
-from routes.map import add_map, delete_map
 
 plot = Blueprint('plot', __name__)
 session = Session()
@@ -33,6 +27,7 @@ def before_request():
     except Exception as e:
         return {'message': str(e)}, 500
 
+
 @plot.get(BASE_URL + '/')
 def get_plots(garden_id):
     try:
@@ -48,7 +43,7 @@ def get_plots(garden_id):
             return {'message': 'You are not a member of this garden'}, 401
         print('ok')
 
-        #plots = session.query(PlotUnit).join(Plot).filter(Plot.garden_id == garden_id).all()
+        # plots = session.query(PlotUnit).join(Plot).filter(Plot.garden_id == garden_id).all()
         plots = session.query(Plot).filter(Plot.garden_id == garden_id).all()
         for plot in plots:
             units = session.query(PlotUnit).filter(PlotUnit.plot_id == plot.plot_id).all()
@@ -59,7 +54,7 @@ def get_plots(garden_id):
         return plots_to_json(plots)
     except Exception as e:
         return {'message': str(e)}, 500
-    
+
 
 @plot.post(BASE_URL + '/')
 def create_plot(garden_id):
@@ -71,9 +66,9 @@ def create_plot(garden_id):
         if not garden:
             return {'message': 'Garden not found'}, 404
 
-        if garden.owner!= user.id:
+        if garden.owner != user.id:
             return {'message': 'You are not the owner of this garden'}, 401
-        
+
         body = request.get_json()
         print(body)
         units = body['units']
@@ -86,15 +81,16 @@ def create_plot(garden_id):
         session.commit()
 
         for unit in units:
-            unit = PlotUnit(plot_id=plot.plot_id, unit= unit)
+            unit = PlotUnit(plot_id=plot.plot_id, unit=unit)
             session.add(unit)
 
         session.commit()
 
         return {'message': 'Plot created successfully', 'plot_id': plot.plot_id}, 200
     except Exception as e:
-        print (e)
+        print(e)
         return {'message': str(e)}, 500
+
 
 @plot.patch(BASE_URL + '/<plot_id>')
 def upate_plot(garden_id, plot_id):
@@ -106,14 +102,14 @@ def upate_plot(garden_id, plot_id):
         if not garden:
             return {'message': 'Garden not found'}, 404
 
-        if garden.owner!= user.id:
+        if garden.owner != user.id:
             return {'message': 'You are not the owner of this garden'}, 401
-        
+
         plot = session.query(Plot).filter_by(plot_id=plot_id).first()
 
         if not plot or plot.garden_id != garden.id_garden:
             return {'message': 'Plot not found'}, 404
-        
+
         body = request.get_json()
 
         if ("units" in body.keys()):
@@ -122,12 +118,12 @@ def upate_plot(garden_id, plot_id):
             session.commit()
 
             for unit in units:
-                unit = PlotUnit(plot_id=plot.plot_id, unit= unit)
+                unit = PlotUnit(plot_id=plot.plot_id, unit=unit)
                 session.add(unit)
-        
+
             session.commit()
 
-        if("name" in body.keys()):
+        if ("name" in body.keys()):
             print(body['name'])
             plot.plot_name = body['name']
             session.add(plot)
@@ -148,9 +144,9 @@ def delete_plot(garden_id, plot_id):
         if not garden:
             return {'message': 'Garden not found'}, 404
 
-        if garden.owner!= user.id:
+        if garden.owner != user.id:
             return {'message': 'You are not the owner of this garden'}, 401
-        
+
         plot = session.query(Plot).filter_by(plot_id=plot_id).first()
 
         if not plot or plot.garden_id != garden.id_garden:
@@ -164,7 +160,6 @@ def delete_plot(garden_id, plot_id):
     except Exception as e:
         return {'message': str(e)}, 500
 
-        
 
 @plot.patch(BASE_URL + '/<plot_id>/modifyvegetable')
 def modify_vegetable(garden_id, plot_id):
@@ -175,12 +170,12 @@ def modify_vegetable(garden_id, plot_id):
 
         if not garden:
             return {'message': 'Garden not found'}, 404
-        
+
         plot = session.query(Plot).filter_by(plot_id=plot_id).first()
 
         if not plot or plot.garden_id != garden.id_garden:
             return {'message': 'Plot not found'}, 404
-        
+
         body = request.get_json()
 
         if ("vegetable" in body.keys()):
@@ -193,6 +188,7 @@ def modify_vegetable(garden_id, plot_id):
     except Exception as e:
         return {'message': str(e)}, 500
 
+
 @plot.get(BASE_URL + '/<plot_id>/vegetable')
 def get_vegetable(garden_id, plot_id):
     try:
@@ -202,7 +198,7 @@ def get_vegetable(garden_id, plot_id):
 
         if not garden:
             return {'message': 'Garden not found'}, 404
-        
+
         plotf = session.query(Plot).filter_by(plot_id=plot_id).first()
 
         if not plotf or plotf.garden_id != garden.id_garden:
