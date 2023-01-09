@@ -8,8 +8,8 @@ import { Loader } from '../../../components/loader/FullScreenLoader';
 import NavTitle from '../../../components/navigation/NavTitle';
 import SlidingPage from '../../../components/SlidingPage';
 import { getGarden } from '../../../lib/gardens';
-import { getProfile } from '../../../lib/profile';
 import { getPlots } from '../../../lib/plots';
+import { getProfile } from '../../../lib/profile';
 
 export default function Garden() {
   const { gardenId } = useParams();
@@ -56,7 +56,6 @@ export default function Garden() {
             handleCaseClick={handleCaseClick}
           />
         ) : profile.data.id === garden.data.manager ? (
-          
           <div className="flex flex-col items-center justify-center h-96 lg:w-1/2 mx-auto text-center">
             <p className="text-2xl text-gray-500">Vous n'avez pas encore de parcelles</p>
             <p className="text-sm text-gray-500 mb-3">Ajoutez des parcelles pour pouvoir visualiser votre jardin</p>
@@ -74,7 +73,6 @@ export default function Garden() {
             <p className="text-sm text-gray-500 mb-3">Le jardin n'a pas encore été modelisé par son manager</p>
           </div>
         )}
-        
 
         {/* secondary column */}
         <div>

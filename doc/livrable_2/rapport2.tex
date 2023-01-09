@@ -86,18 +86,18 @@ Ainsi, on obtient le schéma suivant :
 Pour finaliser la conception de notre base, il faut maintenant transformer les entités et associations décrites dans le schéma en 
 relation, que nous mettrons ensuite sous troisieme forme normale : on obtient ainsi les relations suivantes : 
 \begin{itemize}
-    \item account(id, email, username, first_name, last_name, password, created_at)
-    \item garden(id_garden, owner, garden_name, manager, garden_type, street_adress, country, city, province, postal_code)
-    \item plot(plot_id, garden_id, plot_state, plot_name, cultivated_vegetables)
-    \item task(task_id, plot_id, task_name, task_description, task_manager, task_state, completion_state, validation_state, deadline)
-    \item plot_unit(plot_id, unit)
-    \item do(account_id, task_id)
-    \item link(account_id, garden_id)
+    \item account(id, email, username, first name, last name, password, created at)
+    \item garden(garden id, owner, garden name, manager, garden type, street adress, country, city, province, postal code)
+    \item plot(plot id, garden id, plot state, plot name, cultivated vegetables)
+    \item task(task id, plot id, task name, task description, task manager, task state, completion state, validation state, deadline)
+    \item plot unit(plot id, unit)
+    \item do(account id, task id)
+    \item link(account id, garden id)
 \end{itemize}
 \subsection{Implémentation}
 \subsubsection{SQL alchemy}
 SQLAlchemy est un ORM (Object-Relational Mapping) permettant de manipuler la base de données via des objets python. Les requêtes en 
-python sont ainsi « traduite » en SQL et la réponse reçu se présentera sous la forme d’un objet python avec lequel on peut interagir. 
+python sont ainsi "traduites" en SQL et la réponse reçu se présentera sous la forme d’un objet python avec lequel on peut interagir.
 SQLAlchemy constitue donc un pont entre la base de données et notre application. Pour que l’ORM puisse savoir où se situe notre 
 base de données (pour pouvoir l’interroger), on doit définir des modèles. 
 On doit ainsi lier les éléments de notre table avec des classes python dans lesquels on indiquera le type de chaque champ. 
@@ -106,16 +106,23 @@ l'ensemble de la transaction est annulée et aucune requête n'est communiquée 
 Par exemple, si on crée un utilisateur et que le requête permettant la création des propriété de l’utilisateur dans une autre table 
 (mot de passe) échoue,l’ensemble des requêtes est alors annulé et la base est corrompu par un utilisateur sans permission.
 
- \subsubsection{Création de la base}
- En utilisant le systeme de gestion de base de données sqlite, nous avons crée notre base dans un fichier data.db avec le script 
- sauvegarder dans un fichier nommée creation_table. Ces deux fichiers sont dans le dossier Data situé à la racine du Backend.  
+\subsubsection{Création de la base}
+En utilisant le systeme de gestion de base de données sqlite, nous avons crée notre base dans un fichier data.db avec le script 
+sauvegarder dans un fichier nommée "creation table.sql". Ces deux fichiers sont dans le dossier Data situé à la racine du Backend.  
 
- Dans le dossier models, situé à la racine du backend, nous avons crée les modèles, les classes python associé aux élements de la base. 
- La connection à la base de donnée via SQLAlchemy est codé dans fichier intitulé bdd.py
+Dans le dossier models, situé à la racine du backend, nous avons crée les modèles, les classes python associé aux élements de la base. 
+La connection à la base de donnée via SQLAlchemy est codé dans fichier intitulé bdd.py
 
 \newpage
 \section{Implémentation Partie Web}
-\subsection{Backend}
+\subsection{structure de l'application}
+Nous avons choisi de séparer la partie affichage coté utilisateur (Frontend) et la partie gestion de l'application coté serveur (Backend).
+Les deux communiquent ensembles via une API. 
+Dans le backend, se trouvent les differentes fonctionnalités se déroulant coté serveur tel que : l'authentification ou encore la gestion 
+de la base de données. Le backend est un serveur flask(et les fonctions sont donc codés en python)
+Dans le front end, on utilise une librairie Javascript appelé React.
+
+\subsection{Fonctionnalités de l'application}
 \subsubsection{Authentification}
 Pour accèder aux fonctionnalités de l'application, une insciption est nécessaire. Nous avons ainsi besoin de creer une Authentification.
 L'utilisateur doit d'abord se créer un compte. Par la suite, si l'utilisateur veut se connecter, il devra rentrer les informations données lors de 
@@ -124,7 +131,7 @@ son inscription.
 Nous avons ainsi séparé l'Authentification en plusieurs parties : les trois premieres situé dans le fichier Authentification.py situé
 la dossier Route (racine backend) et la dernieres dans le fichier auth.py situé dans middlewares.
 \begin{itemize}
-    \item La fonction signup (inscription) récupère dans un permier temps les données rentrées par l'utilisateur. Ensuite, la fonction 
+    \item La fonction signup (inscription) récupère dans un permier temps les données rentrées par l'utilisateur. Ensuite, la fonction
 verifie si l'email est déjà enregister. Si il l'est alors l'utilisateur ne peut pas s'inscire. Sinon, la fonction hache le mot de 
 passe (elle le crypte), avant de crée un nouveau compte. Pour finir, la fonction renvoie une réponse avec un cookie (jeton JWT).
     \item La fonction signin (connexion) récupère l'e-mail et le mot de passe d'un utilisateur, vérifie si l'utilisateur existe et si 
@@ -135,9 +142,27 @@ fonction récupère d'abord le token se trouvant dans le cookies (envoyé par la
 avant de donner l'accès à l'application.
 \end{itemize}
 
-\subsubsection{}
-\subsubsection{}
-\subsection{Frontend}
+\subsubsection{Gestion de compte et présentation des jardins}
+Dans le backend, la gestion du profil est dans le fichier appelé profile.py. Cette gestion se décompose en plusieurs fonctions :
+\begin{itemize}
+    \item La fonction get information récupère les informations de la base de données et les renvoie sous la forme d'un objet json, 
+la récupération de la photo de profil se fait via la fonction get image, qui va chercher la photo dans le dossier static du backend.
+    \item La fonction modify profile permet à l'utilisateur de modifier son profil. Cette fonction récupère d'abord le tuple de la base 
+associé à l'utilisateur en vue de le modifier. La fonction récupère ensuite les informations tapés par l'utilisateur à condition qu'elles 
+existent, le tuple est ainsi modifié avec les nouvelles informations avant d'être réinjecté dans la base.
+\end{itemize}
+\subsubsection{Gestion des jardins : creation, destruction, modification, management}
+Dans le backend, la gestion des jardins s'étend sur 2 fichiers. Au sein du fichier garden.py se trouve les fonctionnalités suivantes : 
+\begin{itemize}
+    \item La fonction get all garden : permet de montrer à l'utilisateur les jardins qu'il possède. Elle récupère les jardins associés
+à l'id de l'utilisateur (en effectuant une jointure entre 2 tables), elle utilise ensuite une fonction (issue du dossier lib, fichier
+garden.helper) qui va renvoyer les informations concernant chaque jardin sous la forme d'objet json. 
+    \item La fonction create permet de créer un jardin. Elle récupère dans un premier temps toutes les informations rentrés par 
+l'utilisateur sur son jardin (photo, nom...). Les informations sont ensuite mise dans la base et la photo dans le dossier Static.
+    \item La fonction 
+
+\end{itemize} 
+\subsection{}
 \subsubsection{}
 \subsubsection{}
 \subsubsection{}

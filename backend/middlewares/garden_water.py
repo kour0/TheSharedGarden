@@ -1,5 +1,5 @@
 from copy import deepcopy
-from time import sleep, time
+from time import time
 
 import numpy as np
 
@@ -71,36 +71,38 @@ def trouver_points_d_eau(potager, n, m, potager_voulue, parcelle_a_arroser):
         else:
             # On essaie la solution sans point d'eau
             solution_sans_point_d_eau, taille_optimale_potentielle = backtrack(potager_clean, i, j + 1,
-                                                              points_d_eau_clean, taille_optimale,
-                                                              parcelle_arrosee)
+                                                                               points_d_eau_clean, taille_optimale,
+                                                                               parcelle_arrosee)
             if taille_optimale_potentielle != float('inf') and taille_optimale_potentielle < taille_optimale:
                 taille_optimale = taille_optimale_potentielle
                 solution = solution_sans_point_d_eau
         return solution, taille_optimale
 
-    return backtrack(potager, 0, 0, [], 18, 0)
+    return backtrack(potager, 0, 0, [], 6, 0)
 
 
-# Exemple de potager de dimensions 6x6
+# Exemple de potager de dimensions 7x7
 potager = [
-    [1, 1, 1, 1, 1, 1],
-    [1, 1, 1, 1, 1, 1],
-    [1, 1, 1, 1, 1, 1],
-    [1, 1, 1, 1, 1, 1],
-    [1, 1, 1, 1, 1, 1],
-    [1, 1, 1, 1, 1, 1]
+    [1, 1, 1, 1, 1, 1, 1],
+    [1, 1, 1, 1, 1, 1, 1],
+    [1, 1, 1, 1, 1, 1, 1],
+    [1, 1, 1, 1, 1, 1, 1],
+    [1, 1, 1, 1, 1, 1, 1],
+    [1, 1, 1, 1, 1, 1, 1],
+    [1, 1, 1, 1, 1, 1, 1]
 ]
 
 potager = np.array(potager)
 n, m = potager.shape
 
 potager_voulue = np.array([
-    [2, 2, 2, 2, 2, 2],
-    [2, 2, 2, 2, 2, 2],
-    [2, 2, 2, 2, 2, 2],
-    [2, 2, 2, 2, 2, 2],
-    [2, 2, 2, 2, 3, 2],
-    [2, 2, 2, 2, 2, 2]
+    [2, 2, 2, 2, 2, 2, 2],
+    [2, 2, 2, 2, 2, 2, 2],
+    [2, 2, 2, 2, 2, 2, 2],
+    [2, 2, 2, 2, 2, 2, 2],
+    [2, 2, 2, 2, 2, 2, 2],
+    [2, 2, 2, 2, 2, 2, 2],
+    [2, 2, 2, 2, 2, 2, 2]
 ])
 
 # On trouve le nombre minimum de points d'eau nécessaires

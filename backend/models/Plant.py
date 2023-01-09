@@ -1,8 +1,8 @@
-from sqlalchemy import Column, ForeignKey
+from sqlalchemy import Column
 from sqlalchemy.types import String, Integer
-from sqlalchemy.orm import relationship
 
 from bdd import Base
+
 
 class Plant(Base):
     __tablename__ = 'plant'

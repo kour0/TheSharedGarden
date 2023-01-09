@@ -1,6 +1,6 @@
 from sqlalchemy import Column, ForeignKey
-from sqlalchemy.types import Integer, String
 from sqlalchemy.orm import relationship
+from sqlalchemy.types import Integer, String
 
 from bdd import Base
 
@@ -20,7 +20,8 @@ class Task(Base):
     account = relationship("Accounts")
     plot = relationship("Plot")
 
-    def __init__(self, plot_id, task_name, task_description, task_manager=None, task_state=None, validation_state=None, completion_state=None, deadline=None):
+    def __init__(self, plot_id, task_name, task_description, task_manager=None, task_state=None, validation_state=None,
+                 completion_state=None, deadline=None):
         self.plot_id = plot_id
         self.task_name = task_name
         self.task_description = task_description

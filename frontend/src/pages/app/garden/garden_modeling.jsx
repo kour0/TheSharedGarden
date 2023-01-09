@@ -1,22 +1,16 @@
-import { Link, useParams } from 'react-router-dom';
-import { createPlot, deletePlot, editPlot, getPlots, updateNamePlot } from '../../../lib/plots';
-import { Loader } from '../../../components/loader/FullScreenLoader';
-import { useState } from 'react';
-import {
-  CheckIcon,
-  PencilSquareIcon,
-  PlusIcon,
-  TrashIcon,
-  XMarkIcon,
-} from '@heroicons/react/24/outline';
+import { CheckIcon, PencilSquareIcon, PlusIcon, TrashIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { useQueryClient } from '@tanstack/react-query';
+import { useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import { Loader } from '../../../components/loader/FullScreenLoader';
+import { createPlot, deletePlot, editPlot, getPlots, updateNamePlot } from '../../../lib/plots';
 
+import { ArrowLeftIcon } from '@heroicons/react/20/solid';
 import grassIcon from '../../../assets/images/grass-icon.png';
 import plant from '../../../assets/images/plant.png';
-import TwoColumnPage from '../../../components/layout/TwoColumnPage';
 import GardenGrid from '../../../components/garden/GardenGrid';
+import TwoColumnPage from '../../../components/layout/TwoColumnPage';
 import NavTitle from '../../../components/navigation/NavTitle';
-import { ArrowLeftIcon } from '@heroicons/react/20/solid';
 
 export default function GardenModeling() {
   const { gardenId } = useParams();
@@ -28,11 +22,8 @@ export default function GardenModeling() {
 
   const [plots, setPlots] = useState([]);
 
-  const gridSize = 12
-  const {
-    isLoading: plotsIsLoading,
-  } = getPlots(gardenId, setPlots);
-
+  const gridSize = 12;
+  const { isLoading: plotsIsLoading } = getPlots(gardenId, setPlots);
 
   const isBeside = (cell) => {
     const index = cell.index;
@@ -52,15 +43,17 @@ export default function GardenModeling() {
 
   const isDisabled = (cell) => unitIsClaimed(cell) || !isBeside(cell) || !modelingState;
 
-  const className = (cell) => cellIsSelected(cell)
-    ? 'bg-teal-700'
-    : unitIsClaimed(cell)
+  const className = (cell) =>
+    cellIsSelected(cell)
+      ? 'bg-teal-700'
+      : unitIsClaimed(cell)
       ? 'bg-yellow-700'
       : !modelingState || !isBeside(cell)
-        ? 'bg-green-400' : 'bg-green-200';
+      ? 'bg-green-400'
+      : 'bg-green-200';
 
-  const getImage = (cell) => (cellIsSelected(cell) || unitIsClaimed(cell)) ? plant : (!modelingState || !isBeside(cell)) ? grassIcon : null;
-
+  const getImage = (cell) =>
+    cellIsSelected(cell) || unitIsClaimed(cell) ? plant : !modelingState || !isBeside(cell) ? grassIcon : null;
 
   const postCreatePlot = createPlot(gardenId, queryClient);
   const postUpdatePlot = editPlot(gardenId, queryClient);
@@ -114,24 +107,30 @@ export default function GardenModeling() {
     setPlots([...plots]);
   };
 
-
   return !plotsIsLoading ? (
-
     <TwoColumnPage title="Modélisation de votre jardin" subtitle="Les jardins auquels vous participez.">
-
       {/* primary column */}
-      <GardenGrid className={className} plots={plots} isDisabled={isDisabled} getImage={getImage} handleCaseClick={handleAddPlot} />
+      <GardenGrid
+        className={className}
+        plots={plots}
+        isDisabled={isDisabled}
+        getImage={getImage}
+        handleCaseClick={handleAddPlot}
+      />
 
       {/* secondary column */}
       <div>
-       {/* button to go back to garden */}
+        {/* button to go back to garden */}
         <div className="flex items-center mb-4">
-          <Link to={`/app/dashboard/${gardenId}`} relative="path"  className="flex items-center text-sm font-medium text-teal-700 hover:text-teal-800">
+          <Link
+            to={`/app/dashboard/${gardenId}`}
+            relative="path"
+            className="flex items-center text-sm font-medium text-teal-700 hover:text-teal-800"
+          >
             <ArrowLeftIcon className="h-5 w-5 mr-2" aria-hidden="true" />
             Retour au jardin
           </Link>
         </div>
-
 
         {!modelingState ? (
           <button
@@ -172,7 +171,7 @@ export default function GardenModeling() {
             {plots.map((plot, index) => (
               <li key={plot.plot_id} className="col-span-1 divide-y divide-gray-200 rounded-lg bg-white shadow">
                 <div className="w-full p-4">
-                  <div className='mb-2'>
+                  <div className="mb-2">
                     <label htmlFor="name" className="sr-only">
                       Name
                     </label>
@@ -183,7 +182,8 @@ export default function GardenModeling() {
                         id="name"
                         className="block w-full rounded-none rounded-l-md border-gray-300 pl-2 shadow-sm sm:text-sm"
                         defaultValue={plot.plot_name || 'Parcelle' + index}
-                        onChange={(e) => handleChangeNamePlot(e, index)} />
+                        onChange={(e) => handleChangeNamePlot(e, index)}
+                      />
                       <button
                         type="button"
                         className="relative rounded-r-md border border-gray-300 bg-gray-50 px-4 py-2 hover:bg-gray-100 "
@@ -230,7 +230,7 @@ export default function GardenModeling() {
           </div>
         )}
       </div>
-    </TwoColumnPage >
+    </TwoColumnPage>
   ) : (
     <Loader />
   );

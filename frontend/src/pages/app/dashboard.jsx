@@ -6,7 +6,6 @@ import { Loader } from '../../components/loader/FullScreenLoader';
 import { getGardens } from '../../lib/gardens';
 
 export default function Dashboard() {
-
   const { isLoading, isError, data, error } = getGardens();
 
   return !isLoading ? (

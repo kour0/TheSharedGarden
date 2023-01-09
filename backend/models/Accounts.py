@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy import Column, Identity
+from sqlalchemy import Column
 from sqlalchemy.types import String, Integer
 
 from bdd import Base
@@ -10,8 +10,8 @@ class Accounts(Base):
     __tablename__ = 'account'
 
     id = Column('id', Integer(), primary_key=True, autoincrement=True)
-    email = Column('email', String(600), unique = True, nullable=False)
-    username = Column('username', String(300), unique = True, nullable=False)
+    email = Column('email', String(600), unique=True, nullable=False)
+    username = Column('username', String(300), unique=True, nullable=False)
     first_name = Column('first_name', String(200), nullable=False)
     last_name = Column('last_name', String(200), nullable=False)
     password = Column('password', String(), nullable=False)

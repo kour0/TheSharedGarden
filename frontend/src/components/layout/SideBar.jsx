@@ -1,11 +1,9 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { Bars3Icon, HomeIcon, PlusIcon, UserGroupIcon, XMarkIcon } from '@heroicons/react/24/outline';
-import { useQuery } from '@tanstack/react-query';
 import Cookies from 'js-cookie';
 import { Fragment, useEffect, useState } from 'react';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { getProfile, getProfileImage } from '../../lib/profile';
-import { request } from '../../utils/axios-utils';
 import { Logo } from '../navigation/Logo';
 
 const navigation = [
@@ -17,8 +15,8 @@ const navigation = [
 export default function SideBar() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [active, setActive] = useState(0);
-  const [profilePicture, setProfilePicture] = useState(null)
-  
+  const [profilePicture, setProfilePicture] = useState(null);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -26,15 +24,10 @@ export default function SideBar() {
       navigate('/login');
     }
   }, []);
-  
+
   const { isLoading, isError, data, error } = getProfile();
 
-  const {
-    isLoading: imageLoading,
-    isError: imageisError,
-    data: imageData,
-    error: imageError,
-  } = getProfileImage();
+  const { isLoading: imageLoading, isError: imageisError, data: imageData, error: imageError } = getProfileImage();
 
   if (!imageLoading && !imageisError) {
     const reader = new FileReader();
@@ -188,11 +181,7 @@ export default function SideBar() {
               <div className={(-1 == active ? 'bg-gray-100' : '') + ' flex flex-shrink-0 border-t border-gray-200 p-4'}>
                 <div className="flex items-center">
                   <div>
-                    <img
-                      className="inline-block h-9 w-9 rounded-full"
-                      src={profilePicture}
-                      alt=""
-                    />
+                    <img className="inline-block h-9 w-9 rounded-full" src={profilePicture} alt="" />
                   </div>
                   <div className="ml-3">
                     <p className="text-sm font-medium text-gray-700 group-hover:text-gray-900">

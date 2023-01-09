@@ -1,23 +1,15 @@
-import os
-
-import numpy as np
-from flask import Blueprint, request, redirect
-from flask import send_from_directory, g
+from flask import Blueprint, request
+from flask import g
 from flask_cors import CORS
 from flask_uploads import UploadSet, ALL
-from lib.image_helper import get_image_name, save_image
-from lib.garden_helper import gardens_to_json, garden_to_json
-from geopy.geocoders import Nominatim
 
 from bdd import Session
+from lib.garden_helper import gardens_to_json
+from lib.image_helper import save_image
 from middlewares import auth
-from models.Accounts import Accounts
 from models.Garden import Garden
 from models.Link import Link
-from models.Plot import Plot
-from models.PlotUnit import PlotUnit
-from routes.map import add_map, delete_map
-from middlewares import garden_water
+from routes.map import add_map
 
 garden = Blueprint('garden', __name__)
 session = Session()
@@ -93,6 +85,7 @@ def create():
         session.rollback()
         return {'message': str(e)}, 500
 
+
 @garden.post(BASE_URL + '/join/<garden_id>')
 def get_join(garden_id):
     try:
@@ -121,28 +114,4 @@ def get_gardens(garden_name):
         return gardens_to_json(gardens)
     except Exception as e:
         print(e)
-        return {'message': str(e)}, 500
-
-
-@garden.get(BASE_URL + '/<garden_id>/water')
-def water(garden_id):
-    try:
-        field = np.zeros((6, 6))
-        field_water = np.zeros((6, 6))
-        quantity = 0
-        garden = session.query(Garden).filter_by(id_garden=garden_id).first()
-        if not garden:
-            return {'message': 'Garden not found'}, 404
-        plot = session.query(Plot).filter_by(garden_id=garden_id).all()
-        if not plot:
-            return {'message': 'Plot not found'}, 404
-        for p in plot:
-            plot_unit = session.query(PlotUnit).filter_by(plot_id=p.plot_id).all()
-            for pu in plot_unit:
-                field[pu.unit // 6][pu.unit % 6] = 1
-                field_water[pu.unit // 6][pu.unit % 6] = 2
-                quantity += 1
-        list_water = garden_water.trouver_points_d_eau(field, 6, 6, field_water, quantity)
-        return {'message': 'Water found', 'water': list_water}, 200
-    except Exception as e:
         return {'message': str(e)}, 500
