@@ -328,6 +328,8 @@ $RECYCLE.BIN/
 *.fls
 *.synctex.gz
 *.synctex(busy)
+*.toc
+*.out
 
 # End of https://www.toptal.com/developers/gitignore/api/python,osx,windows,linux,visualstudiocode,pycharm
 /.idea/.gitignore
@@ -344,3 +346,5 @@ $RECYCLE.BIN/
 
 /frontend/node_modules/
 /.idea/inspectionProfiles/Project_Default.xml
+
+
