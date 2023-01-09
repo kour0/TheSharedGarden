@@ -151,7 +151,6 @@ export const getGardenPicture = (garden_id) => {
   return response;
 };
 
-
 /**
  * Fetches the members of a garden
  * @param {String} garden_id - The id of the garden
@@ -163,7 +162,7 @@ export const getGardenMembers = (garden_id) => {
     return response.data;
   });
   return response;
-}
+};
 
 export const deleteGardenMember = (queryClient, garden_id, user_id) => {
   const response = useMutation(
@@ -180,7 +179,7 @@ export const deleteGardenMember = (queryClient, garden_id, user_id) => {
     },
   );
   return response;
-}
+};
 
 export const joinGarden = (queryClient) => {
   const response = useMutation(
@@ -197,4 +196,4 @@ export const joinGarden = (queryClient) => {
     },
   );
   return response;
-}
+};
