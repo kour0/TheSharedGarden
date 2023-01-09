@@ -1,15 +1,15 @@
+import os
+
 import folium
 import htmlentities as htmlentities
 from flask import Blueprint, g, request
 from flask_cors import CORS
 from geopy.geocoders import Nominatim
-from middlewares import auth
 
 from bdd import Session
+from middlewares import auth
 from models.Garden import Garden
 from models.Link import Link
-
-import os
 
 map = Blueprint('map', __name__)
 session = Session()

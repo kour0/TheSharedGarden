@@ -1,12 +1,10 @@
-from flask import Blueprint, request, send_from_directory, redirect, g, url_for
+from flask import Blueprint, g, request, send_from_directory
 from flask_cors import CORS
-import os
-from sqlalchemy import update
-from lib.image_helper import get_image_name, save_image
+from flask_uploads import ALL, UploadSet
 
 from bdd import Session
+from lib.image_helper import get_image_name, save_image
 from middlewares import auth
-from flask_uploads import UploadSet, ALL
 from models.Accounts import Accounts
 
 profile = Blueprint('profile', __name__)
@@ -17,6 +15,7 @@ CORS(profile, supports_credentials=True)
 BASE_URL = '/api/profile'
 
 images = UploadSet('images', ALL)
+
 
 @profile.before_request
 def before_request():
@@ -37,7 +36,7 @@ def get_informations():
         user = session.query(Accounts).filter_by(id=account_id).first()
 
         # On retourne nom et prénom de l'utilisateur
-        return {'id': user.id ,'email': user.email, 'username': user.username, 'first_name': user.first_name,
+        return {'id': user.id, 'email': user.email, 'username': user.username, 'first_name': user.first_name,
                 'last_name': user.last_name}
     except Exception as e:
         return {'message': str(e)}, 500
@@ -67,7 +66,7 @@ def get_image_by_id(id):
 @profile.patch(BASE_URL + '/')
 def modify_profile():
     try:
-        print ("bb")
+        print("bb")
 
         account = session.query(Accounts).filter_by(id=g.user.id).first()
         if not account:
@@ -78,16 +77,15 @@ def modify_profile():
         if ("username" in body.keys()):
             account.username = body["username"]
 
-        
         if ("image" in request.files.keys()):
             image = request.files['image']
-            print ("image")
+            print("image")
             save_image(image, g.user.id, 'profile')
-         
-        if ("last_name" in body.keys()) :
+
+        if ("last_name" in body.keys()):
             account.last_name = body["last_name"]
-        
-        if("first_name" in body.keys()):
+
+        if ("first_name" in body.keys()):
             account.first_name = body["first_name"]
 
         session.add(account)

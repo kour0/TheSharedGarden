@@ -1,14 +1,11 @@
-from flask import Blueprint, request, send_from_directory, redirect, g, url_for
+from flask import Blueprint, request, g
 from flask_cors import CORS
-import os
-from sqlalchemy import update
 
 from bdd import Session
 from lib.plant_helper import plants_to_json
 from middlewares import auth
-from flask_uploads import UploadSet, ALL
-from models.Plot import Plot
 from models.Plant import Plant
+from models.Plot import Plot
 
 plant = Blueprint('plant', __name__)
 session = Session()
@@ -16,6 +13,7 @@ session = Session()
 CORS(plant, supports_credentials=True)
 
 BASE_URL = '/api/garden/'
+
 
 @plant.before_request
 def before_request():
@@ -26,9 +24,6 @@ def before_request():
         return {'message': str(e)}, 500
 
 
-
-
-
 @plant.get(BASE_URL + '/plants/')
 def get_plants():
     try:
@@ -36,6 +31,7 @@ def get_plants():
         return plants_to_json(plants)
     except Exception as e:
         return {'message': str(e)}, 500
+
 
 @plant.patch(BASE_URL + '/<gardens_id>/<plot_id>/plants/<plant_id>')
 def update_plant(gardens_id, plot_id, plant_id):
