@@ -6,13 +6,7 @@ import { request } from '../utils/axios-utils';
  * It returns the tasks for a given plot
  * @param gardenId - The id of the garden
  * @param plotId - The id of the plot we want to get the tasks for.
- * @returns An object with the following properties:
- *   data: The data returned from the request
- *   error: The error returned from the request
- *   isFetching: A boolean indicating if the request is in progress
- *   isStale: A boolean indicating if the request is stale
- *   revalidate: A function to revalidate the request
- *   mutate: A function to mut
+ * @returns response
  */
 export const getTasks = (gardenId, plotId) => {
   const response = useQuery(['tasks', gardenId, plotId], async () => {
