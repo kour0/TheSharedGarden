@@ -28,74 +28,70 @@ def aBesoinEau(unit):
     return unit['besoin'] > unit['water']
 
 
-def unitProche(x, y, potager):
+def getUnitProche(x, y, potager):
     units = []
-
     for i in range(x - 1, x + 2):
         for j in range(y - 1, y + 2):
-            if i >= 0 and i < taillePotager and j >= 0 and j < taillePotager:
-                if potager[i, j] != None:
+            if 0 <= i < taillePotager and 0 <= j < taillePotager:
+                if potager[i, j] is not None:
                     units.append(potager[i, j])
     return units
 
 
-def pointEauUtile(unit, unitsProche):
-    if unit != None:
-        for unitProche in unitsProche:
-            if aBesoinEau(unitProche):
-                return True
-
+def pointEauUtile(unitsProche):
+    for unitProche in unitsProche:
+        if aBesoinEau(unitProche):
+            return True
     return False
 
 
-def placerPointEau(unitsProche, pointsEau, i, j):
+def placerPointEau(pointsEau, i, j, potager):
+    unitsProche = getUnitProche(i, j, potager)
     unitArroser = 0
     for unitProche in unitsProche:
         if aBesoinEau(unitProche):
             unitProche['water'] += 1
             unitArroser += 1
-    pointsEauAux = pointsEau.copy()
-    pointsEauAux.append((i, j))
-    return pointsEauAux, unitArroser
+    pointsEau.append((i, j))
+    return pointsEau, unitArroser
 
 
-def trouverPointsEau(potager, unitAArroser):
-    def aux(i, j, pointsEau, unitArroser):
+def trouverPointsEau(potagera, unitAArroser):
+    def aux(i, j, pointsEau, unitArroser, potager):
         print(i, j, pointsEau, unitArroser)
 
         if unitAArroser == unitArroser:
             print(len(pointsEau))
             return pointsEau
-        elif i == taillePotager - 1 and j == taillePotager - 1:
+        elif i == taillePotager - 1 and j == taillePotager:
             return None
 
-        unit = potager[i, j]
-        unitsProche = unitProche(i, j, potager)
-
-        if j == taillePotager - 1:
+        if j == taillePotager:
             j = 0
             i += 1
-        else:
-            j += 1
 
-        if pointEauUtile(unit, unitsProche):
-            pointsEau1, unitArroser1 = placerPointEau(unitsProche, pointsEau, i, j)
+        # unit = potager[i, j]
+        unitsProche = getUnitProche(i, j, potager)
 
-            sol1 = aux(i, j, pointsEau1, unitArroser + unitArroser1)
-            sol2 = aux(i, j, pointsEau, unitArroser)
+        if pointEauUtile(unitsProche):
+            potager1 = np.copy(potager)
+            pointsEau1, unitArroser1 = placerPointEau(pointsEau.copy(), i, j, potager1)
 
-            if sol1 != None and sol2 != None:
+            sol1 = aux(i, j+1, pointsEau1, unitArroser + unitArroser1, potager1)
+            sol2 = aux(i, j+1, pointsEau, unitArroser, potager)
+
+            if sol1 is not None and sol2 is not None:
                 return sol1 if len(sol1) < len(sol2) else sol2
-            elif sol1 != None:
+            elif sol1 is not None:
                 return sol1
             else:
                 return sol2
 
         else:
-            sol = aux(i, j, pointsEau, unitArroser)
+            sol = aux(i, j+1, pointsEau, unitArroser, potager)
             return sol
 
-    return aux(0, 0, [], 0)
+    return aux(0, 0, [], 0, potagera)
 
 
 print(len(trouverPointsEau(potager, 36)))
