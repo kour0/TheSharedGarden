@@ -1,0 +1,42 @@
+\contentsline {section}{\numberline {1}Base de donnée}{2}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Conception}{2}{subsection.1.1}%
+\contentsline {subsubsection}{\numberline {1.1.1}Que faut-il dans notre base ?}{2}{subsubsection.1.1.1}%
+\contentsline {subsubsection}{\numberline {1.1.2}Schéma entité-association}{2}{subsubsection.1.1.2}%
+\contentsline {subsubsection}{\numberline {1.1.3}Mise en 3ème forme normale}{3}{subsubsection.1.1.3}%
+\contentsline {subsection}{\numberline {1.2}Implémentation}{3}{subsection.1.2}%
+\contentsline {subsubsection}{\numberline {1.2.1}SQL alchemy}{3}{subsubsection.1.2.1}%
+\contentsline {subsubsection}{\numberline {1.2.2}Création de la base}{3}{subsubsection.1.2.2}%
+\contentsline {section}{\numberline {2}Implémentation Partie Web}{4}{section.2}%
+\contentsline {subsection}{\numberline {2.1}structure de l'application}{4}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Fonctionnalités de l'application}{4}{subsection.2.2}%
+\contentsline {subsubsection}{\numberline {2.2.1}Authentification}{4}{subsubsection.2.2.1}%
+\contentsline {subsubsection}{\numberline {2.2.2}Gestion de compte et présentation des jardins}{4}{subsubsection.2.2.2}%
+\contentsline {subsubsection}{\numberline {2.2.3}Gestion des jardins : creation, destruction, modification, management}{4}{subsubsection.2.2.3}%
+\contentsline {subsection}{\numberline {2.3}}{5}{subsection.2.3}%
+\contentsline {subsubsection}{\numberline {2.3.1}}{5}{subsubsection.2.3.1}%
+\contentsline {subsubsection}{\numberline {2.3.2}}{5}{subsubsection.2.3.2}%
+\contentsline {subsubsection}{\numberline {2.3.3}}{5}{subsubsection.2.3.3}%
+\contentsline {subsection}{\numberline {2.4}Test et performance}{5}{subsection.2.4}%
+\contentsline {subsubsection}{\numberline {2.4.1}}{5}{subsubsection.2.4.1}%
+\contentsline {subsubsection}{\numberline {2.4.2}}{5}{subsubsection.2.4.2}%
+\contentsline {subsubsection}{\numberline {2.4.3}}{5}{subsubsection.2.4.3}%
+\contentsline {section}{\numberline {3}Algorithme}{6}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Principe de l'algorithme}{6}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Implémentation}{6}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Analyse en complexité}{6}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}Test de validité de l'algorithme}{6}{subsection.3.4}%
+\contentsline {subsection}{\numberline {3.5}Analyse de performance}{6}{subsection.3.5}%
+\contentsline {section}{\numberline {4}Gestion de projet}{7}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Équipe de projet}{7}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Organisation au sein de l’équipe projet}{7}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Objectifs SMART}{8}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Matrice des objectifs}{8}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.5}Triangle qualité-cout-délai}{8}{subsection.4.5}%
+\contentsline {subsection}{\numberline {4.6}Matrice SWOT}{9}{subsection.4.6}%
+\contentsline {subsection}{\numberline {4.7}Profil de projet}{10}{subsection.4.7}%
+\contentsline {subsection}{\numberline {4.8}WBS\nobreakspace {}: comment concrétiser l’application}{10}{subsection.4.8}%
+\contentsline {subsection}{\numberline {4.9}Diagramme de Gantt\nobreakspace {}: planification}{11}{subsection.4.9}%
+\contentsline {subsection}{\numberline {4.10}Matrice RACI}{11}{subsection.4.10}%
+\contentsline {subsection}{\numberline {4.11}Gestion des risques}{11}{subsection.4.11}%
+\contentsline {section}{\numberline {5}Conclusion}{12}{section.5}%
+\contentsline {section}{\numberline {6}Annexes}{12}{section.6}%
