@@ -2,7 +2,7 @@ import { Combobox, Dialog, Transition } from '@headlessui/react';
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { useQueryClient } from '@tanstack/react-query';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 import { getPlotVegetable, modifyPlotVegetable } from '../lib/plots';
@@ -21,7 +21,6 @@ export default function SlidingPage({ open, setOpen, selectedUnit }) {
 
   const { data: plants, isLoading: plantsIsLoading } = getPlants();
   const { data: tasks, isLoading: tasksIsLoading } = getTasks(gardenId, selectedUnit.plot_id);
-
 
   const addTaskMutation = addTask(gardenId, selectedUnit.plot_id, queryClient);
   const deleteTaskMutation = deleteTask(gardenId, selectedUnit.plot_id, queryClient);
@@ -50,8 +49,8 @@ export default function SlidingPage({ open, setOpen, selectedUnit }) {
     query === ''
       ? plants
       : plants.filter((plant) => {
-        return plant.name.toLowerCase().includes(query.toLowerCase());
-      });
+          return plant.name.toLowerCase().includes(query.toLowerCase());
+        });
 
   return !tasksIsLoading && !plantsIsLoading && !vegetableIsLoading ? (
     <Transition.Root show={open} as={Fragment}>

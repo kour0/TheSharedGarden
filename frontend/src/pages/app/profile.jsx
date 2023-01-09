@@ -1,16 +1,15 @@
+import { useQueryClient } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Loader } from '../../components/loader/FullScreenLoader';
-import { SubmitButton } from '../../components/forms/SubmitButton';
-import { getProfile, getProfileImage, patchProfile, patchProfilePersonnalInformations } from '../../lib/profile';
-import { useQueryClient } from '@tanstack/react-query';
-import MainPage from '../../components/layout/MainPage';
-import { request } from '../../utils/axios-utils';
 import { useNavigate } from 'react-router-dom';
+import { SubmitButton } from '../../components/forms/SubmitButton';
+import MainPage from '../../components/layout/MainPage';
+import { Loader } from '../../components/loader/FullScreenLoader';
+import { getProfile, getProfileImage, patchProfile, patchProfilePersonnalInformations } from '../../lib/profile';
+import { request } from '../../utils/axios-utils';
 
 export default function Profile() {
-
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
 
   const [selectedImage, setSelectedImage] = useState(null);
@@ -22,8 +21,6 @@ export default function Profile() {
 
   const updateProfile = patchProfile(queryClient);
   const updatePersonalInformation = patchProfilePersonnalInformations(queryClient);
-
-
 
   if (!imageLoading && !imageisError) {
     const reader = new FileReader();
@@ -38,14 +35,12 @@ export default function Profile() {
 
     formData.append('image', selectedImage);
 
-
     Object.keys(profile).forEach((key) => {
       formData.append(key, profile[key]);
     });
 
     updateProfile.mutate(formData);
   };
-
 
   const onSubmitPersonalInformation = async (data) => {
     const formData = new FormData();
@@ -61,8 +56,6 @@ export default function Profile() {
     await request({ url: '/api/auth/logout', withCredentials: true, method: 'POST' });
     navigate('/login');
   };
-
-
 
   const handleImageChange = (event) => {
     const image = event.target.files[0];
@@ -144,7 +137,7 @@ export default function Profile() {
                     </div>
                   </div>
                   <div className="bg-gray-50 px-4 py-3 text-right sm:px-6">
-                    < SubmitButton isLoading={updateProfile.isLoading} />
+                    <SubmitButton isLoading={updateProfile.isLoading} />
                   </div>
                 </div>
               </form>
@@ -203,7 +196,7 @@ export default function Profile() {
                     </div>
                   </div>
                   <div className="bg-gray-50 px-4 py-3 text-right sm:px-6">
-                    < SubmitButton isLoading={updatePersonalInformation.isLoading} />
+                    <SubmitButton isLoading={updatePersonalInformation.isLoading} />
                   </div>
                 </div>
               </form>
@@ -237,20 +230,15 @@ export default function Profile() {
                     >
                       Se déconnecter
                     </button>
-
                   </div>
                 </div>
               </div>
-
             </div>
           </div>
         </div>
-
-
       </MainPage>
     </>
   ) : (
     <Loader />
-  )
-
+  );
 }

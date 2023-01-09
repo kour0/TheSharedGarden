@@ -5,7 +5,7 @@ import { searchGardens } from '../../lib/gardens';
 
 export default function SearchGarden() {
   const { gardenName } = useParams();
-  const { data, isLoading, isError } = searchGardens(gardenName)
+  const { data, isLoading, isError } = searchGardens(gardenName);
   return !isLoading ? (
     <>
       <div className="relative bg-gray-50 px-4 pb-16 sm:px-6 lg:px-8 lg:pb-28">
