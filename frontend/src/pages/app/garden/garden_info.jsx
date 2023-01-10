@@ -1,8 +1,9 @@
 import { Switch } from '@headlessui/react';
+import { ArrowLeftIcon } from '@heroicons/react/20/solid';
 import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Form from '../../../components/forms/Form';
 import FormField from '../../../components/forms/FormField';
 import MainPage from '../../../components/layout/MainPage';
@@ -86,6 +87,18 @@ export default function GardenInfo() {
       title="Les informations du jardin"
       subtitle="Retrouvez ici toutes les informations concernant votre jardin"
     >
+      {/*retour au jardin*/}
+      <div className="flex items-center mb-4">
+        <Link
+          to={`/app/dashboard/${gardenId}`}
+          relative="path"
+          className="flex items-center text-sm font-medium text-teal-700 hover:text-teal-800"
+        >
+          <ArrowLeftIcon className="h-5 w-5 mr-2" aria-hidden="true" />
+          Retour au jardin
+        </Link>
+      </div>
+
       {isManager ? (
         <>
           {/* L'utilisateur est le manager du jardin */}
