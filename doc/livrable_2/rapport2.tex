@@ -292,7 +292,7 @@ Pour cela, on va utiliser la méthode de la programmation linéaire. On va donc 
 \newline On obtient finalement la position des points d'eau à placer dans le jardin, et grâce au modèle mathématique qui repose sur la programmation linéaire, on peut être sûr que la solution fournie est optimale.
 \newline Ainsi, dans notre exemple, on obtient :
 \newline
-\[ B = \begin{bmatrix} 0 & 1 & 0 & 0 \\ 0 & 1 & 0 & 1 & \\ 0 & 0 & 1 & 0 & \\ 0 & 0 & 0 & 0 \end{bmatrix} \]
+\[ B = \begin{bmatrix} 0 & 1 & 0 & 0 \\ 0 & 1 & 0 & 1 \\ 0 & 0 & 1 & 0 \\ 0 & 0 & 0 & 0 \end{bmatrix}\]
 \newline
 Et on observera alors que, effectivement, dans notre cas, le nombre de points d'eau ne peut être inférieur à 4, et il nous propose bien le positionnement de 4 points d'eau.
 On a donc bien trouvé la solution optimale à notre problème ainsi qu'un placement possible (car il existe parfois d'autres placements de ces points qui vérifient aussi la solution mais cela n'a pas d'intêret ici).
@@ -301,15 +301,31 @@ Si on compare par rapport à notre première version :
 \newline
 \newline Le script utilise la technique de backtracking pour trouver la solution optimale, c'est-à-dire le minimum de points d'eau nécessaires pour arroser toutes les plantes dans le potager. Pour chaque case (i, j) du potager, le script explore deux possibilités : mettre un point d'eau ou ne pas en mettre. Cela signifie que pour chaque case du potager, le script fait un appel récursif, ce qui multiplie par deux le nombre d'appels récursifs à chaque itération.
 De plus, la fonction "backtrack" parcourt chaque case du potager (nm cases au total), ce qui multiplie encore une fois le nombre total d'appels récursifs par nm.
-\newline Ainsi, la complexité de ce script est en :
-\newline \[\mathcal{O}(2^{(m*n)}*m*n) = \mathcal{O}(3^{m*n})\]
+\newline Ainsi, la complexité de ce script est en : \[\mathcal{O}(2^{(m*n)}*m*n) = \mathcal{O}(3^{(m*n)})\]
 \newline Dans notre second algorithme :
 \newline L'algorithme utilise l'optimiseur Gurobi pour résoudre un modèle de programmation linéaire en nombres entiers. La complexité de cet algorithme dépend de la complexité de l'optimiseur Gurobi.
-La première partie de l'algorithme, qui construit les matrices C et B à partir de la matrice M, est en temps \[\mathcal{O}(n^4)\] où n est la taille de la matrice M, car pour créer la matrice C, pour chaque élément parcouru dans la matrice, on crée une liste de taille n*n, on a donc une complexité en \[\mathcal{O}(n^4)\] contrairement à la construction de la matrice B qui est en \[\mathcal{O}(n^2)\]
-L'optimisation elle-même est généralement considérée comme étant en \[\mathcal{O}(p*n^3)\] où p est le nombre de contraintes et n est le nombre de variables. Il est possible d'optimiser les performances en fonction des caractéristiques spécifiques du modèle.
-Dans l'ensemble, on peut considérer que la complexité globale de cet algorithme est de l'ordre de \[\mathcal{O}(n^4)\].
-\subsection{Analyse de performance} 
-Ici, nous allons en profiter pour comparer nos deux algorithmes avec des matrices carrées de taille n, dont la taille va augmenter de 1 à chaque fois. Voici les graphes résultants de ces tests :
+La première partie de l'algorithme, qui construit les matrices C et B à partir de la matrice M, est en temps \[\mathcal{O}(n^2)\] Où n est le nombre d'élément dans la matrice du potager, car pour créer la matrice C, on crée pour chaque élément parcouru dans la matrice, on crée une liste de taille n, on a donc une complexité en : \[\mathcal{O}(n^2)\] Contrairement à la construction de la matrice B qui est en : \[\mathcal{O}(n)\]
+L'optimisation elle-même est généralement considérée comme étant en : \[\mathcal{O}(n^3)\] Où n est le nombre de variables.
+Dans l'ensemble, on peut considérer que la complexité globale de cet algorithme est de l'ordre de : \[\mathcal{O}(n^3)\] Où n est le nombre d'éléments de la matrice du potager.
+\subsection{Analyse de performance}
+Ici, nous allons en profiter pour comparer nos deux algorithmes avec des matrices carrées de taille n, dont la taille va augmenter de 1 à chaque fois. Voici les graphes résultants de ses tests :
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{img/backtrack.png}
+    \caption{Courbe de performance de l'algorithme de backtracking}\label{fig:figure}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{img/gurobi.png}
+    \caption{Courbe de performance de l'algorithme de programmation linéaire}\label{fig:figure2}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{img/comparaison_algo.png}
+    \caption{Comparaison des deux algorithmes}\label{fig:figure3}
+\end{figure}
+On voit que très clairement, la version avec le module Gurobipy est beaucoup plus rapide que la version avec backtracking, et cela est logique en vu de la complexité de ces deux algorithmes explicités précédemment.
+On remarque surtout que, dans le cas du backtracking, la complexité croit très vite et que pour des matrices de taille 7, le temps d'exécution est déjà très long à tel point qu'il est déjà beaucoup trop long pour une matrice 8x8. Alors que pour la version avec gurobi, la complexité est beaucoup plus stable, et on peut même voir que pour des matrices de taille 45x45, le temps d'exécution est toujours inférieur à 0.4 secondes. Ce qui en fait notre algorithme préféré pour résoudre ce problème, surtout qu'il est le seul à pouvoir traiter notre potager de taille 12x12 en un temps plus que raisonnable.
 \newpage
 \section{Gestion de projet}
 \subsection{Équipe de projet}
