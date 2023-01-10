@@ -248,11 +248,9 @@ def get_watering(garden_id):
         for plot in plots:
             units = session.query(PlotUnit).filter_by(plot_id=plot.plot_id).all()
             plant = session.query(Plant).filter_by(id=plot.plant).first()
-            print(plant)
             if plant :
-                print(plant.water_need)
                 for unit in units:
-                    field[unit.x][unit.y] =1
+                    field[unit.x][unit.y] = plant.water_need
                     arrosage = True
 
         if arrosage:

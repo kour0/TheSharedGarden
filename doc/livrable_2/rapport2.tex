@@ -293,11 +293,17 @@ Et on observera alors que, effectivement, dans notre cas, le nombre de point d'e
 On a donc bien trouver la solution optimale à notre problème ainsi qu'un placement possible (car il existe parfois d'autres placements de ses points qui vérifient aussi la solution mais cela n'a pas d'intêret ici)
 \subsection{Analyse en complexité}
 Si on compare par rapport à notre première version :
-L'algorithme utilise l'optimiseur Gurobi pour résoudre un modèle de programmation linéaire en nombres entiers. La complexité de cet algorithme dépend de la complexité de l'optimiseur Gurobi.
+\newline
+\newline Le script utilise la technique de backtracking pour trouver la solution optimale, c'est-à-dire le minimum de points d'eau nécessaires pour arroser toutes les plantes dans le potager. Pour chaque case (i, j) du potager, le script explore deux possibilités: mettre un point d'eau ou ne pas en mettre. Cela signifie que pour chaque case du potager, le script fait un appel récursif, ce qui multiplie par deux le nombre d'appels récursifs à chaque itération.
+De plus, la fonction "backtrack" parcourt chaque case du potager (nm cases au total), ce qui multiplie encore une fois le nombre total d'appels récursifs par nm.
+\newline Ainsi, la complexité de ce script est en \[\mathcal{O}(2^(m*n)*m*n)\] = \[\mathcal{O}(3^m*n)\].
+\newline Dans notre seconde algorithme :
+\newline L'algorithme utilise l'optimiseur Gurobi pour résoudre un modèle de programmation linéaire en nombres entiers. La complexité de cet algorithme dépend de la complexité de l'optimiseur Gurobi.
 La première partie de l'algorithme, qui construit les matrices C et B à partir de la matrice M, est en temps \[\mathcal{O}(n^4)\], où n est la taille de la matrice M (n est égale à longueur * longueur). Cependant, cette partie est effectuée une seule fois.
 L'optimisation elle-même est généralement considérée comme étant en \[\mathcal{O}(p*n^3)\], où p est le nombre de contraintes et n est le nombre de variables. Il est possible d'optimiser les performances en fonction des caractéristiques spécifiques du modèle.
 Dans l'ensemble, on peut considérer que la complexité globale de cet algorithme est de l'ordre de \[\mathcal{O}(n^4)\].
 \subsection{Analyse de performance}
+
 \newpage
 \section{Gestion de projet}
 \subsection{Équipe de projet}
