@@ -299,11 +299,11 @@ De plus, la fonction "backtrack" parcourt chaque case du potager (nm cases au to
 \newline Ainsi, la complexité de ce script est en \[\mathcal{O}(2^(m*n)*m*n)\] = \[\mathcal{O}(3^m*n)\].
 \newline Dans notre seconde algorithme :
 \newline L'algorithme utilise l'optimiseur Gurobi pour résoudre un modèle de programmation linéaire en nombres entiers. La complexité de cet algorithme dépend de la complexité de l'optimiseur Gurobi.
-La première partie de l'algorithme, qui construit les matrices C et B à partir de la matrice M, est en temps \[\mathcal{O}(n^4)\], où n est la taille de la matrice M (n est égale à longueur * longueur). Cependant, cette partie est effectuée une seule fois.
+La première partie de l'algorithme, qui construit les matrices C et B à partir de la matrice M, est en temps \[\mathcal{O}(n^4)\], où n est la taille de la matrice M, car pour créer la matrice C, on crée pour chaque élément parcouru dans la matrice, on crée une liste de taille n*n, on a donc une complexité en \[\mathcal{O}(n^4)\], contrairement à la construction de la matrice B qui est en \[\mathcal{O}(n^2)\].
 L'optimisation elle-même est généralement considérée comme étant en \[\mathcal{O}(p*n^3)\], où p est le nombre de contraintes et n est le nombre de variables. Il est possible d'optimiser les performances en fonction des caractéristiques spécifiques du modèle.
 Dans l'ensemble, on peut considérer que la complexité globale de cet algorithme est de l'ordre de \[\mathcal{O}(n^4)\].
-\subsection{Analyse de performance}
-
+\subsection{Analyse de performance} 
+Ici, nous allons en profiter pour comparer nos deux algorithmes avec des matrices carrées de taille n, dont la taille va augmenter de 1 à chaque fois. Voici les graphes résultants de ses tests :
 \newpage
 \section{Gestion de projet}
 \subsection{Équipe de projet}
