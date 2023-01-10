@@ -11,6 +11,8 @@
 \graphicspath{{img/}}
 \title{PPII}
 \usepackage[bottom=2.5cm,top=2.5cm,left=2.5cm,right=2.5cm]{geometry}
+\usepackage{textcomp}
+\usepackage{amsmath}
 \author{Noé Steiner - Alexis Marcel - Lucas Laurent - Mathias Aurand-Augier}
 \date{Janvier 2023}
 \begin{document}
@@ -167,10 +169,11 @@ Les utilisateurs membres de jardins peuvent interagir avec celui-ci, en fonction
 \section{Algorithme}
 \subsection{Principe de l'algorithme}
 Le problème à résoudre ici est de pouvoir alimenter en eau le potager de manière optimale. Pour cela, nous sommes parti sur l'idée de placer des bouteilles d'eau goutte à goutte sur les parcelles du potager. 
-Cela permet de pouvoir arroser les plantes de manière optimale, en fonction de leurs besoins.
-Mais on souhaite placer de manière optimale les bouteilles d'eau sur les parcelles pour en placer le moins possible.
+Cela permet de pouvoir arroser les plantes de manière optimale, en fonction de leurs besoins. Mais aussi, de pouvoir automatiser l'alimentation en eau du potager.
+Ainsi le but de cet algorithme est donc de placer de manière optimale les bouteilles d'eau sur les parcelles pour en placer le moins possible.
 \subsection{Implémentation}
-Tout d'abord, nous avons d'abord modéliser le jardin sous la forme d'une matrice avec le module numpy pour avoir une matrice optimisée en python.
+\subsubsection{Modélisation du problème}
+Tout d'abord, nous avons d'abord modéliser le jardin sous la forme d'une matrice avec le module numpy pour avoir une matrice optimisée en python, c'était la façon la plus naturel pour nous pour la représenter aussi bien en frontend qu'en algorithmique.
 Ensuite, nous avons implémenté l'algorithme de placement des bouteilles d'eau. Pour cela, on a posé des contraintes :
 \begin{itemize}
     \item Une bouteille d'eau alimente en eau la parcelle sur laquelle elle est placée et les parcelles adjacentes.
@@ -178,11 +181,69 @@ Ensuite, nous avons implémenté l'algorithme de placement des bouteilles d'eau.
     \item Une bouteille d'eau ne peut être placée que sur une parcelle.
     \item Une bouteille d'eau n'arrose qu'une fois une parcelle, ainsi une plante ayant un besoin de deux devra être arrosée par deux points d'eau différents et ainsi de suite.
 \end{itemize}
-Notre algorithme utilise Gurobi, une bibliothèque, 
+Nous avons tout d'abord penser à résoudre ce problème en développant un algorithme basé sur le backtracking sur le même principe que knapsack (problème des sacs à dos).
+Cependant, le fait de devoir tester toutes les possibilités de placement des bouteilles d'eau rendait l'algorithme trop long à exécuter. Il n'était donc pas possible de l'utiliser pour un jardin de plus de 6x6 parcelles ce qui était plutot limitant dans notre cas.
+Nous avons ensuite tenté de placer les points d'eau sur les plantes qui avaient le plus forts besoin mais encore une fois, le placement n'était clairement pas optimisé et il fallait placer beaucoup de points d'eau pour arroser toutes les plantes surtout dans le cas où la matrice commencait à avoir une taille représentative d'un jardin.
+Finalement, en prenant un autre point de vue sur le problème, il a été possible de le résoudre de manière très rapide.
+Il suffit alors de se rendre compte que ce problème peut etre traiter sous la forme d'un problème mathématique, à travers un système d'équations contenant la position des points d'eau et les besoins des plantes.
+Ainsi, la difficulté réside ici en la modélisation de ce problème en un système d'équiations linéaires pour ensuite le résoudre sous la forme d'un modèle de programmation linéaire en nombres entiers.
+Comment avons nous tout d'abord modéliser le potager en une matrice numpy ? :
+\begin{itemize}
+    \item Chaque parcelle est représentée par un nombre entier positif et est correspond à des coordonnées (x,y) dans la matrice.
+    \item Les parcelles vides sont représentées par un 0.
+    \item Les parcelles contenant une plante sont représentées par un nombre entier positif correspondant au besoin en eau de la plante.
+\end{itemize}
+Prenons alors le cas d'un potager de taille 4x4 avec les besoins suivants :
+\newline M = \begin{bmatrix} 2 & 2 & 1 & 1 \\ 2 & 2 & 1 & 1 \\ 0 & 0 & 1 & 1 \\ 0 & 0 & 1 & 1 \end{bmatrix}
+\newline Nous ferons allusion à la matrice M pour représenter le potager dans la suite pour plus de clarté.
+\newline Nous avons donc ici un potager de taille 4x4 avec un ensemble de parcelles 2x2 contenant des plantes ayant un besoin en eau de 2. Puis un ensemble de parcelles 2x4 contenant des plantes ayant un besoin en eau de 1. Le reste de la matrice contient des zéros car les parcelles sont creusées mais ne contiennent pas de plantes, elles ont donc un besoin de 0.
+\newline Nous allons maintenant modéliser ce problème en un système d'équations linéaires.
+\subsubsection{Modélisation du problème en un système d'équations linéaires}
+\newline Nous allons donc modéliser ce problème en un système d'équations linéaires.
+\newline Pour cela, on part du constat que pour chaque parcelle de légumes, si on veut que cette parcelle voit son besoin en eau accompli, il faut que sa propre parcelle ou les parcelles adjacentes contiennent le nombre de points d'eau nécessaires pour assouvir son besoin. Ainsi, le poids de cha parcelle correspond au nombre de points d'eau qu'il faut autour d'elle ou sur elle même.
+Ainsi, cela constitue ce qu'on appelle une contrainte(*), on crée donc une équation pour chaque parcelle contenant une plante. Pour cela, on va écrire ce système d'équations linéaires sous la forme d'un produit matriciel.
+\newline On pose alors X la matrice contenant l'ensemble des points d'eau que l'on peut placer, cela correspond au nombre d'éléments dans la matrice M :
+\newline X = \begin{bmatrix} X_1 \\ X_2 \\ . \\ . \\ X_n \end{bmatrix}
+\newline $X_i$ est égal à 1 si la case i est une source, et 0 sinon. On prend donc ici des valeurs binaires, soit on place un point d'eau, soit on en place pas.
+\newline On pose ensuite la matrice C, qui est la matrice donnant la position pour chaque parcelle des sources d'eau :
+\newline C = \begin{bmatrix} c_{1,1} & c_{1,2} & . & . & c_{1,n} \\ c_{2,1} & c_{2,2} & . & . & c_{2,n} \\ . & . & . & . & . \\ . & . & . & . & . \\ c_{n,1} & c_{n,2} & . & . & c_{n,n} \end{bmatrix}
+\newline $c_{i,j}$ est égal à 1 si la case j est adjacente à la case i, et 0 sinon.
+\newline On pose ensuite la matrice B, qui est la matrice donnant le besoin en eau pour chaque parcelle des sources d'eau :
+\newline B = \begin{bmatrix} b_1 \\ b_2 \\ . \\ . \\ b_n \end{bmatrix}
+\newline $b_i$ est égal au besoin en eau de la parcelle i.
+\newline Ainsi, à l'aide de la contrainte que l'on se fixe ici (*), on peut poser alors notre système d'équations linéaires sous la forme :
+\newline \begin{equation} C \cdot X = B \end{equation}
+\newline
+\newline On a alors un système d'équations détaillé de cette forme :
+\newline
+\begin{equation}
+\begin{aligned}
+&c_{1,1}x_1+c_{1,2}x_2+...+c_{1,n^2}x_{n^2} \ge b_1 \ , x_1 \in \{0,1\} \\
+&c_{2,1}x_1+c_{2,2}x_2+...+c_{2,n^2}x_{n^2} \ge b_2 \ , x_2 \in \{0,1\} \\
+&... \\
+&c_{n^2,1}x_1+c_{n^2,2}x_2+...+c_{n^2,n^2}x_{n^2} \ge b_{n^2} \ , x_{n^2} \in \{0,1\}
+\end{aligned}
+\end{equation}
+\newline
+\newline où $ci,j$ indique si le point d'eau peut être placé pour augmenter son besoin ou pas.
+\newline On peut alors résoudre ce système d'équations linéaires pour trouver le nombre de points d'eau à placer pour chaque parcelle.
+\newline Mais il existe de multiples solutions à ce problème, alors comment faire pour avoir la plus optimale ?
+\subsubsection{Optimisation du système d'équations linéaires}
+\newline Pour cela, on va utiliser la méthode de la programmation linéaire. On va donc chercher à minimiser le nombre de points d'eau à placer pour que chaque parcelle ait son besoin en eau accompli. L'astuce ici réside dans le fait de chercher à minimiser la somme des points d'eau à placer, car $xi,j$ correspond à des valaurs binaires, soit 0 soit 1.
+\newline On pose alors la fonction objectif qui est la somme des points d'eau à placer :
+\newline
+\newline \begin{equation} f(X) = \sum_{i=1}^{n^2} x_i \end{equation}
+\newline
+\newline On peut donc écrire notre problème sous la forme :
+\newline
+\newline \begin{equation} \min (f(X)) \end{equation}
+\newline
+\newline Il faut savoir qu'en programmation linéaire, il faut fixer un objectif à atteindre car c'est le but de l'optimisation linéaire, ici, cela sera de minimiser le plus possible la somme des points d'eau résultante.
+\newline Ainsi en fournissant ces matrices, la contrainte étant le système d'équations linéaires qui découle du produit matriciel entre la matrice des variables (points d'eau), la matrice C qui est leurs proximités avec chaque parcelle et la matrice B le besoin en eau de chaque parcelle, on peut alors résoudre ce problème en programmation linéaire à l'aide ici du module Gurobipy de Python en fixant l'objectif décrit ci-dessus.
+\newline On obtient finalement la position des points d'eau à placer dans le jardin, et grâce au modèle mathématique qui repose sur la programmation linéaire, on peut être sûr que la solution fournie est optimale.
 \subsection{Analyse en complexité}
 \subsection{Test de validité de l'algorithme}
 \subsection{Analyse de performance}
-
 \newpage
 \section{Gestion de projet}
 \subsection{Équipe de projet}
@@ -204,7 +265,7 @@ Ces personnes constituent les parties prenantes de notre projet ainsi que les ac
     \centering
     \includegraphics[width=0.75\textwidth]{img/parties_prenantes.png}
     \caption{Parties prenantes}
-\end{figure} 
+\end{figure}
 \subsection{Organisation au sein de l’équipe projet}
 Nous avons réalisé plusieurs réunions, en présentiel dans les locaux de Télécom Nancy mais également sur en visio-conférence sur Discord. Ces réunions nous ont permis de mettre en commun nos avancés régulièrement, de partager nos connaissances sur des problématiques et de nous organiser de manière optimale.
 Les comptes rendus des réunions réalisés sont présents dans l’\hyperlink{annexe1}{Annexe 1}.
