@@ -13,6 +13,7 @@
 \usepackage[bottom=2.5cm,top=2.5cm,left=2.5cm,right=2.5cm]{geometry}
 \usepackage{textcomp}
 \usepackage{amsmath}
+\setcounter{MaxMatrixCols}{20}
 \author{Noé Steiner - Alexis Marcel - Lucas Laurent - Mathias Aurand-Augier}
 \date{Janvier 2023}
 \begin{document}
@@ -22,37 +23,37 @@
 \begin{titlepage}
     \begin{center}
 
-    \includegraphics[width=0.5\textwidth]{tele_univ.png}
+        \includegraphics[width=0.5\textwidth]{tele_univ.png}
 
-    \textsc{\Large Rapport final de Projet Pluridisciplinaire d'Informatique Intégrative}\\[1.5cm]
+        \textsc{\Large Rapport final de Projet Pluridisciplinaire d'Informatique Intégrative}\\[1.5cm]
 
-    \HRule \\[0.4cm]
-    { \huge \bfseries Les jardins partagés\\[0.4cm] }
+        \HRule \\[0.4cm]
+        { \huge \bfseries Les jardins partagés\\[0.4cm] }
 
-    \HRule \\[2cm]
+        \HRule \\[2cm]
 
-    \begin{minipage}{0.4\textwidth}
-      \begin{flushleft} \large
-        Alexis MARCEL\\
-        Lucas LAURENT\\
-        Noé STEINER\\
-        Mathias AURAND-AUGIER\\
-      \end{flushleft}
-    \end{minipage}
-    \begin{minipage}{0.4\textwidth}
-      \begin{flushright} \large
-        \emph{Responsable du module :}\\
-        Olivier FESTOR\\
-        Anne-Claire HEURTEL\\
-        Gerald OSTER\\
-      \end{flushright}
-    \end{minipage}
+        \begin{minipage}{0.4\textwidth}
+            \begin{flushleft} \large
+                Alexis MARCEL\\
+                Lucas LAURENT\\
+                Noé STEINER\\
+                Mathias AURAND-AUGIER\\
+            \end{flushleft}
+        \end{minipage}
+        \begin{minipage}{0.4\textwidth}
+            \begin{flushright} \large
+                \emph{Responsable du module :}\\
+                Olivier FESTOR\\
+                Anne-Claire HEURTEL\\
+                Gerald OSTER\\
+            \end{flushright}
+        \end{minipage}
 
-    \vfill
+        \vfill
 
-    {\large 6 Janvier 2023}
+        {\large 6 Janvier 2023}
 
-  \end{center}
+    \end{center}
 \end{titlepage}
 \newpage
 \tableofcontents
@@ -60,13 +61,13 @@
 \section{Base de donnée}
 \subsection{Conception}
 \subsubsection{Les besoins de notre application}
-Pour commencer, notre application permet à des utilisateurs de s'enregistrer sur la plateforme. Une compte utilisateur est composé d'un 
+Pour commencer, notre application permet à des utilisateurs de s'enregistrer sur la plateforme. Une compte utilisateur est composé d'un
 email, un pseudo, son prénom, son nom, ainsi que la date de la création de son compte. Ensuite un utilisateur peut créer un jardin
 et ce jardin peut être rejoint par d'autres utilisateurs.
-Un jardin est constitué d'un nom, un propriétaire, un type (public ou privé) et enfin une adresse. Le propriétaire du jardin peut 
+Un jardin est constitué d'un nom, un propriétaire, un type (public ou privé) et enfin une adresse. Le propriétaire du jardin peut
 ensuite créer des parcelles dans son jardin. Une parcelle est composée d'un nom et d'une plante. Une plante à un nom et un besoin en eau. Les parcelles sont elle même consituées
 d'unités qui réprésentent un espace réel dans le jardin. Une unité est caractérisé par un index déterminant sa position dans le jardin.
-De plus, chaque parcelle peuvent être associé à une liste de tâche à effectuer. Une tâche est caractérisé par une date limite, un nom, 
+De plus, chaque parcelle peuvent être associé à une liste de tâche à effectuer. Une tâche est caractérisé par une date limite, un nom,
 une description, un état (à faire, en cours, terminé), une date limite et enfin une personne qui s'en occupe.
 
 \subsubsection{Schéma entité-association}
@@ -79,7 +80,7 @@ Ces besoins donnent lieu à la création de plusieurs entités consituant le sch
     \caption{Schéma entité-association}
 \end{figure}
 
-Ce schéma respecte les contraintes logiques de cardinalités suivantes : 
+Ce schéma respecte les contraintes logiques de cardinalités suivantes :
 
 \begin{itemize}
     \item Une personnes peut posséder/rejoindre un ou plusieurs jardins.
@@ -106,15 +107,15 @@ normale.
 \subsection{Implémentation de la base de donnée dans le backend de l'application}
 
 \subsubsection{Création de la base de données}
-En utilisant le systeme de gestion de base de données sqlite, nous avons créé notre base dans un fichier data.db avec le script 
-SQL sauvegardé dans un fichier nommé "creation table.sql". Ces deux fichiers sont dans le dossier backend/data du projet. 
+En utilisant le systeme de gestion de base de données sqlite, nous avons créé notre base dans un fichier data.db avec le script
+SQL sauvegardé dans un fichier nommé "creation table.sql". Ces deux fichiers sont dans le dossier backend/data du projet.
 
 
 \subsubsection{Utilisation de SQLAlchemy}
-SQLAlchemy est un ORM (Object-Relational Mapping) permettant de manipuler la base de données via des objets python. Les requêtes en 
+SQLAlchemy est un ORM (Object-Relational Mapping) permettant de manipuler la base de données via des objets python. Les requêtes en
 python sont ainsi "traduites" en SQL et la réponse reçu se présentera sous la forme d’un objet python avec lequel on peut interagir.
 SQLAlchemy constitue donc un pont entre la base de données et notre application. Pour que l’ORM puisse fonctionner, il faut définir
-des classes python qui correspondent aux tables de la base de données. Ces classes ont des attributs qui correspondent aux attributs 
+des classes python qui correspondent aux tables de la base de données. Ces classes ont des attributs qui correspondent aux attributs
 des tables. On appelle ça des modèles. Les modèles sont ensuite utilisés pour créer des requêtes SQL.
 
 Les sessions de SQLAlchemy permettent de gérer les transactions SQL, autrement dit un ensemble de requêtes. Si l'une d'elles échoue,
@@ -144,31 +145,32 @@ De nombreuses routes sont dédiées au management des jardins sur l'application.
     \item Supprimer un jardin qu'un utilisateur a créé.
     \item Modifier les informations et les membres d'un jardin.
     \item Rejoindre un jardin.
-\end{itemize} 
+\end{itemize}
 
 \subsubsection{Carte interractive}
 Afin de rendre plus accessible la fonctionnalité de rejoindre un jardin, il est également possible de le faire depuis une carte interractive, sur laquelle est listée l'intégralité des jardins publiques, ainsi que ceux dont l'utilisateur est membre. Cette carte est réalisée à l'aide de la librairie Leaflet.
 
-\subsection{Interractions avec le jardin}
+\subsubsection{Interractions avec le jardin}
 Les utilisateurs membres de jardins peuvent interagir avec celui-ci, en fonction de leurs permissions. On peut ainsi retrouver les fonctionnalités suivantes :
 \begin{itemize}
-    \item Créateur d'un jardin : 
-    \begin{itemize}
-        \item Modeliser le jardin
-        \item Gérer les utilisateurs du jardin
-        \item Supprimer le jardin
-    \end{itemize}
+    \item Créateur d'un jardin :
+          \begin{itemize}
+              \item Modeliser le jardin
+              \item Gérer les utilisateurs du jardin
+              \item Supprimer le jardin
+          \end{itemize}
     \item Les membres et le créateur :
-    \begin{itemize}
-        \item Ajouter / supprimer des tâches à une parcelle
-        \item Modifier les plantes des parcelles
-    \end{itemize}
+          \begin{itemize}
+              \item Ajouter / supprimer des tâches à une parcelle
+              \item Modifier les plantes des parcelles
+          \end{itemize}
 \end{itemize}
+Ces fonctionnalités personnalisées leur permettent donc de personnaliser au maximum leurs jardins.
 
 \newpage
 \section{Algorithme}
 \subsection{Principe de l'algorithme}
-Le problème à résoudre ici est de pouvoir alimenter en eau le potager de manière optimale. Pour cela, nous sommes parti sur l'idée de placer des bouteilles d'eau goutte à goutte sur les parcelles du potager. 
+Le problème à résoudre ici est de pouvoir alimenter en eau le potager de manière optimale. Pour cela, nous sommes parti sur l'idée de placer des bouteilles d'eau goutte à goutte sur les parcelles du potager.
 Cela permet de pouvoir arroser les plantes de manière optimale, en fonction de leurs besoins. Mais aussi, de pouvoir automatiser l'alimentation en eau du potager.
 Ainsi le but de cet algorithme est donc de placer de manière optimale les bouteilles d'eau sur les parcelles pour en placer le moins possible.
 \subsection{Implémentation}
@@ -196,7 +198,7 @@ Comment avons nous tout d'abord modéliser le potager en une matrice numpy ? :
 Prenons alors le cas d'un potager de taille 4x4 avec les besoins suivants :
 \newline
 \[M = \begin{bmatrix} 2 & 2 & 1 & 1 \\ 2 & 2 & 1 & 1 \\ 0 & 0 & 1 & 1 \\ 0 & 0 & 1 & 1 \end{bmatrix}\]
-\newline Nous ferons allusion à la matrice M pour représenter le potager dans la suite pour plus de clarté.
+\newline Nous ferons allusion à la matrice M pour représenter le potager dans la suite pour plus de clarté et avoir un exemple concret.
 \newline Nous avons donc ici un potager de taille 4x4 avec un ensemble de parcelles 2x2 contenant des plantes ayant un besoin en eau de 2. Puis un ensemble de parcelles 2x4 contenant des plantes ayant un besoin en eau de 1. Le reste de la matrice contient des zéros car les parcelles sont creusées mais ne contiennent pas de plantes, elles ont donc un besoin de 0.
 \newline Nous allons maintenant modéliser ce problème en un système d'équations linéaires.
 \subsubsection{Modélisation du problème en un système d'équations linéaires}
@@ -218,17 +220,58 @@ Ainsi, cela constitue ce qu'on appelle une contrainte(*), on crée donc une équ
 \newline On a alors un système d'équations détaillé de cette forme :
 \newline
 \begin{equation}
-\begin{aligned}
-&c_{1,1}x_1+c_{1,2}x_2+...+c_{1,n^2}x_{n^2} \ge b_1 \ , x_1 \in \{0,1\} \\
-&c_{2,1}x_1+c_{2,2}x_2+...+c_{2,n^2}x_{n^2} \ge b_2 \ , x_2 \in \{0,1\} \\
-&... \\
-&c_{n^2,1}x_1+c_{n^2,2}x_2+...+c_{n^2,n^2}x_{n^2} \ge b_{n^2} \ , x_{n^2} \in \{0,1\}
-\end{aligned}
+    \begin{aligned}
+         & c_{1,1}x_1+c_{1,2}x_2+...+c_{1,n^2}x_{n^2} \ge b_1 \ , x_{n^2} \in \{0,1\}           \\
+         & c_{2,1}x_1+c_{2,2}x_2+...+c_{2,n^2}x_{n^2} \ge b_2 \ , x_{n^2} \in \{0,1\}           \\
+         & ...                                                                                  \\
+         & c_{n^2,1}x_1+c_{n^2,2}x_2+...+c_{n^2,n^2}x_{n^2} \ge b_{n^2} \ , x_{n^2} \in \{0,1\}
+    \end{aligned}
 \end{equation}
 \newline
 \newline où $ci,j$ indique si le point d'eau peut être placé pour augmenter son besoin ou pas.
 \newline On peut alors résoudre ce système d'équations linéaires pour trouver le nombre de points d'eau à placer pour chaque parcelle.
-\newline Mais il existe de multiples solutions à ce problème, alors comment faire pour avoir la plus optimale ?
+\newline Montrons maintenant concrète ce qu'il se passe au travers de la matrice M constituant un exemple de potager.
+\newline Tout d'abord, voici la matrice C de l'explication précédente :
+\[C = \begin{bmatrix} 
+1 & 1 & 0 & 0 & 1 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+1 & 1 & 1 & 0 & 1 & 1 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+0 & 1 & 1 & 1 & 0 & 1 & 1 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+0 & 0 & 1 & 1 & 0 & 0 & 1 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+1 & 1 & 0 & 0 & 1 & 1 & 0 & 0 & 1 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+1 & 1 & 1 & 0 & 1 & 1 & 1 & 0 & 1 & 1 & 1 & 0 & 0 & 0 & 0 & 0 \\ 
+0 & 1 & 1 & 1 & 0 & 1 & 1 & 1 & 0 & 1 & 1 & 1 & 0 & 0 & 0 & 0 \\ 
+0 & 0 & 1 & 1 & 0 & 0 & 1 & 1 & 0 & 0 & 1 & 1 & 0 & 0 & 0 & 0 \\ 
+0 & 0 & 0 & 0 & 0 & 1 & 1 & 1 & 0 & 1 & 1 & 1 & 0 & 1 & 1 & 1 \\ 
+0 & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 0 & 0 & 1 & 1 & 0 & 0 & 1 & 1 \\ 
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 1 & 0 & 1 & 1 & 1 \\ 
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 0 & 0 & 1 & 1
+\end{bmatrix}\]
+\newline
+Ensuite on a la matrice B correspondante au besoin des plantes dans la potager :
+\newline
+\[B = \begin{bmatrix} 2 & 2 & 1 & 1 & 2 & 2 & 1 & 1 & 1 & 1 & 1 & 1 \end{bmatrix}\]
+\newline
+On obtient alors le système d'équations linéaires suivante :
+\newline
+\begin{equation}
+    \begin{aligned}
+         & x_1+x_2+x_5+x_6 \ge 2 \ , x_{n^2} \in \{0,1\}                                       \\
+         & x_1+x_2+x_3+x_5+x_6+x_7 \ge 2 \ , x_{n^2} \in \{0,1\}                               \\
+         & x_2+x_3+x_4+x_6+x_7+x_8 \ge 1 \ , x_{n^2} \in \{0,1\}                               \\
+         & x_3+x_4+x_7+x_8 \ge 1 \ , x_{n^2} \in \{0,1\}                                       \\
+         & x_1+x_2+x_5+x_6+x_1+x_2+x_9+x_{10} \ge 2 \ , x_{n^2} \in \{0,1\}                    \\
+         & x_1+x_2+x_3+x_5+x_6+x_7+x_9+x_{10}+x_{11} \ge 2 \ , x_{n^2} \in \{0,1\}             \\
+         & x_2+x_3+x_4+x_5+x_6+x_7+x_8+x_{10}+x_{11}+x_{12} \ge 1 \ , x_{n^2} \in \{0,1\}      \\
+         & x_3+x_4+x_7+x_8+x_{11}+x_{12} \ge 1 \ , x_{n^2} \in \{0,1\}                         \\
+         & x_6+x_7+x_8+x_{10}+x_{11}+x_{12}+x_{14}+x_{15}+x_{16} \ge 1 \ , x_{n^2} \in \{0,1\} \\
+         & x_7+x_8+x_{11}+x_{12}+x_{15}+x_{16} \ge 1 \ , x_{n^2} \in \{0,1\}                   \\
+         & x_{10}+x_{11}+x_{12}+x_{14}+x_{15}+x_{16} \ge 1 \ , x_{n^2} \in \{0,1\}             \\
+         & x_{11}+x_{12}+x_{15}+x_{16} \ge 1 \ , x_{n^2} \in \{0,1\}                           \\
+    \end{aligned}
+\end{equation}
+\newline
+Ainsi trouver les $x_i$ qui vérifient ce système d'équations est une solution pour placer les points d'eau.
+Mais il existe de multiples solutions à ce problème, alors comment faire pour avoir la plus optimale ?
 \subsubsection{Optimisation du système d'équations linéaires}
 Pour cela, on va utiliser la méthode de la programmation linéaire. On va donc chercher à minimiser le nombre de points d'eau à placer pour que chaque parcelle ait son besoin en eau accompli. L'astuce ici réside dans le fait de chercher à minimiser la somme des points d'eau à placer, car $xi,j$ correspond à des valaurs binaires, soit 0 soit 1.
 \newline On pose alors la fonction objectif qui est la somme des points d'eau à placer :
@@ -242,8 +285,18 @@ Pour cela, on va utiliser la méthode de la programmation linéaire. On va donc 
 \newline Il faut savoir qu'en programmation linéaire, il faut fixer un objectif à atteindre car c'est le but de l'optimisation linéaire, ici, cela sera de minimiser le plus possible la somme des points d'eau résultante.
 \newline Ainsi en fournissant ces matrices, la contrainte étant le système d'équations linéaires qui découle du produit matriciel entre la matrice des variables (points d'eau), la matrice C qui est leurs proximités avec chaque parcelle et la matrice B le besoin en eau de chaque parcelle, on peut alors résoudre ce problème en programmation linéaire à l'aide ici du module Gurobipy de Python en fixant l'objectif décrit ci-dessus.
 \newline On obtient finalement la position des points d'eau à placer dans le jardin, et grâce au modèle mathématique qui repose sur la programmation linéaire, on peut être sûr que la solution fournie est optimale.
+\newline Ainsi, dans notre exemple, on obtient :
+\newline
+\[ B = \begin{bmatrix} 0 & 1 & 0 & 0 \\ 0 & 1 & 0 & 1 & \\ 0 & 0 & 1 & 0 & \\ 0 & 0 & 0 & 0 \end{bmatrix} \]
+\newline
+Et on observera alors que, effectivement, dans notre cas, le nombre de point d'eau ne peut être inférieur à 4, et il nous propose bien le positionnement de 4 points d'eau.
+On a donc bien trouver la solution optimale à notre problème ainsi qu'un placement possible (car il existe parfois d'autres placements de ses points qui vérifient aussi la solution mais cela n'a pas d'intêret ici)
 \subsection{Analyse en complexité}
-\subsection{Test de validité de l'algorithme}
+Si on compare par rapport à notre première version :
+L'algorithme utilise l'optimiseur Gurobi pour résoudre un modèle de programmation linéaire en nombres entiers. La complexité de cet algorithme dépend de la complexité de l'optimiseur Gurobi.
+La première partie de l'algorithme, qui construit les matrices C et B à partir de la matrice M, est en temps \[\mathcal{O}(n^4)\], où n est la taille de la matrice M (n est égale à longueur * longueur). Cependant, cette partie est effectuée une seule fois.
+L'optimisation elle-même est généralement considérée comme étant en \[\mathcal{O}(p*n^3)\], où p est le nombre de contraintes et n est le nombre de variables. Il est possible d'optimiser les performances en fonction des caractéristiques spécifiques du modèle.
+Dans l'ensemble, on peut considérer que la complexité globale de cet algorithme est de l'ordre de \[\mathcal{O}(n^4)\].
 \subsection{Analyse de performance}
 \newpage
 \section{Gestion de projet}
@@ -268,7 +321,8 @@ Ces personnes constituent les parties prenantes de notre projet ainsi que les ac
     \caption{Parties prenantes}
 \end{figure}
 \subsection{Organisation au sein de l’équipe projet}
-Nous avons réalisé plusieurs réunions, en présentiel dans les locaux de Télécom Nancy mais également sur en visio-conférence sur Discord. Ces réunions nous ont permis de mettre en commun nos avancés régulièrement, de partager nos connaissances sur des problématiques et de nous organiser de manière optimale.
+Nous avons réalisé plusieurs réunions, en présentiel dans les locaux de Télécom Nancy mais la plupart de notre collaboration a eu lieu sur Discord. Ces réunions nous ont permis de mettre en commun nos avancés régulièrement, de partager nos connaissances sur des problématiques et de nous organiser de manière optimale.
+En plus des réunions d'avancement règulières, nous avons également réalisé des réunions techniques afin de résoudre un problème ou bien de réflechir à la conception.
 Les comptes rendus des réunions réalisés sont présents dans l’\hyperlink{annexe1}{Annexe 1}.
 
 De plus, dès le début de notre projet nous avons mis en place un projet Trello. Trello est une application permettant d’organiser facilement un projet en reposant sur une organisation en planches listant des cartes, chacune représentant des tâches. Ces tâches peuvent ensuite être déplacées permettant de découper notre projet en plusieurs jalons dynamiquement.
@@ -276,7 +330,7 @@ De plus, dès le début de notre projet nous avons mis en place un projet Trello
     \centering
     \includegraphics[width=0.75\textwidth]{img/trello.png}
     \caption{Organisation Trello}
-\end{figure} 
+\end{figure}
 
 Ensuite, nous avons utilisé GitLab pour gérer les différentes versions du développement de notre application, ainsi que les différentes branches nous permettant de travailler simultanément sans conflit.
 
@@ -316,11 +370,11 @@ Afin d’avoir une vision plus globale de nos ressources et des facteurs interne
     \centering
     \includegraphics[width=0.75\textwidth]{img/SWOT.png}
     \caption{Matrice SWOT}
-\end{figure} 
+\end{figure}
 
 On peut ainsi remarquer que notre projet présente de nombreux points fort notamment grâce aux connaissances acquises lors des cours de Télécom Nancy mais également de part l’expérience forte de deux des membres de l’équipe projet qui ont déjà réalisé des applications similaires.  Cependant, plusieurs facteurs internes constituent nos faiblesses notamment les courts délais qui nous oblige à être concis et efficaces dans notre travail, ou encore le faible bagage informatique de deux des membres de l’équipe. Néanmoins, ces lacunes constituent pour eux l’opportunité d’apprendre, et de progresser avec l’aide des membres expérimentés de l’équipe.
 
-De plus, nous devons anticiper les charges de travail dans le cadre de notre formation à Télécom Nancy qui s'avèrent être plus élevée en décembre lors des partiels de fin d'année. Nous allons donc devoir prendre cela en compte dans notre gestion des tâches. 
+De plus, nous devons anticiper les charges de travail dans le cadre de notre formation à Télécom Nancy qui s'avèrent être plus élevée en décembre lors des partiels de fin d'année. Nous allons donc devoir prendre cela en compte dans notre gestion des tâches.
 
 \subsection{Profil de projet}
 Afin d’avoir une vision plus globale sur notre projet, nous avons également réalisé le profil du projet (le budget étant égal à 0, nous avons choisi de ne pas le représenter dans notre profil). On remarque que, du fait des nombreuses fonctionnalités que nous avons l’intention d’implémenter dans notre application, que notre projet est de taille moyenne mais de complexité élevée.
@@ -333,7 +387,7 @@ De plus, au vu de l’état de l’art établi, l’innovation du projet est imp
     \centering
     \includegraphics[width=0.75\textwidth]{img/profil_projet.png}
     \caption{Profil du projet}
-\end{figure} 
+\end{figure}
 
 \subsection{WBS~: comment concrétiser l’application}
 Ceci étant fait, nous avons maintenant choisi de détailler les lots de travail à effectuer pour fabriquer notre application. Nous avons ainsi réalisé le WBS (Work Breakdown Structure) de notre application~: il apparait ainsi les grandes étapes de notre projet que sont~: definition du cadre de l’application, développement des fonctionnalités de l’application et écriture du rapport.
@@ -341,7 +395,7 @@ Ceci étant fait, nous avons maintenant choisi de détailler les lots de travail
     \centering
     \includegraphics[width=1\textwidth]{img/WBS.png}
     \caption{WBS}
-\end{figure} 
+\end{figure}
 
 \subsection{Diagramme de Gantt~: planification}
 Maintenant que nous avons un détail des lots de travail qui constitue notre application, il faut maintenant les mettre en relation pour créer un planning efficace où chaque tâche est effectuée dans l’ordre.
@@ -349,7 +403,7 @@ Maintenant que nous avons un détail des lots de travail qui constitue notre app
     \centering
     \includegraphics[width=1\textwidth]{img/gantt.png}
     \caption{Diagramme de GANTT}
-\end{figure} 
+\end{figure}
 Ce diagramme est une première version générale des tâches à effectuer, il sera modifié et détaillé davantage une fois la conception et les maquettes du projet réalisé.
 
 \subsection{Matrice RACI}
@@ -359,19 +413,22 @@ Maintenant que toutes les étapes sont planifiées, nous devons répartir le tra
     \centering
     \includegraphics[width=1\textwidth]{img/RACI.png}
     \caption{Matrice RACI}
-\end{figure} 
+\end{figure}
 
 \subsection{Gestion des risques}
-Nous avons également penser à prévoir une partie des risques pouvant se dresser sur notre route, les risques les plus classiques étant 
+Nous avons également penser à prévoir une partie des risques pouvant se dresser sur notre route, les risques les plus classiques étant
 la gestion du temps et le manque de comprehension de certaines personnes de l'équipe
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{img/Plan_gestion_risque.png}
     \caption{Plan de gestion des risques}
-\end{figure} 
+\end{figure}
 
 \section{Conclusion}
-
+Ce projet nous a permis de réaliser un projet de A à Z, de la conception à la réalisation. Nous avons pu mettre en pratique les connaissances acquises en cours et nous avons pu nous familiariser avec les outils de gestion de projet. Nous avons également pu nous rendre compte de la difficulté de la gestion de projet et de la nécessité de bien planifier son travail.
+Nous avons réalisé la totalité des fonctionnalités et des éléments prévus lors de la phase de conception, ce qui nous permet de qualifier notre travail d'excellent selon notre matrice des objectifs.
+Ce travail a également été l'occasion de découvrir de nouvelles technologies, comme les librairies React, Gurobipy et SQLAlchemy, mais également de découvrir de nouvelles méthodes de résolution de problème, via notre algorithme d'optimisation de l'arrosage.
+Nous sommes fier du rendu final de notre travail et espérons retravailler ensemble sur d'autres projets, y compris externes à ceux donné dans le cadre des cours.
 \section{Annexes}
 \includepdf[pages=1]{../../cr_reu/octobre/16/cr_16_octobre.pdf}
 \includepdf[pages=1]{../../cr_reu/octobre/18/cr_18_octobre.pdf}

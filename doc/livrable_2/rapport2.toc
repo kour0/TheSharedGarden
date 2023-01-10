@@ -13,24 +13,26 @@
 \contentsline {subsubsection}{\numberline {2.2.2}Gestion de compte}{5}{subsubsection.2.2.2}%
 \contentsline {subsubsection}{\numberline {2.2.3}Gestion des jardins}{5}{subsubsection.2.2.3}%
 \contentsline {subsubsection}{\numberline {2.2.4}Carte interractive}{5}{subsubsection.2.2.4}%
-\contentsline {subsection}{\numberline {2.3}Interractions avec le jardin}{5}{subsection.2.3}%
+\contentsline {subsubsection}{\numberline {2.2.5}Interractions avec le jardin}{5}{subsubsection.2.2.5}%
 \contentsline {section}{\numberline {3}Algorithme}{7}{section.3}%
 \contentsline {subsection}{\numberline {3.1}Principe de l'algorithme}{7}{subsection.3.1}%
 \contentsline {subsection}{\numberline {3.2}Implémentation}{7}{subsection.3.2}%
-\contentsline {subsection}{\numberline {3.3}Analyse en complexité}{7}{subsection.3.3}%
-\contentsline {subsection}{\numberline {3.4}Test de validité de l'algorithme}{7}{subsection.3.4}%
-\contentsline {subsection}{\numberline {3.5}Analyse de performance}{7}{subsection.3.5}%
-\contentsline {section}{\numberline {4}Gestion de projet}{8}{section.4}%
-\contentsline {subsection}{\numberline {4.1}Équipe de projet}{8}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}Organisation au sein de l’équipe projet}{8}{subsection.4.2}%
-\contentsline {subsection}{\numberline {4.3}Objectifs SMART}{9}{subsection.4.3}%
-\contentsline {subsection}{\numberline {4.4}Matrice des objectifs}{9}{subsection.4.4}%
-\contentsline {subsection}{\numberline {4.5}Triangle qualité-cout-délai}{9}{subsection.4.5}%
-\contentsline {subsection}{\numberline {4.6}Matrice SWOT}{10}{subsection.4.6}%
-\contentsline {subsection}{\numberline {4.7}Profil de projet}{11}{subsection.4.7}%
-\contentsline {subsection}{\numberline {4.8}WBS\nobreakspace {}: comment concrétiser l’application}{11}{subsection.4.8}%
-\contentsline {subsection}{\numberline {4.9}Diagramme de Gantt\nobreakspace {}: planification}{12}{subsection.4.9}%
-\contentsline {subsection}{\numberline {4.10}Matrice RACI}{12}{subsection.4.10}%
-\contentsline {subsection}{\numberline {4.11}Gestion des risques}{13}{subsection.4.11}%
-\contentsline {section}{\numberline {5}Conclusion}{13}{section.5}%
-\contentsline {section}{\numberline {6}Annexes}{13}{section.6}%
+\contentsline {subsubsection}{\numberline {3.2.1}Modélisation du problème}{7}{subsubsection.3.2.1}%
+\contentsline {subsubsection}{\numberline {3.2.2}Modélisation du problème en un système d'équations linéaires}{8}{subsubsection.3.2.2}%
+\contentsline {subsubsection}{\numberline {3.2.3}Optimisation du système d'équations linéaires}{9}{subsubsection.3.2.3}%
+\contentsline {subsection}{\numberline {3.3}Analyse en complexité}{10}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}Analyse de performance}{10}{subsection.3.4}%
+\contentsline {section}{\numberline {4}Gestion de projet}{11}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Équipe de projet}{11}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Organisation au sein de l’équipe projet}{11}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Objectifs SMART}{12}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Matrice des objectifs}{12}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.5}Triangle qualité-cout-délai}{12}{subsection.4.5}%
+\contentsline {subsection}{\numberline {4.6}Matrice SWOT}{13}{subsection.4.6}%
+\contentsline {subsection}{\numberline {4.7}Profil de projet}{14}{subsection.4.7}%
+\contentsline {subsection}{\numberline {4.8}WBS\nobreakspace {}: comment concrétiser l’application}{14}{subsection.4.8}%
+\contentsline {subsection}{\numberline {4.9}Diagramme de Gantt\nobreakspace {}: planification}{15}{subsection.4.9}%
+\contentsline {subsection}{\numberline {4.10}Matrice RACI}{15}{subsection.4.10}%
+\contentsline {subsection}{\numberline {4.11}Gestion des risques}{16}{subsection.4.11}%
+\contentsline {section}{\numberline {5}Conclusion}{16}{section.5}%
+\contentsline {section}{\numberline {6}Annexes}{17}{section.6}%
