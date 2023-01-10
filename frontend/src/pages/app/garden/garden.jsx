@@ -87,9 +87,32 @@ export default function Garden() {
           </Link>
 
           <NavTitle title="Invitations" />
-          <p className="m-2 text-sm text-gray-500">
-            Invitez des amis à rejoindre votre jardin en leur donnant ce code : <strong>{gardenId}</strong>
-          </p>
+
+          {/* inviter des amis à rejoindre en donnant l'id du jardin */}
+          <div className="flex flex-col items-center justify-center mx-auto text-center">
+
+            <p className="m-2 text-sm text-gray-500">
+              Invitez des amis à rejoindre votre jardin en leur donnant ce code :
+            </p>
+            <p className="m-2 text-base text-gray-600">{garden.data.id}</p>
+          </div>
+
+          <NavTitle title="Arrosage du jardin" />
+
+          <div className="flex flex-col items-center justify-center mx-auto text-center">
+            <p className="m-2 text-sm text-gray-500">Comment arroser de manière optimale votre jardin ?</p>
+            <Link
+              to={`/app/dashboard/${gardenId}/watering`}
+              relative="path"
+              className="inline-flex items-center justify-center rounded-md border border-transparent w-full bg-teal-700 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-teal-800 focus:outline-none"
+            >
+              Arrosage
+            </Link>
+          </div>
+
+
+
+
 
           {profile.data.id === garden.data.manager && (
             <>

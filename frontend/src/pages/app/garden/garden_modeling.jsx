@@ -17,6 +17,7 @@ export default function GardenModeling() {
   const queryClient = useQueryClient();
 
   const [selected, setSelected] = useState([]);
+ 
   const [modelingState, setModelingState] = useState(false);
   const [editingPlot, setEditingPlot] = useState(null);
 
@@ -26,20 +27,21 @@ export default function GardenModeling() {
   const { isLoading: plotsIsLoading } = getPlots(gardenId, setPlots);
 
   const isBeside = (cell) => {
-    const index = cell.index;
+    const x = cell.x;
+    const y = cell.y;
     return (
       selected.length == 0 ||
-      selected.includes(index) ||
-      (selected.includes(index - 1) && cell.y != 0) ||
-      (selected.includes(index + 1) && cell.y != gridSize - 1) ||
-      (selected.includes(index - gridSize) && cell.x != 0) ||
-      (selected.includes(index + gridSize) && cell.x != gridSize - 1)
+      cellIsSelected(cell) ||
+      (cellIsSelected({ x: x - 1, y: y }) && cell.x != 0) ||
+      (cellIsSelected({ x: x + 1, y: y }) && cell.x != gridSize - 1) ||
+      (cellIsSelected({ x: x, y: y - 1 }) && cell.y != 0) ||
+      (cellIsSelected({ x: x, y: y + 1 }) && cell.y != gridSize - 1)
     );
   };
 
   const unitIsClaimed = (cell) => cell.plot != null && cell.plot !== editingPlot;
 
-  const cellIsSelected = (cell) => selected.includes(cell.index);
+  const cellIsSelected = (cell) => selected.some((item) => item.x === cell.x && item.y === cell.y);
 
   const isDisabled = (cell) => unitIsClaimed(cell) || !isBeside(cell) || !modelingState;
 
@@ -61,11 +63,10 @@ export default function GardenModeling() {
   const postUpdateNamePlot = updateNamePlot(gardenId, queryClient);
 
   const handleAddPlot = (cell) => {
-    const index = cell.index;
-    if (selected.includes(index)) {
-      setSelected(selected.filter((item) => item !== index));
+    if (cellIsSelected(cell)) {
+      setSelected(selected.filter((item) => item.x !== cell.x || item.y !== cell.y));
     } else {
-      setSelected([...selected, index]);
+      setSelected([...selected, { x: cell.x, y: cell.y }]);
     }
   };
 

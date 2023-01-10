@@ -1,6 +1,6 @@
 import { classNames } from '../../utils/helpers';
 
-export default function GardenGrid({ className, plots, isDisabled, getImage, handleCaseClick }) {
+export default function GardenGrid({ className, plots, isDisabled, getImage, handleCaseClick, watersUnits=[] }){
   const gridSize = 12;
   const grid = [];
 
@@ -10,10 +10,12 @@ export default function GardenGrid({ className, plots, isDisabled, getImage, han
     }
   }
   for (const cell of grid) {
-    cell.index = grid.indexOf(cell);
     for (const plot of plots) {
-      if (plot.units.includes(cell.index)) {
+      if (plot.units.some((unit) => unit.x === cell.x && unit.y === cell.y)) {
         cell.plot = plot;
+      }
+      if (watersUnits.some((unit) => unit.x === cell.x && unit.y === cell.y)) {
+        cell.water = true;
       }
     }
   }

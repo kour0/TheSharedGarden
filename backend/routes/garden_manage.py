@@ -6,6 +6,7 @@ from geopy.geocoders import Nominatim
 
 from bdd import Session
 from lib.garden_helper import garden_to_json
+from lib.garden_water import solveur_sources
 from lib.image_helper import get_image_name, save_image, delete_image
 from lib.profile_helper import members_to_json
 from middlewares import auth
@@ -14,7 +15,9 @@ from models.Link import Link
 from models.Plot import Plot
 from models.PlotUnit import PlotUnit
 from models.Task import Task
+from models.Plant import Plant
 from routes.map import add_map, delete_map
+import numpy as np
 
 gardenManage = Blueprint('gardenManage', __name__)
 session = Session()
@@ -225,29 +228,37 @@ def delete_member(garden_id, member_id):
         return {'message': str(e)}, 500
 
 
-@gardenManage.get(BASE_URL + '/water')
-def water(garden_id):
+@gardenManage.get(BASE_URL + '/watering')
+def get_watering(garden_id):
     try:
-        field = np.zeros((6, 6))
-        field_water = np.zeros((6, 6))
-        quantity = 0
 
         garden = session.query(Garden).filter_by(id_garden=garden_id).first()
         if not garden:
             return {'message': 'Garden not found'}, 404
 
-        plot = session.query(Plot).filter_by(garden_id=garden_id).all()
-        if not plot:
+        plots = session.query(Plot).filter_by(garden_id=garden_id).all()
+
+        if not plots:
             return {'message': 'Plot not found'}, 404
 
-        for p in plot:
-            plot_unit = session.query(PlotUnit).filter_by(plot_id=p.plot_id).all()
-            for pu in plot_unit:
-                field[pu.unit // 6][pu.unit % 6] = 1
-                field_water[pu.unit // 6][pu.unit % 6] = 2
-                quantity += 1
 
-        list_water = garden_water.trouver_points_d_eau(field, 6, 6, field_water, quantity)
-        return {'message': 'Water found', 'water': list_water}, 200
+        field = np.zeros((12, 12), dtype=int)
+        arrosage = False
+
+        for plot in plots:
+            units = session.query(PlotUnit).filter_by(plot_id=plot.plot_id).all()
+            plant = session.query(Plant).filter_by(id=plot.plant).first()
+            print(plant)
+            if plant :
+                print(plant.water_need)
+                for unit in units:
+                    field[unit.x][unit.y] =1
+                    arrosage = True
+
+        if arrosage:
+            list_water = solveur_sources(field)
+            return list_water
+
+        return [], 200
     except Exception as e:
         return {'message': str(e)}, 500
