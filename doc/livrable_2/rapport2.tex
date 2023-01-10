@@ -194,22 +194,23 @@ Comment avons nous tout d'abord modéliser le potager en une matrice numpy ? :
     \item Les parcelles contenant une plante sont représentées par un nombre entier positif correspondant au besoin en eau de la plante.
 \end{itemize}
 Prenons alors le cas d'un potager de taille 4x4 avec les besoins suivants :
-\newline M = \begin{bmatrix} 2 & 2 & 1 & 1 \\ 2 & 2 & 1 & 1 \\ 0 & 0 & 1 & 1 \\ 0 & 0 & 1 & 1 \end{bmatrix}
+\newline
+\[M = \begin{bmatrix} 2 & 2 & 1 & 1 \\ 2 & 2 & 1 & 1 \\ 0 & 0 & 1 & 1 \\ 0 & 0 & 1 & 1 \end{bmatrix}\]
 \newline Nous ferons allusion à la matrice M pour représenter le potager dans la suite pour plus de clarté.
 \newline Nous avons donc ici un potager de taille 4x4 avec un ensemble de parcelles 2x2 contenant des plantes ayant un besoin en eau de 2. Puis un ensemble de parcelles 2x4 contenant des plantes ayant un besoin en eau de 1. Le reste de la matrice contient des zéros car les parcelles sont creusées mais ne contiennent pas de plantes, elles ont donc un besoin de 0.
 \newline Nous allons maintenant modéliser ce problème en un système d'équations linéaires.
 \subsubsection{Modélisation du problème en un système d'équations linéaires}
-\newline Nous allons donc modéliser ce problème en un système d'équations linéaires.
+Nous allons donc modéliser ce problème en un système d'équations linéaires.
 \newline Pour cela, on part du constat que pour chaque parcelle de légumes, si on veut que cette parcelle voit son besoin en eau accompli, il faut que sa propre parcelle ou les parcelles adjacentes contiennent le nombre de points d'eau nécessaires pour assouvir son besoin. Ainsi, le poids de cha parcelle correspond au nombre de points d'eau qu'il faut autour d'elle ou sur elle même.
 Ainsi, cela constitue ce qu'on appelle une contrainte(*), on crée donc une équation pour chaque parcelle contenant une plante. Pour cela, on va écrire ce système d'équations linéaires sous la forme d'un produit matriciel.
 \newline On pose alors X la matrice contenant l'ensemble des points d'eau que l'on peut placer, cela correspond au nombre d'éléments dans la matrice M :
-\newline X = \begin{bmatrix} X_1 \\ X_2 \\ . \\ . \\ X_n \end{bmatrix}
+\newline \[X = \begin{bmatrix} X_1 \\ X_2 \\ . \\ . \\ X_n \end{bmatrix}\]
 \newline $X_i$ est égal à 1 si la case i est une source, et 0 sinon. On prend donc ici des valeurs binaires, soit on place un point d'eau, soit on en place pas.
 \newline On pose ensuite la matrice C, qui est la matrice donnant la position pour chaque parcelle des sources d'eau :
-\newline C = \begin{bmatrix} c_{1,1} & c_{1,2} & . & . & c_{1,n} \\ c_{2,1} & c_{2,2} & . & . & c_{2,n} \\ . & . & . & . & . \\ . & . & . & . & . \\ c_{n,1} & c_{n,2} & . & . & c_{n,n} \end{bmatrix}
+\newline \[C = \begin{bmatrix} c_{1,1} & c_{1,2} & . & . & c_{1,n} \\ c_{2,1} & c_{2,2} & . & . & c_{2,n} \\ . & . & . & . & . \\ . & . & . & . & . \\ c_{n,1} & c_{n,2} & . & . & c_{n,n} \end{bmatrix}\]
 \newline $c_{i,j}$ est égal à 1 si la case j est adjacente à la case i, et 0 sinon.
 \newline On pose ensuite la matrice B, qui est la matrice donnant le besoin en eau pour chaque parcelle des sources d'eau :
-\newline B = \begin{bmatrix} b_1 \\ b_2 \\ . \\ . \\ b_n \end{bmatrix}
+\newline \[B = \begin{bmatrix} b_1 \\ b_2 \\ . \\ . \\ b_n \end{bmatrix}\]
 \newline $b_i$ est égal au besoin en eau de la parcelle i.
 \newline Ainsi, à l'aide de la contrainte que l'on se fixe ici (*), on peut poser alors notre système d'équations linéaires sous la forme :
 \newline \begin{equation} C \cdot X = B \end{equation}
@@ -229,7 +230,7 @@ Ainsi, cela constitue ce qu'on appelle une contrainte(*), on crée donc une équ
 \newline On peut alors résoudre ce système d'équations linéaires pour trouver le nombre de points d'eau à placer pour chaque parcelle.
 \newline Mais il existe de multiples solutions à ce problème, alors comment faire pour avoir la plus optimale ?
 \subsubsection{Optimisation du système d'équations linéaires}
-\newline Pour cela, on va utiliser la méthode de la programmation linéaire. On va donc chercher à minimiser le nombre de points d'eau à placer pour que chaque parcelle ait son besoin en eau accompli. L'astuce ici réside dans le fait de chercher à minimiser la somme des points d'eau à placer, car $xi,j$ correspond à des valaurs binaires, soit 0 soit 1.
+Pour cela, on va utiliser la méthode de la programmation linéaire. On va donc chercher à minimiser le nombre de points d'eau à placer pour que chaque parcelle ait son besoin en eau accompli. L'astuce ici réside dans le fait de chercher à minimiser la somme des points d'eau à placer, car $xi,j$ correspond à des valaurs binaires, soit 0 soit 1.
 \newline On pose alors la fonction objectif qui est la somme des points d'eau à placer :
 \newline
 \newline \begin{equation} f(X) = \sum_{i=1}^{n^2} x_i \end{equation}
