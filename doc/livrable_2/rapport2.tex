@@ -66,9 +66,9 @@ email, un pseudo, son prénom, son nom, ainsi que la date de la création de son
 et ce jardin peut être rejoint par d'autres utilisateurs.
 Un jardin est constitué d'un nom, un propriétaire, un type (public ou privé) et enfin une adresse. Le propriétaire du jardin peut
 ensuite créer des parcelles dans son jardin. Une parcelle est composée d'un nom et d'une plante. Une plante a un nom et un besoin en eau. Les parcelles sont elles mêmes consituées
-d'unités qui réprésentent un espace réel dans le jardin. Une unité est caractérisée par un index déterminant sa position dans le jardin.
-De plus, chaque parcelle peut être associée à une liste de tâche à effectuer. Une tâche est caractérisée par une date limite, un nom,
-une description, un état (à faire, en cours, terminé), une date limite et enfin une personne qui s'en occupe.
+d'unités qui réprésentent un espace réel dans le jardin. Une unité est caractérisée par ses coordonnées déterminant sa position dans le jardin.
+De plus, chaque parcelle peut être associée à une liste de tâches à effectuer. Une tâche est caractérisée par une date limite, un nom,
+une description, un état (à faire, en cours, terminé) et enfin une personne qui s'en occupe.
 
 \subsubsection{Schéma entité-association}
 
@@ -95,11 +95,11 @@ A présent, nous allons transformer notre schéma entité-association en modèle
 normale.
 
 \begin{itemize}
-    \item account(id, email, username, first name, last name, password, created at)
+    \item account(id, email, username, first\_name, last\_name, password, created\_at)
     \item garden(id\_garden, garden\_name, owner, manager, garden\_type, street\_adress, country, city, province, postal\_code)
     \item plot(plot\_id, garden\_id, plot\_state, plot\_name, plant)
     \item task(task\_id, plot\_id, task\_name, task\_description, task\_manager, task\_state, completion\_state, validation\_state, deadline)
-    \item plot\_unit(plot\_id, unit)
+    \item plot\_unit(plot\_id, x, y)
     \item plant(id, plant\_name, water\_need)
     \item do(account\_id, task\_id)
     \item link(account\_id, garden\_id)
@@ -165,26 +165,32 @@ Les utilisateurs membres de jardins peuvent interagir avec ceux-ci, en fonction 
               \item Modifier les plantes des parcelles
           \end{itemize}
 \end{itemize}
-Ces fonctionnalités personnalisées leur permettent donc de personnaliser au maximum leurs jardins.
+Ces fonctionnalités leur permettent donc de personnaliser au maximum leurs jardins.
 
 \newpage
 \section{Algorithme}
 \subsection{Principe de l'algorithme}
-Le problème à résoudre ici est de pouvoir alimenter en eau le potager de manière optimale. Pour cela, nous sommes partis sur l'idée de placer des bouteilles d'eau goutte à goutte sur les parcelles du potager.
+Le problème à résoudre ici est de pouvoir alimenter en eau le potager de manière optimale. Pour cela, nous sommes partis sur l'idée de placer des arroseurs sur les parcelles du potager.
 Cela permet de pouvoir arroser les plantes de manière optimale, en fonction de leurs besoins. Mais aussi, de pouvoir automatiser l'alimentation en eau du potager.
-Ainsi le but de cet algorithme est donc de placer de manière optimale les bouteilles d'eau sur les parcelles pour en placer le moins possible.
+Ainsi le but de cet algorithme est donc de placer de manière optimale les arroseurs sur les parcelles pour en placer le moins possible.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{img/arroseur-sur-pic.jpg}
+    \caption{Arroseur sur pic}
+\end{figure}
+
 \subsection{Implémentation}
 \subsubsection{Modélisation du problème}
 Tout d'abord, nous avons modélisé le jardin sous la forme d'une matrice avec le module numpy pour avoir une matrice optimisée en python, c'était la façon la plus naturelle pour nous pour la représenter aussi bien en frontend qu'en algorithmique.
-Ensuite, nous avons implémenté l'algorithme de placement des bouteilles d'eau. Pour cela, on a posé des contraintes :
+Ensuite, nous avons implémenté l'algorithme de placement des arroseurs. Pour cela, on a posé des contraintes :
 \begin{itemize}
-    \item Une bouteille d'eau alimente en eau la parcelle sur laquelle elle est placée et les parcelles adjacentes.
+    \item Un arroseur alimente en eau la parcelle sur laquelle il est placé et les parcelles adjacentes.
     \item Une parcelle porte un poids qui correspond à la quantité d'eau dont elle a besoin.
-    \item Une bouteille d'eau ne peut être placée que sur une parcelle.
-    \item Une bouteille d'eau n'arrose qu'une fois une parcelle, ainsi une plante ayant un besoin de deux devra être arrosée par deux points d'eau différents et ainsi de suite.
+    \item Un arroseur ne peut être placé que sur une parcelle.
+    \item Un arroseur n'arrose qu'une fois une parcelle, ainsi une plante ayant un besoin de deux devra être arrosée par deux points d'eau différents et ainsi de suite.
 \end{itemize}
 Nous avons tout d'abord pensé à résoudre ce problème en développant un algorithme basé sur le backtracking sur le même principe que knapsack (problème des sacs à dos).
-Cependant, le fait de devoir tester toutes les possibilités de placement des bouteilles d'eau rendait l'algorithme trop long à exécuter. Il n'était donc pas possible de l'utiliser pour un jardin de plus de 6x6 parcelles ce qui était plutot limitant dans notre cas.
+Cependant, le fait de devoir tester toutes les possibilités de placement des arroseurs rendait l'algorithme trop long à exécuter. Il n'était donc pas possible de l'utiliser pour un jardin de plus de 6x6 parcelles ce qui était plutôt limitant dans notre cas.
 Nous avons ensuite tenté de placer les points d'eau sur les plantes qui avaient les plus forts besoins mais encore une fois, le placement n'était clairement pas optimisé et il fallait placer beaucoup de points d'eau pour arroser toutes les plantes surtout dans le cas où la matrice commencait à avoir une taille représentative d'un jardin.
 Finalement, en prenant un autre point de vue sur le problème, il a été possible de le résoudre de manière très rapide.
 Il suffit alors de se rendre compte que ce problème peut être traité sous la forme d'un problème mathématique, à travers un système d'équations contenant la position des points d'eau et les besoins des plantes.
@@ -202,13 +208,12 @@ Prenons alors le cas d'un potager de taille 4x4 avec les besoins suivants :
 \newline Nous avons donc ici un potager de taille 4x4 avec un ensemble de parcelles 2x2 contenant des plantes ayant un besoin en eau de 2. Puis un ensemble de parcelles 2x4 contenant des plantes ayant un besoin en eau de 1. Le reste de la matrice contient des zéros car les parcelles sont creusées mais ne contiennent pas de plantes, elles ont donc un besoin de 0.
 \newline Nous allons maintenant modéliser ce problème en un système d'équations linéaires.
 \subsubsection{Modélisation du problème en un système d'équations linéaires}
-Nous allons donc modéliser ce problème en un système d'équations linéaires.
-\newline Pour cela, on part du constat que pour chaque parcelle de légumes, si on veut que cette parcelle voit son besoin en eau accompli, il faut que sa propre parcelle ou les parcelles adjacentes contiennent le nombre de points d'eau nécessaires pour assouvir son besoin. Ainsi, le poids de chaque parcelle correspond au nombre de points d'eau qu'il faut autour d'elle ou sur elle même.
+Pour cela, on part du constat que pour chaque parcelle de légumes, si on veut que cette parcelle voit son besoin en eau accompli, il faut que sa propre parcelle ou les parcelles adjacentes contiennent le nombre de points d'eau nécessaires pour assouvir son besoin. Ainsi, le poids de chaque parcelle correspond au nombre de points d'eau qu'il faut autour d'elle ou sur elle même.
 Ainsi, cela constitue ce qu'on appelle une contrainte(*), on crée donc une équation pour chaque parcelle contenant une plante. Pour cela, on va écrire ce système d'équations linéaires sous la forme d'un produit matriciel.
 \newline On pose alors X la matrice contenant l'ensemble des points d'eau que l'on peut placer, cela correspond au nombre d'éléments dans la matrice M :
 \newline \[X = \begin{bmatrix} X_1 \\ X_2 \\ . \\ . \\ X_n \end{bmatrix}\]
 \newline $X_i$ est égal à 1 si la case i est une source, et 0 sinon. On prend donc ici des valeurs binaires, soit on place un point d'eau, soit on en place pas.
-\newline On pose ensuite la matrice C, qui est la matrice donnant la position pour chaque parcelle des sources d'eau :
+\newline On pose ensuite la matrice C, qui est la matrice donnant la position, pour chaque parcelle, des sources d'eau :
 \newline \[C = \begin{bmatrix} c_{1,1} & c_{1,2} & . & . & c_{1,n} \\ c_{2,1} & c_{2,2} & . & . & c_{2,n} \\ . & . & . & . & . \\ . & . & . & . & . \\ c_{n,1} & c_{n,2} & . & . & c_{n,n} \end{bmatrix}\]
 \newline $c_{i,j}$ est égal à 1 si la case j est adjacente à la case i, et 0 sinon.
 \newline On pose ensuite la matrice B, qui est la matrice donnant le besoin en eau pour chaque parcelle des sources d'eau :
@@ -228,7 +233,7 @@ Ainsi, cela constitue ce qu'on appelle une contrainte(*), on crée donc une équ
     \end{aligned}
 \end{equation}
 \newline
-\newline où $ci,j$ indique si le point d'eau peut être placé pour augmenter son besoin ou pas.
+\newline où $c_{i,j}$ indique si le point d'eau peut être placé pour augmenter son besoin ou pas.
 \newline On peut alors résoudre ce système d'équations linéaires pour trouver le nombre de points d'eau à placer pour chaque parcelle.
 \newline Montrons maintenant concrètement ce qu'il se passe au travers de la matrice M constituant un exemple de potager.
 \newline Tout d'abord, voici la matrice C de l'explication précédente :
@@ -247,7 +252,7 @@ Ainsi, cela constitue ce qu'on appelle une contrainte(*), on crée donc une équ
 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 0 & 0 & 1 & 1
 \end{bmatrix}\]
 \newline
-Ensuite on a la matrice B correspondante au besoin des plantes dans la potager :
+Ensuite on a la matrice B correspondante au besoin des plantes dans le potager :
 \newline
 \[B = \begin{bmatrix} 2 & 2 & 1 & 1 & 2 & 2 & 1 & 1 & 1 & 1 & 1 & 1 \end{bmatrix}\]
 \newline
@@ -273,7 +278,7 @@ On obtient alors le système d'équations linéaires suivante :
 Ainsi trouver les $x_i$ qui vérifient ce système d'équations est une solution pour placer les points d'eau.
 Mais il existe de multiples solutions à ce problème, alors comment faire pour avoir la plus optimale ?
 \subsubsection{Optimisation du système d'équations linéaires}
-Pour cela, on va utiliser la méthode de la programmation linéaire. On va donc chercher à minimiser le nombre de points d'eau à placer pour que chaque parcelle ait son besoin en eau accompli. L'astuce ici réside dans le fait de chercher à minimiser la somme des points d'eau à placer, car $xi,j$ correspond à des valeurs binaires, soit 0 soit 1.
+Pour cela, on va utiliser la méthode de la programmation linéaire. On va donc chercher à minimiser le nombre de points d'eau à placer pour que chaque parcelle ait son besoin en eau accompli. L'astuce ici réside dans le fait de chercher à minimiser la somme des points d'eau à placer, car $x_{i,j}$ correspond à des valeurs binaires, soit 0 soit 1.
 \newline On pose alors la fonction objectif qui est la somme des points d'eau à placer :
 \newline
 \newline \begin{equation} f(X) = \sum_{i=1}^{n^2} x_i \end{equation}
@@ -283,27 +288,28 @@ Pour cela, on va utiliser la méthode de la programmation linéaire. On va donc 
 \newline \begin{equation} \min (f(X)) \end{equation}
 \newline
 \newline Il faut savoir qu'en programmation linéaire, il faut fixer un objectif à atteindre car c'est le but de l'optimisation linéaire, ici, cela sera de minimiser le plus possible la somme des points d'eau résultante.
-\newline Ainsi en fournissant ces matrices, la contrainte étant le système d'équations linéaires qui découle du produit matriciel entre la matrice des variables (points d'eau), la matrice C qui est leur proximité avec chaque parcelle et la matrice B le besoin en eau de chaque parcelle, on peut alors résoudre ce problème en programmation linéaire à l'aide ici du module Gurobipy de Python en fixant l'objectif décrit ci-dessus.
+\newline Ainsi en fournissant ces matrices, la contrainte étant le système d'équations linéaires qui découle du produit matriciel entre la matrice des variables (points d'eau), la matrice C qui est leur proximité avec chaque parcelle et la matrice B le besoin en eau de chaque parcelle. On peut alors résoudre ce problème en programmation linéaire à l'aide ici du module Gurobipy de Python en fixant l'objectif décrit ci-dessus.
 \newline On obtient finalement la position des points d'eau à placer dans le jardin, et grâce au modèle mathématique qui repose sur la programmation linéaire, on peut être sûr que la solution fournie est optimale.
 \newline Ainsi, dans notre exemple, on obtient :
 \newline
 \[ B = \begin{bmatrix} 0 & 1 & 0 & 0 \\ 0 & 1 & 0 & 1 & \\ 0 & 0 & 1 & 0 & \\ 0 & 0 & 0 & 0 \end{bmatrix} \]
 \newline
 Et on observera alors que, effectivement, dans notre cas, le nombre de points d'eau ne peut être inférieur à 4, et il nous propose bien le positionnement de 4 points d'eau.
-On a donc bien trouvé la solution optimale à notre problème ainsi qu'un placement possible (car il existe parfois d'autres placements de ces points qui vérifient aussi la solution mais cela n'a pas d'intêret ici)
+On a donc bien trouvé la solution optimale à notre problème ainsi qu'un placement possible (car il existe parfois d'autres placements de ces points qui vérifient aussi la solution mais cela n'a pas d'intêret ici).
 \subsection{Analyse en complexité}
 Si on compare par rapport à notre première version :
 \newline
-\newline Le script utilise la technique de backtracking pour trouver la solution optimale, c'est-à-dire le minimum de points d'eau nécessaires pour arroser toutes les plantes dans le potager. Pour chaque case (i, j) du potager, le script explore deux possibilités: mettre un point d'eau ou ne pas en mettre. Cela signifie que pour chaque case du potager, le script fait un appel récursif, ce qui multiplie par deux le nombre d'appels récursifs à chaque itération.
+\newline Le script utilise la technique de backtracking pour trouver la solution optimale, c'est-à-dire le minimum de points d'eau nécessaires pour arroser toutes les plantes dans le potager. Pour chaque case (i, j) du potager, le script explore deux possibilités : mettre un point d'eau ou ne pas en mettre. Cela signifie que pour chaque case du potager, le script fait un appel récursif, ce qui multiplie par deux le nombre d'appels récursifs à chaque itération.
 De plus, la fonction "backtrack" parcourt chaque case du potager (nm cases au total), ce qui multiplie encore une fois le nombre total d'appels récursifs par nm.
-\newline Ainsi, la complexité de ce script est en \[\mathcal{O}(2^{(m*n)}*m*n)\] = \[\mathcal{O}(3^m*n)\].
+\newline Ainsi, la complexité de ce script est en :
+\newline \[\mathcal{O}(2^{(m*n)}*m*n) = \mathcal{O}(3^{m*n})\]
 \newline Dans notre second algorithme :
 \newline L'algorithme utilise l'optimiseur Gurobi pour résoudre un modèle de programmation linéaire en nombres entiers. La complexité de cet algorithme dépend de la complexité de l'optimiseur Gurobi.
-La première partie de l'algorithme, qui construit les matrices C et B à partir de la matrice M, est en temps \[\mathcal{O}(n^4)\], où n est la taille de la matrice M, car pour créer la matrice C, on crée pour chaque élément parcouru dans la matrice, on crée une liste de taille n*n, on a donc une complexité en \[\mathcal{O}(n^4)\], contrairement à la construction de la matrice B qui est en \[\mathcal{O}(n^2)\].
-L'optimisation elle-même est généralement considérée comme étant en \[\mathcal{O}(p*n^3)\], où p est le nombre de contraintes et n est le nombre de variables. Il est possible d'optimiser les performances en fonction des caractéristiques spécifiques du modèle.
+La première partie de l'algorithme, qui construit les matrices C et B à partir de la matrice M, est en temps \[\mathcal{O}(n^4)\] où n est la taille de la matrice M, car pour créer la matrice C, pour chaque élément parcouru dans la matrice, on crée une liste de taille n*n, on a donc une complexité en \[\mathcal{O}(n^4)\] contrairement à la construction de la matrice B qui est en \[\mathcal{O}(n^2)\]
+L'optimisation elle-même est généralement considérée comme étant en \[\mathcal{O}(p*n^3)\] où p est le nombre de contraintes et n est le nombre de variables. Il est possible d'optimiser les performances en fonction des caractéristiques spécifiques du modèle.
 Dans l'ensemble, on peut considérer que la complexité globale de cet algorithme est de l'ordre de \[\mathcal{O}(n^4)\].
 \subsection{Analyse de performance} 
-Ici, nous allons en profiter pour comparer nos deux algorithmes avec des matrices carrées de taille n, dont la taille va augmenter de 1 à chaque fois. Voici les graphes résultants de ses tests :
+Ici, nous allons en profiter pour comparer nos deux algorithmes avec des matrices carrées de taille n, dont la taille va augmenter de 1 à chaque fois. Voici les graphes résultants de ces tests :
 \newpage
 \section{Gestion de projet}
 \subsection{Équipe de projet}
@@ -378,7 +384,7 @@ Afin d’avoir une vision plus globale de nos ressources et des facteurs interne
     \caption{Matrice SWOT}
 \end{figure}
 
-On peut ainsi remarquer que notre projet présente de nombreux points fort notamment grâce aux connaissances acquises lors des cours de Télécom Nancy mais également de part l’expérience forte de deux des membres de l’équipe projet qui ont déjà réalisé des applications similaires.  Cependant, plusieurs facteurs internes constituent nos faiblesses notamment les courts délais qui nous obligent à être concis et efficaces dans notre travail, ou encore le faible bagage informatique de deux des membres de l’équipe. Néanmoins, ces lacunes constituent pour eux l’opportunité d’apprendre, et de progresser avec l’aide des membres expérimentés de l’équipe.
+On peut ainsi remarquer que notre projet présente de nombreux points forts notamment grâce aux connaissances acquises lors des cours de Télécom Nancy mais également de part l’expérience forte de deux des membres de l’équipe projet qui ont déjà réalisé des applications similaires.  Cependant, plusieurs facteurs internes constituent nos faiblesses notamment les courts délais qui nous obligent à être concis et efficaces dans notre travail, ou encore le faible bagage informatique de deux des membres de l’équipe. Néanmoins, ces lacunes constituent pour eux l’opportunité d’apprendre, et de progresser avec l’aide des membres expérimentés de l’équipe.
 
 De plus, nous devons anticiper les charges de travail dans le cadre de notre formation à Télécom Nancy qui s'avèrent être plus élevées en décembre lors des partiels de fin d'année. Nous allons donc devoir prendre cela en compte dans notre gestion des tâches.
 
@@ -396,7 +402,7 @@ De plus, au vu de l’état de l’art établi, l’innovation du projet est imp
 \end{figure}
 
 \subsection{WBS~: comment concrétiser l’application}
-Ceci étant fait, nous avons maintenant choisi de détailler les lots de travail à effectuer pour fabriquer notre application. Nous avons ainsi réalisé le WBS (Work Breakdown Structure) de notre application~: il apparait ainsi les grandes étapes de notre projet que sont~: definition du cadre de l’application, développement des fonctionnalités de l’application et écriture du rapport.
+Ceci étant fait, nous avons maintenant choisi de détailler les lots de travail à effectuer pour fabriquer notre application. Nous avons ainsi réalisé le WBS (Work Breakdown Structure) de notre application~: il apparait ainsi les grandes étapes de notre projet que sont~: définition du cadre de l’application, développement des fonctionnalités de l’application et écriture du rapport.
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{img/WBS.png}
@@ -410,7 +416,7 @@ Maintenant que nous avons un détail des lots de travail qui constituent notre a
     \includegraphics[width=1\textwidth]{img/gantt.png}
     \caption{Diagramme de GANTT}
 \end{figure}
-Ce diagramme est une première version générale des tâches à effectuer, il sera modifié et détaillé davantage une fois la conception et les maquettes du projet réalisé.
+Ce diagramme est une première version générale des tâches à effectuer, il sera modifié et détaillé davantage une fois la conception et les maquettes du projet réalisées.
 
 \subsection{Matrice RACI}
 Maintenant que toutes les étapes sont planifiées, nous devons répartir le travail entre les membres de l’équipe. On utilise ainsi une matrice RACI synthétisant les rôles de chacun.
