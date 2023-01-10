@@ -45,6 +45,12 @@ def solveur_sources(M):
 
         # Mise en forme de la solution sous forme de matrice longueur*longueur
         X_opt = X_opt.reshape(longueur, longueur)
-        return X_opt
+
+        watersUnit = []
+        for i in range(longueur):
+            for j in range(longueur):
+                if X_opt[i, j] == 1:
+                    watersUnit.append({'x': i, 'y': j})
+        return watersUnit
     else:
         return None

@@ -47,7 +47,7 @@ def get_plots(garden_id):
         plots = session.query(Plot).filter(Plot.garden_id == garden_id).all()
         for plot in plots:
             units = session.query(PlotUnit).filter(PlotUnit.plot_id == plot.plot_id).all()
-            plot.units = [unit.unit for unit in units]
+            plot.units = [{'x': unit.x, 'y': unit.y} for unit in units]
 
         # replace plant id by plant object
 
@@ -70,7 +70,7 @@ def create_plot(garden_id):
             return {'message': 'You are not the owner of this garden'}, 401
 
         body = request.get_json()
-        print(body)
+
         units = body['units']
 
         if not units:
@@ -81,7 +81,7 @@ def create_plot(garden_id):
         session.commit()
 
         for unit in units:
-            unit = PlotUnit(plot_id=plot.plot_id, unit=unit)
+            unit = PlotUnit(plot_id=plot.plot_id, x=unit['x'], y=unit['y'])
             session.add(unit)
 
         session.commit()
@@ -93,7 +93,7 @@ def create_plot(garden_id):
 
 
 @plot.patch(BASE_URL + '/<plot_id>')
-def upate_plot(garden_id, plot_id):
+def update_plot(garden_id, plot_id):
     try:
         user = g.user
 
@@ -118,7 +118,7 @@ def upate_plot(garden_id, plot_id):
             session.commit()
 
             for unit in units:
-                unit = PlotUnit(plot_id=plot.plot_id, unit=unit)
+                unit = PlotUnit(plot_id=plot.plot_id, x=unit['x'], y=unit['y'])
                 session.add(unit)
 
             session.commit()

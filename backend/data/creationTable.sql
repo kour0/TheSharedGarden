@@ -62,14 +62,16 @@ CREATE TABLE plant
     id    INTEGER NOT NULL,
     name  VARCHAR NOT NULL,
     image VARCHAR,
+    water_need INTEGER,
     PRIMARY KEY (id)
 );
 
 CREATE TABLE plot_unit
 (
     plot_id INTEGER NOT NULL,
-    unit    INTEGER,
-    PRIMARY KEY (plot_id, unit),
+    x       INTEGER,
+    y       INTEGER,
+    PRIMARY KEY (plot_id, x, y),
     FOREIGN KEY (plot_id) REFERENCES plot (plot_id)
 );
 

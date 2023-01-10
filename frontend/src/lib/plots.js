@@ -204,3 +204,11 @@ export const modifyPlotVegetable = (gardenId, queryClient) => {
 
   return response;
 };
+
+export const getWaterUnits = (garden_id) => {
+  const response = useQuery(['modelisation' + garden_id], async () => {
+    const response = await request({ url: '/api/garden/' + garden_id + '/watering', method: 'get' });
+    return response.data;
+  });
+  return response;
+}

@@ -6,6 +6,7 @@ import Dashboard from './pages/app/dashboard';
 import Garden from './pages/app/garden/garden';
 import GardenInfo from './pages/app/garden/garden_info';
 import GardenModeling from './pages/app/garden/garden_modeling';
+import GardenWatering from './pages/app/garden/garden_watering';
 import JoinGarden from './pages/app/joinGarden';
 import Profile from './pages/app/profile';
 import SearchGarden from './pages/app/searchGarden';
@@ -27,6 +28,7 @@ function App() {
             <Route index element={<Garden />} />
             <Route path="modeling" element={<GardenModeling />} />
             <Route path="info" element={<GardenInfo />} />
+            <Route path="watering" element={<GardenWatering />} />
           </Route>
 
           <Route path="join-garden">
