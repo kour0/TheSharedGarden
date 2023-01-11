@@ -9,5 +9,3 @@ python3 app.py
 
 pip freeze > requirements.txt
 ```
-
-Ajouter une variable d'environnement appellée JWT_SECRET suivie d'une phrase en base64
