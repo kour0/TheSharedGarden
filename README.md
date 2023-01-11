@@ -21,6 +21,3 @@ En effet, un mode de vie plus judicieux écologiquement serait de revenir à des
 
 Notre solution : utiliser les technologies modernes du web pour proposer une application permettant à n’importe qui de créer/rejoindre un jardin mais surtout de pouvoir gérer facilement un jardin sur lequel vont agir plusieurs personnes.
 
-## Crédits
-
-Générateur de la documentation de l'API : <<https://apidocjs.com>>
