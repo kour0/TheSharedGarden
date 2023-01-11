@@ -206,7 +206,7 @@ Cependant, le fait de devoir tester toutes les possibilités de placement des ar
 Nous avons ensuite tenté de placer les points d'eau sur les plantes qui avaient les plus forts besoins mais encore une fois, le placement n'était clairement pas optimisé et il fallait placer beaucoup de points d'eau pour arroser toutes les plantes surtout dans le cas où la matrice commencait à avoir une taille représentative d'un jardin.
 Finalement, en prenant un autre point de vue sur le problème, il a été possible de le résoudre de manière très rapide.
 Il suffit alors de se rendre compte que ce problème peut être traité sous la forme d'un problème mathématique, à travers un système d'équations contenant la position des points d'eau et les besoins des plantes.
-Ainsi, la difficulté réside ici en la modélisation de ce problème en un système d'équations linéaires pour ensuite le résoudre sous la forme d'un modèle de programmation linéaire en nombres entiers.
+Ainsi, la difficulté réside ici en la modélisation de ce problème en un système d'équations linéaires pour ensuite le résoudre sous la forme d'un modèle de programmation linéaire.
 Comment avons nous tout d'abord modélisé le potager en une matrice numpy ? :
 \begin{itemize}
     \item Chaque parcelle est représentée par un nombre entier positif et correspond à des coordonnées (x,y) dans la matrice.
@@ -220,7 +220,7 @@ Prenons alors le cas d'un potager de taille 4x4 avec les besoins suivants :
 \newline Nous avons donc ici un potager de taille 4x4 avec un ensemble de parcelles 2x2 contenant des plantes ayant un besoin en eau de 2. Puis un ensemble de parcelles 2x4 contenant des plantes ayant un besoin en eau de 1. Le reste de la matrice contient des zéros car les parcelles sont creusées mais ne contiennent pas de plantes, elles ont donc un besoin de 0.
 \newline Nous allons maintenant modéliser ce problème en un système d'équations linéaires.
 \subsubsection{Modélisation du problème en un système d'équations linéaires}
-Pour cela, on part du constat que pour chaque parcelle de légumes, si on veut que cette parcelle voit son besoin en eau accompli, il faut que sa propre parcelle ou les parcelles adjacentes contiennent le nombre de points d'eau nécessaires pour assouvir son besoin. Ainsi, le poids de chaque parcelle correspond au nombre de points d'eau qu'il faut autour d'elle ou sur elle même.
+Pour cela, on part du constat que pour chaque parcelle, il suffit que la somme des sources d'eau aussi bien sur elle qu'autour d'elle soit supérieur ou égal à son besoin. Donc, le poids de chaque parcelle correspond au nombre de points d'eau qu'il faut autour d'elle ou sur elle même.
 Ainsi, cela constitue ce qu'on appelle une contrainte(*), on crée donc une équation pour chaque parcelle contenant une plante. Pour cela, on va écrire ce système d'équations linéaires sous la forme d'un produit matriciel.
 \newline On pose alors X la matrice contenant l'ensemble des points d'eau que l'on peut placer, cela correspond au nombre d'éléments dans la matrice M :
 \newline \[X = \begin{bmatrix} X_1 \\ X_2 \\ . \\ . \\ X_n \end{bmatrix}\]
@@ -246,7 +246,7 @@ Ainsi, cela constitue ce qu'on appelle une contrainte(*), on crée donc une équ
 \end{equation}
 \newline
 \newline où $c_{i,j}$ indique si le point d'eau peut être placé pour augmenter son besoin ou pas.
-\newline On peut alors résoudre ce système d'équations linéaires pour trouver le nombre de points d'eau à placer pour chaque parcelle.
+\newline On peut alors résoudre ce système d'inéquations linéaires pour trouver le nombre de points d'eau à placer pour chaque parcelle.
 \newline Montrons maintenant concrètement ce qu'il se passe au travers de la matrice M constituant un exemple de potager.
 \newline Tout d'abord, voici la matrice C de l'explication précédente :
 \[C = \begin{bmatrix} 
@@ -299,8 +299,8 @@ Pour cela, on va utiliser la méthode de la programmation linéaire. On va donc 
 \newline
 \newline \begin{equation} \min (f(X)) \end{equation}
 \newline
-\newline Il faut savoir qu'en programmation linéaire, il faut fixer un objectif à atteindre car c'est le but de l'optimisation linéaire, ici, cela sera de minimiser le plus possible la somme des points d'eau résultante.
-\newline Ainsi en fournissant ces matrices, la contrainte étant le système d'équations linéaires qui découle du produit matriciel entre la matrice des variables (points d'eau), la matrice C qui est leur proximité avec chaque parcelle et la matrice B le besoin en eau de chaque parcelle. On peut alors résoudre ce problème en programmation linéaire à l'aide ici du module Gurobipy de Python en fixant l'objectif décrit ci-dessus.
+\newline Il faut savoir qu'en programmation linéaire, le but est de maximiser ou minimiser la fonction objectif, ici, cela sera de minimiser le plus possible la somme des points d'eau résultante.
+\newline Ainsi en fournissant ces matrices, la contrainte étant le système d'équations linéaires qui découle du produit matriciel entre la matrice des variables (points d'eau), la matrice C qui est leur proximité avec chaque parcelle et la matrice B le besoin en eau de chaque parcelle. On peut alors résoudre ce problème de programmation linéaire à l'aide du module Gurobipy de Python en fixant l'objectif décrit ci-dessus.
 \newline On obtient finalement la position des points d'eau à placer dans le jardin, et grâce au modèle mathématique qui repose sur la programmation linéaire, on peut être sûr que la solution fournie est optimale.
 \newline Ainsi, dans notre exemple, on obtient :
 \newline
@@ -309,12 +309,12 @@ Pour cela, on va utiliser la méthode de la programmation linéaire. On va donc 
 Et on observera alors que, effectivement, dans notre cas, le nombre de points d'eau ne peut être inférieur à 4, et il nous propose bien le positionnement de 4 points d'eau.
 On a donc bien trouvé la solution optimale à notre problème ainsi qu'un placement possible (car il existe parfois d'autres placements de ces points qui vérifient aussi la solution mais cela n'a pas d'intêret ici).
 \subsection{Analyse en complexité}
-Si on compare par rapport à notre première version :
-\newline
-\newline Le script utilise la technique de backtracking pour trouver la solution optimale, c'est-à-dire le minimum de points d'eau nécessaires pour arroser toutes les plantes dans le potager. Pour chaque case (i, j) du potager, le script explore deux possibilités : mettre un point d'eau ou ne pas en mettre. Cela signifie que pour chaque case du potager, le script fait un appel récursif, ce qui multiplie par deux le nombre d'appels récursifs à chaque itération.
+Comparons les deux versions développées pour répondre au problème, la première version étant celle qui utilise la technique du backtracking et la seconde celle qui utilise la programmation linéaire :
+\newline Par rapport à notre première version de résolution du problème :
+\newline L'algorithme utilise la technique de backtracking pour trouver la solution optimale, c'est-à-dire le minimum de points d'eau nécessaires pour arroser toutes les plantes dans le potager. Pour chaque case (i, j) du potager, le script explore deux possibilités : mettre un point d'eau ou ne pas en mettre. Cela signifie que pour chaque case du potager, le script fait un appel récursif, ce qui multiplie par deux le nombre d'appels récursifs à chaque itération.
 De plus, la fonction "backtrack" parcourt chaque case du potager (nm cases au total), ce qui multiplie encore une fois le nombre total d'appels récursifs par nm.
 \newline Ainsi, la complexité de ce script est en : \[\mathcal{O}(2^{(m*n)}*m*n) = \mathcal{O}(3^{(m*n)})\]
-\newline Dans notre second algorithme :
+\newline Par rapport à notre deuxième version de résolution du problème :
 \newline L'algorithme utilise l'optimiseur Gurobi pour résoudre un modèle de programmation linéaire en nombres entiers. La complexité de cet algorithme dépend de la complexité de l'optimiseur Gurobi.
 La première partie de l'algorithme, qui construit les matrices C et B à partir de la matrice M, est en temps \[\mathcal{O}(n^2)\] Où n est le nombre d'élément dans la matrice du potager, car pour créer la matrice C, on crée pour chaque élément parcouru dans la matrice, on crée une liste de taille n, on a donc une complexité en : \[\mathcal{O}(n^2)\] Contrairement à la construction de la matrice B qui est en : \[\mathcal{O}(n)\]
 L'optimisation elle-même est généralement considérée comme étant en : \[\mathcal{O}(n^3)\] Où n est le nombre de variables.
