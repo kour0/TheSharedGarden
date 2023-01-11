@@ -66,6 +66,7 @@ L’objectif de ce projet est de concevoir, en groupe,  une application dédiée
 Les enjeux climatiques n’ont jamais été aussi élevés. Notre planète arrive à la fin de ses énergies fossiles. Les ressources deviennent rares, les changements climatiques provoquent des pénuries, des sécheresses et des catastrophes naturelles. Le mode de vie que nous connaissons aujourd’hui doit changer et devenir plus écoresponsable. L’objectif est de changer les habitudes de consommation de produits venants du monde entier en se restreignant à une zone géographique bien plus petite. La politique actuelle serait de privilégier les produits de notre pays mais essayons d’aller plus loin…
 En effet, un mode de vie plus judicieux écologiquement serait de revenir à des productions locales en passant directement par les producteurs. Certaines personnes ont une surface de production ( jardin, verger) mais n’ont pas le temps ou les moyens de s’en occuper. Tandis que d’autres personnes, n’ont pas de terrain mais sont prêtes à donner de leur temps pour pouvoir consommer localement.
 Notre solution~: utiliser les technologies modernes du web pour proposer une application permettant à n’importe qui de créer/rejoindre un jardin mais surtout de pouvoir gérer facilement un jardin sur lequel plusieurs personnes vont agir.
+\newpage
 \section{Base de données}
 \subsection{Conception}
 \subsubsection{Les besoins de notre application}
@@ -147,8 +148,8 @@ De nombreuses routes sont dédiées au management des jardins sur l'application.
     \item Rejoindre un jardin.
 \end{itemize}
 \subsubsection{Carte interactive}
-Afin de rendre plus accessible la fonctionnalité de rejoindre un jardin, il est également possible de le faire depuis une carte interactive, sur laquelle est listée l'intégralité des jardins publics, ainsi que ceux dont l'utilisateur est membre. Cette carte est réalisée à l'aide de la librairie Folium. On a modifié l'html de la carte retournée pour pouvoir afficher des boutons dans les popup des jardins non rejoints pour pourvoir les rejoindre par ce biais. On change aussi pour chaque utilisateur la couleur du marker de chaque jaridn pour indiquer si il a été rejoint ou non.
-La carte étant une variable locale, le script a été optimisé pour que l'on ait pas besoin de recréer entièrement la carte à chaque modification de celle-ci.
+Afin de rendre plus accessible la fonctionnalité de rejoindre un jardin, il est également possible de le faire depuis une carte interactive, sur laquelle est listée l'intégralité des jardins publics, ainsi que ceux dont l'utilisateur est membre. Cette carte est réalisée à l'aide de la librairie Folium. On a modifié le code source de la carte retournée pour pouvoir afficher des boutons dans les pop-up des jardins non rejoints pour pouvoir les rejoindre par ce biais. On change aussi pour chaque utilisateur la couleur du marker de chaque jardin pour indiquer s'il a été rejoint ou non.
+La carte étant une variable locale, le script a été optimisé pour que l'on n'ait pas besoin de recréer entièrement la carte à chaque modification de celle-ci.
 \subsubsection{Interactions avec le jardin}
 Les utilisateurs membres de jardins peuvent interagir avec ceux-ci, en fonction de leurs permissions. On peut ainsi retrouver les fonctionnalités suivantes :
 \begin{itemize}
