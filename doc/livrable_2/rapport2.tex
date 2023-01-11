@@ -5,6 +5,7 @@
 \usepackage{graphicx}
 \usepackage{hyperref}
 \usepackage{pdfpages}
+\renewcommand{\contentsname}{Table des matières}
 \newcommand{\tabitem}{\textbullet~~}
 \newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
 \usepackage{multirow}
@@ -61,15 +62,10 @@
 \section{Contexte du projet}
 Ce rapport rend compte du Projet Pluridisciplinaire d’Informatique Intégrative dans le cadre de la première année du cycle ingénieur à TELECOM Nancy.
 L’objectif de ce projet est de concevoir, en groupe,  une application dédiée à l’optimisation des ressources dans les vergers et potagers partagés du territoire.
-
-\newpage
 \section{Introduction}
 Les enjeux climatiques n’ont jamais été aussi élevés. Notre planète arrive à la fin de ses énergies fossiles. Les ressources deviennent rares, les changements climatiques provoquent des pénuries, des sécheresses et des catastrophes naturelles. Le mode de vie que nous connaissons aujourd’hui doit changer et devenir plus écoresponsable. L’objectif est de changer les habitudes de consommation de produits venants du monde entier en se restreignant à une zone géographique bien plus petite. La politique actuelle serait de privilégier les produits de notre pays mais essayons d’aller plus loin…
-
 En effet, un mode de vie plus judicieux écologiquement serait de revenir à des productions locales en passant directement par les producteurs. Certaines personnes ont une surface de production ( jardin, verger) mais n’ont pas le temps ou les moyens de s’en occuper. Tandis que d’autres personnes, n’ont pas de terrain mais sont prêtes à donner de leur temps pour pouvoir consommer localement.
-
 Notre solution~: utiliser les technologies modernes du web pour proposer une application permettant à n’importe qui de créer/rejoindre un jardin mais surtout de pouvoir gérer facilement un jardin sur lequel plusieurs personnes vont agir.
-\newpage
 \section{Base de données}
 \subsection{Conception}
 \subsubsection{Les besoins de notre application}
@@ -93,7 +89,6 @@ Ces besoins donnent lieu à la création de plusieurs entités consituant le sch
 \end{figure}
 
 Ce schéma respecte les contraintes logiques de cardinalités suivantes :
-
 \begin{itemize}
     \item Une personne peut posséder/rejoindre un ou plusieurs jardins.
     \item Un jardin peut avoir plusieurs parcelles mais une parcelle est associée à un seul jardin.
@@ -117,22 +112,17 @@ normale.
     \item link(account\_id, garden\_id)
 \end{itemize}
 \subsection{Implémentation de la base de données dans le backend de l'application}
-
 \subsubsection{Création de la base de données}
 En utilisant le système de gestion de base de données sqlite, nous avons créé notre base dans un fichier data.db avec le script
 SQL sauvegardé dans un fichier nommé "creation table.sql". Ces deux fichiers sont dans le dossier backend/data du projet.
-
-
 \subsubsection{Utilisation de SQLAlchemy}
 SQLAlchemy est un ORM (Object-Relational Mapping) permettant de manipuler la base de données via des objets python. Les requêtes en
 python sont ainsi "traduites" en SQL et la réponse reçue se présentera sous la forme d’un objet python avec lequel on peut interagir.
 SQLAlchemy constitue donc un pont entre la base de données et notre application. Pour que l’ORM puisse fonctionner, il faut définir
 des classes python qui correspondent aux tables de la base de données. Ces classes ont des attributs qui correspondent aux attributs
 des tables. On appelle ça des modèles. Les modèles sont ensuite utilisés pour créer des requêtes SQL.
-
 Les sessions de SQLAlchemy permettent de gérer les transactions SQL, autrement dit un ensemble de requêtes. Si l'une d'elles échoue,
 l'ensemble de la transaction est annulée et aucune requête n'est communiquée à la base. L’avantage de ce système est la sécurité.
-
 \newpage
 \section{Serveur et client Web}
 \subsection{Structure de l'application}
@@ -145,10 +135,8 @@ L'application est divisée en deux parties afin de pouvoir maitriser complèteme
 \subsubsection{Authentification}
 L'application dispose d'un système d'authentification complet, afin de sécuriser l'ensemble, ainsi que pour personnaliser les fonctionnalités des utilisateurs. Cette authentification se déroule via des tokens JWT, générés par le serveur au moment de la connection, puis stockés dans les cookies du navigateur de l'utilisateur. Ces tokens sont ensuite utilisés pour vérifier l'identité de l'utilisateur, et ainsi lui permettre d'accéder aux routes protégées.
 Cette authentification permet entre autres à l'utilisateur de créer, rejoindre des jardins, de les gérer, et de les partager en leur nom.
-
 \subsubsection{Gestion de compte}
 Un utilisateur authentifié dispose de plusieurs fonctionnalités afin de personnaliser et modifier son compte. Il peut ainsi modifier ses informations personnelles, telles que sa photo de profil et son nom.
-
 \subsubsection{Gestion des jardins}
 De nombreuses routes sont dédiées au management des jardins sur l'application. On peut en effet retrouver ces différentes opérations :
 \begin{itemize}
@@ -158,11 +146,10 @@ De nombreuses routes sont dédiées au management des jardins sur l'application.
     \item Modifier les informations et les membres d'un jardin.
     \item Rejoindre un jardin.
 \end{itemize}
-
-\subsubsection{Carte interractive}
-Afin de rendre plus accessible la fonctionnalité de rejoindre un jardin, il est également possible de le faire depuis une carte interractive, sur laquelle est listée l'intégralité des jardins publics, ainsi que ceux dont l'utilisateur est membre. Cette carte est réalisée à l'aide de la librairie Folium.
-
-\subsubsection{Interractions avec le jardin}
+\subsubsection{Carte interactive}
+Afin de rendre plus accessible la fonctionnalité de rejoindre un jardin, il est également possible de le faire depuis une carte interactive, sur laquelle est listée l'intégralité des jardins publics, ainsi que ceux dont l'utilisateur est membre. Cette carte est réalisée à l'aide de la librairie Folium. On a modifié l'html de la carte retournée pour pouvoir afficher des boutons dans les popup des jardins non rejoints pour pourvoir les rejoindre par ce biais. On change aussi pour chaque utilisateur la couleur du marker de chaque jaridn pour indiquer si il a été rejoint ou non.
+La carte étant une variable locale, le script a été optimisé pour que l'on ait pas besoin de recréer entièrement la carte à chaque modification de celle-ci.
+\subsubsection{Interactions avec le jardin}
 Les utilisateurs membres de jardins peuvent interagir avec ceux-ci, en fonction de leurs permissions. On peut ainsi retrouver les fonctionnalités suivantes :
 \begin{itemize}
     \item Créateur d'un jardin :
@@ -178,7 +165,6 @@ Les utilisateurs membres de jardins peuvent interagir avec ceux-ci, en fonction 
           \end{itemize}
 \end{itemize}
 Ces fonctionnalités leur permettent donc de personnaliser au maximum leurs jardins.
-
 \newpage
 \section{Algorithme}
 \subsection{Principe de l'algorithme}
@@ -190,7 +176,6 @@ Ainsi le but de cet algorithme est donc de placer de manière optimale les arros
     \includegraphics[width=0.4\textwidth]{img/arroseur-sur-pic.jpg}
     \caption{Arroseur sur pic}
 \end{figure}
-
 \subsection{Implémentation}
 \subsubsection{Modélisation du problème}
 Tout d'abord, nous avons modélisé le jardin sous la forme d'une matrice avec le module numpy pour avoir une matrice optimisée en python, c'était la façon la plus naturelle pour nous pour la représenter aussi bien en frontend qu'en algorithmique.
@@ -207,7 +192,7 @@ Nous avons ensuite tenté de placer les points d'eau sur les plantes qui avaient
 Finalement, en prenant un autre point de vue sur le problème, il a été possible de le résoudre de manière très rapide.
 Il suffit alors de se rendre compte que ce problème peut être traité sous la forme d'un problème mathématique, à travers un système d'équations contenant la position des points d'eau et les besoins des plantes.
 Ainsi, la difficulté réside ici en la modélisation de ce problème en un système d'équations linéaires pour ensuite le résoudre sous la forme d'un modèle de programmation linéaire.
-Comment avons nous tout d'abord modélisé le potager en une matrice numpy ? :
+\newline Comment avons nous tout d'abord modélisé le potager en une matrice numpy ? :
 \begin{itemize}
     \item Chaque parcelle est représentée par un nombre entier positif et correspond à des coordonnées (x,y) dans la matrice.
     \item Les parcelles vides sont représentées par un 0.
@@ -365,7 +350,6 @@ Ces personnes constituent les parties prenantes de notre projet ainsi que les ac
 Nous avons réalisé plusieurs réunions, en présentiel dans les locaux de Télécom Nancy mais la plupart de notre collaboration a eu lieu sur Discord. Ces réunions nous ont permis de mettre en commun nos avancées régulièrement, de partager nos connaissances sur des problématiques et de nous organiser de manière optimale.
 En plus des réunions d'avancement règulières, nous avons également réalisé des réunions techniques afin de résoudre un problème ou bien de réflechir à la conception.
 Les comptes rendus des réunions réalisées sont présents dans l’\hyperlink{annexe1}{Annexe 1}.
-
 De plus, dès le début de notre projet nous avons mis en place un projet Trello. Trello est une application permettant d’organiser facilement un projet en reposant sur une organisation en planches listant des cartes, chacune représentant des tâches. Ces tâches peuvent ensuite être déplacées permettant de découper notre projet en plusieurs jalons dynamiquement.
 \begin{figure}[H]
     \centering
@@ -418,6 +402,7 @@ On peut ainsi remarquer que notre projet présente de nombreux points forts nota
 De plus, nous devons anticiper les charges de travail dans le cadre de notre formation à Télécom Nancy qui s'avèrent être plus élevées en décembre lors des partiels de fin d'année. Nous allons donc devoir prendre cela en compte dans notre gestion des tâches.
 
 \subsection{Profil de projet}
+
 Afin d’avoir une vision plus globale sur notre projet, nous avons également réalisé le profil du projet (le budget étant égal à 0, nous avons choisi de ne pas le représenter dans notre profil). On remarque que, du fait des nombreuses fonctionnalités que nous avons l’intention d’implémenter dans notre application, que notre projet est de taille moyenne mais de complexité élevée.
 
 Cependant, les enjeux du projet ne sont pas très importants (en dehors de la note finale qui compte dans notre moyenne) car l'échec du projet n'engendrera pas la chute d'une organisation et le budget est négligeable.
