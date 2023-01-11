@@ -14,6 +14,7 @@
 \usepackage[bottom=2.5cm,top=2.5cm,left=2.5cm,right=2.5cm]{geometry}
 \usepackage{textcomp}
 \usepackage{amsmath}
+\usepackage{amstex}
 \setcounter{MaxMatrixCols}{20}
 \author{Noé Steiner - Alexis Marcel - Lucas Laurent - Mathias Aurand-Augier}
 \date{Janvier 2023}
@@ -74,7 +75,7 @@ email, un pseudo, son prénom, son nom, ainsi que la date de la création de son
 et ce jardin peut être rejoint par d'autres utilisateurs.
 Un jardin est constitué d'un nom, un propriétaire, un type (public ou privé) et enfin une adresse. Le propriétaire du jardin peut
 ensuite créer des parcelles dans son jardin. Une parcelle est composée d'un nom et d'une plante. Une plante a un nom et un besoin en eau. Les parcelles sont elles mêmes consituées
-d'unités qui réprésentent un espace réel dans le jardin. Une unité est caractérisée par ses coordonnées déterminant sa position dans le jardin.
+d'unités qui représentent un espace réel dans le jardin. Une unité est caractérisée par ses coordonnées déterminant sa position dans le jardin.
 De plus, chaque parcelle peut être associée à une liste de tâches à effectuer. Une tâche est caractérisée par une date limite, un nom,
 une description, un état (à faire, en cours, terminé) et enfin une personne qui s'en occupe.
 
@@ -87,7 +88,6 @@ Ces besoins donnent lieu à la création de plusieurs entités consituant le sch
     \includegraphics[width=1\textwidth]{img/Schema_entite_association_PPIIversion2.drawio.png}
     \caption{Schéma entité-association}
 \end{figure}
-
 Ce schéma respecte les contraintes logiques de cardinalités suivantes :
 \begin{itemize}
     \item Une personne peut posséder/rejoindre un ou plusieurs jardins.
@@ -167,6 +167,7 @@ Les utilisateurs membres de jardins peuvent interagir avec ceux-ci, en fonction 
 Ces fonctionnalités leur permettent donc de personnaliser au maximum leurs jardins.
 \newpage
 \section{Algorithme}
+Vous pouvez retrouver les algorithmes dans le dossier backend/lib, l'algorithme utilisant Gurobipy s'appelle \textbf{garden\_water.py} et la version avec backtracking s'appelle \textbf{garden\_water\_backtracking.py}.
 \subsection{Principe de l'algorithme}
 Le problème à résoudre ici est de pouvoir alimenter en eau le potager de manière optimale. Pour cela, nous sommes partis sur l'idée de placer des arroseurs sur les parcelles du potager.
 Cela permet de pouvoir arroser les plantes de manière optimale, en fonction de leurs besoins. Mais aussi, de pouvoir automatiser l'alimentation en eau du potager.
