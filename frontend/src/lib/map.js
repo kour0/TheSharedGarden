@@ -7,7 +7,7 @@ import { request } from '../utils/axios-utils';
  */
 export const getMap = () => {
   const response = useQuery(['Map'], async () => {
-    const response = await request({ url: '/api/map', method: 'get', responseType: 'blob' });
+    const response = await request({ url: '/api/map', method: 'get', responseType: 'blob', staleTime : 0, refetchOnWindowFocus: 'always' });
     return response.data;
   });
   return response;

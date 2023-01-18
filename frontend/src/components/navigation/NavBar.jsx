@@ -5,8 +5,8 @@ import { Link } from 'react-router-dom';
 import { Logo } from './Logo';
 
 const navigation = [
-  { name: 'Qui sommes nous ?', href: '/' },
-  { name: 'Le projet', href: '/' },
+  { name: 'Qui sommes nous ?', href: '/team' },
+  { name: 'Le projet', href: '/about' },
 ];
 
 export function NavBar() {
