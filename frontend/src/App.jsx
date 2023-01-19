@@ -12,6 +12,8 @@ import Profile from './pages/app/profile';
 import SearchGarden from './pages/app/searchGarden';
 import Index from './pages/Index';
 import Login from './pages/login';
+import About from './pages/about';
+import Team from './pages/team';
 
 function App() {
   return (
@@ -19,6 +21,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/team" element={<Team />} />
 
         <Route path="/app" element={<SideBar />}>
           <Route path="create-garden" element={<CreateGarden />} />

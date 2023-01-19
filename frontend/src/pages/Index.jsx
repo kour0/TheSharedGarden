@@ -6,12 +6,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { NavBar } from '../components/navigation/NavBar';
 import { request } from '../utils/axios-utils';
 
-const navigation = [
-  { name: 'Rejoignez un jardin', href: '/join' },
-  { name: 'Qui sommes nous ?', href: '/' },
-  { name: 'Le projet', href: '/' },
-];
-
 export default function Index() {
   const navigate = useNavigate();
   const {
@@ -56,8 +50,6 @@ export default function Index() {
               <rect x={0} y={0} width={4} height={4} className="text-gray-200" fill="currentColor" />
             </pattern>
           </defs>
-          <rect y={72} width={640} height={640} className="text-gray-50" fill="currentColor" />
-          <rect x={118} width={404} height={784} fill="url(#9ebea6f4-a1f5-4d96-8c4e-4c2abf658047)" />
         </svg>
       </div>
 
@@ -67,7 +59,7 @@ export default function Index() {
           <div className="lg:grid lg:grid-cols-12 lg:gap-8">
             <div className="sm:text-center md:mx-auto md:max-w-2xl lg:col-span-6 lg:text-left">
               <Link
-                to="/"
+                to="/about"
                 relative="path"
                 className="inline-flex items-center rounded-full bg-gray-900 p-1 pr-2 text-white hover:text-gray-200 sm:text-base lg:text-sm xl:text-base"
               >
@@ -89,7 +81,7 @@ export default function Index() {
                 plusieurs collaborateurs.
               </p>
             </div>
-            <div className="mt-16 sm:mt-24 lg:col-span-6 lg:mt-0">
+            <div className="mt-8 sm:mt-16 lg:col-span-6 lg:mt-0">
               <div className="bg-white sm:mx-auto sm:w-full sm:max-w-md sm:overflow-hidden sm:rounded-lg">
                 <div className="px-4 py-8 sm:px-10">
                   {/* <div>
@@ -151,7 +143,7 @@ export default function Index() {
                                         </div>
                                     </div> */}
 
-                  <h1 className="mt-4 text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl md:text-4xl">
+                  <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl md:text-4xl">
                     Inscrivez-vous
                   </h1>
 

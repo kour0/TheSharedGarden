@@ -32,7 +32,7 @@ export default function GardenWatering() {
     };
 
     return !waterUnitsLoading && !plotsIsLoading ? (
-        <TwoColumnPage title="Arrosage" subtitle="Arroser efficacement votres jardins">
+        <TwoColumnPage title="Arrosage" subtitle="Arroser efficacement votre jardin">
             {/* primary column */}
 
             <GardenGrid
