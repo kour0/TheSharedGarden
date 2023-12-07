@@ -1,39 +1,40 @@
 import os
 
-import folium
-from flask import Flask
-from flask import send_from_directory
+from flask import Flask, Response, request, send_from_directory
 from flask_cors import CORS
-from flask_uploads import configure_uploads, UploadSet, ALL
+from flask_uploads import ALL, UploadSet, configure_uploads
 
-
-from routes import joingarden
-from routes import creategarden
-from routes import dashboard
-from routes import profile
-from routes import map
-from routes import authentication
+from routes import (authentication, garden, garden_manage, map, plant, plot,
+                    profile, task)
 
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
 
 app.register_blueprint(authentication.authentication)
-app.register_blueprint(joingarden.joingarden)
-app.register_blueprint(creategarden.creategarden)
 app.register_blueprint(profile.profile)
-app.register_blueprint(dashboard.dashboard)
+app.register_blueprint(garden.garden)
 app.register_blueprint(map.map)
+app.register_blueprint(task.task)
+app.register_blueprint(plant.plant)
+app.register_blueprint(garden_manage.gardenManage)
+app.register_blueprint(plot.plot)
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 images = UploadSet('images', ALL)
-app.config['UPLOADED_IMAGES_DEST'] = basedir+'/static/images'
+app.config['UPLOADED_IMAGES_DEST'] = basedir + '/static/images'
 configure_uploads(app, images)
 
 DATABASE = 'data/data.db'
 
 # Creation de la carte
 map.create_map()
+
+
+@app.before_request
+def before_request():
+    if request.method.lower() == 'options':
+        return Response()
 
 
 @app.errorhandler(404)

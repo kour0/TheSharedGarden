@@ -1,15 +1,10 @@
 import { ChevronRightIcon } from '@heroicons/react/20/solid';
-import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 import { useForm } from 'react-hook-form';
-import axios from 'axios';
 import toast from 'react-hot-toast';
+import { Link, useNavigate } from 'react-router-dom';
 import { NavBar } from '../components/navigation/NavBar';
-
-const navigation = [
-  { name: 'Rejoignez un jardin', href: '/join' },
-  { name: 'Qui sommes nous ?', href: '/' },
-  { name: 'Le projet', href: '/' },
-];
+import { request } from '../utils/axios-utils';
 
 export default function Index() {
   const navigate = useNavigate();
@@ -20,10 +15,15 @@ export default function Index() {
   } = useForm();
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post('http://127.0.0.1:5454/api/signup', data, {
+      await request({
+        method: 'post',
+        url: '/api/auth/signup',
         withCredentials: true,
+        data: data,
       });
-      navigate('/app/dashboard');
+      if (Cookies.get('token')) {
+        navigate('/app/dashboard');
+      }
     } catch (error) {
       toast.error(error.response.data.message);
     }
@@ -50,18 +50,17 @@ export default function Index() {
               <rect x={0} y={0} width={4} height={4} className="text-gray-200" fill="currentColor" />
             </pattern>
           </defs>
-          <rect y={72} width={640} height={640} className="text-gray-50" fill="currentColor" />
-          <rect x={118} width={404} height={784} fill="url(#9ebea6f4-a1f5-4d96-8c4e-4c2abf658047)" />
         </svg>
       </div>
 
-      <div className="relative pt-6 pb-16 sm:pb-24 lg:pb-32">
+      <div className="relative pt-6 pb-8 sm:pb-16 lg:pb-24">
         <NavBar />
-        <main className="mx-auto mt-16 max-w-7xl px-4 sm:mt-24 sm:px-6 lg:mt-32 md:mt-200">
+        <main className="mx-auto mt-8 max-w-7xl px-4 sm:px-6">
           <div className="lg:grid lg:grid-cols-12 lg:gap-8">
             <div className="sm:text-center md:mx-auto md:max-w-2xl lg:col-span-6 lg:text-left">
-              <a
-                href="#"
+              <Link
+                to="/about"
+                relative="path"
                 className="inline-flex items-center rounded-full bg-gray-900 p-1 pr-2 text-white hover:text-gray-200 sm:text-base lg:text-sm xl:text-base"
               >
                 <span className="rounded-full bg-teal-700 px-3 py-0.5 text-sm font-semibold leading-5 text-white">
@@ -69,10 +68,10 @@ export default function Index() {
                 </span>
                 <span className="ml-4 text-sm">Visitez notre page</span>
                 <ChevronRightIcon className="ml-2 h-5 w-5 text-gray-500" aria-hidden="true" />
-              </a>
+              </Link>
               <h1>
                 <span className="mt-4 block text-4xl font-bold tracking-tight sm:text-5xl xl:text-6xl">
-                  <span className="block text-gray-900">Créez ton</span>
+                  <span className="block text-gray-900">Crée ton</span>
                   <span className="block text-teal-700">jardin</span>
                   <span className="block text-gray-900">et partage le !</span>
                 </span>
@@ -82,7 +81,7 @@ export default function Index() {
                 plusieurs collaborateurs.
               </p>
             </div>
-            <div className="mt-16 sm:mt-24 lg:col-span-6 lg:mt-0">
+            <div className="mt-8 sm:mt-16 lg:col-span-6 lg:mt-0">
               <div className="bg-white sm:mx-auto sm:w-full sm:max-w-md sm:overflow-hidden sm:rounded-lg">
                 <div className="px-4 py-8 sm:px-10">
                   {/* <div>
@@ -144,7 +143,7 @@ export default function Index() {
                                         </div>
                                     </div> */}
 
-                  <h1 className="mt-4 text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl md:text-4xl">
+                  <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl md:text-4xl">
                     Inscrivez-vous
                   </h1>
 
@@ -242,17 +241,17 @@ export default function Index() {
                 <div className="border-t-2 border-gray-200 bg-gray-50 px-4 py-6 sm:px-10">
                   <p className="text-xs leading-5 text-gray-500">
                     En vous inscrivant, vous acceptez les{' '}
-                    <a href="#" className="font-medium text-gray-900 hover:underline">
-                      Conditions d'utilisations
-                    </a>
+                    <Link to="/" relative="path" className="font-medium text-gray-900 hover:underline">
+                      Conditions d{"'"}utilisations
+                    </Link>
                     ,{' '}
-                    <a href="#" className="font-medium text-gray-900 hover:underline">
+                    <Link to="/" relative="path" className="font-medium text-gray-900 hover:underline">
                       Politique de confidentialité
-                    </a>{' '}
+                    </Link>{' '}
                     et{' '}
-                    <a href="#" className="font-medium text-gray-900 hover:underline">
+                    <Link to="/" relative="path" className="font-medium text-gray-900 hover:underline">
                       Politique relative aux cookies
-                    </a>
+                    </Link>
                     .
                   </p>
                 </div>

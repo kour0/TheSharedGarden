@@ -13,7 +13,13 @@ session = Session()
 
 CORS(authentication, supports_credentials=True)
 
-BASE_URL = '/api/'
+BASE_URL = '/api/auth'
+
+"""
+It takes in a user's email and password, checks if the user exists and if the password is correct,
+and if so, it returns a cookie with a JWT token
+:return: A response object is being returned.
+"""
 
 
 @authentication.post(BASE_URL + '/signin')
@@ -29,12 +35,19 @@ def signin():
         else:
             token = jwt.encode({'email': email}, config('JWT_SECRET'), algorithm='HS256')
             response = make_response({'message': 'Successfully logged in'})
-            response.set_cookie('Authorization', 'Bearer ' + token, samesite='None', secure=True,
+            response.set_cookie('token', token, samesite='None', secure=True,
                                 max_age=60 * 60 * 24 * 7 if remember else None)
             return response
     except Exception as e:
         session.rollback()
         return {'message': str(e)}, 500
+
+
+"""
+It takes in user infos, checks if the email is already registered, hashes the password, creates a new
+account, and returns a response with a cookie (JWT token)
+:return: A response object is being returned.
+"""
 
 
 @authentication.post(BASE_URL + '/signup')
@@ -52,12 +65,28 @@ def signup():
             return {'message': 'Email already registered.'}, 401
         password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
         password = password.decode('utf-8')
-        account = Accounts(username, first_name, last_name, password, email)
+        account = Accounts(email, username, first_name, last_name, password)
         session.add(account)
         session.commit()
         token = jwt.encode({'email': email}, config('JWT_SECRET'), algorithm='HS256')
         response = make_response({'message': 'Successfully logged in'})
-        response.set_cookie('Authorization', 'Bearer ' + token)
+        response.set_cookie('token', token)
+        return response
+    except Exception as e:
+        return {'message': str(e)}, 500
+
+
+"""
+Logs out the user by deleting the cookie
+:return: A response object is being returned.
+"""
+
+
+@authentication.post(BASE_URL + '/logout')
+def signout():
+    try:
+        response = make_response({'message': 'Successfully logged out'})
+        response.set_cookie('token', '', expires=0)
         return response
     except Exception as e:
         session.rollback()
@@ -68,6 +97,7 @@ def signup():
 def authtest():
     try:
         res = auth.authenticate(request)
+        print(res.email)
     except Exception as e:
-        return {'message': str(e)}, e.args[1]
-    return res
+        return {'message': str(e)}
+    return {"email": res.email}

@@ -1,13 +1,18 @@
-from sqlalchemy import Column
-from sqlalchemy.types import String, Integer
+from sqlalchemy import Column, ForeignKey
+from sqlalchemy.orm import relationship
+from sqlalchemy.types import Integer
 
 from bdd import Base
 
+
 class Do(Base):
     __tablename__ = 'do'
-    username = Column('username', String(300), primary_key=True)
-    task_id = Column('task_id', Integer, nullable=False)
+    account_id = Column('username', Integer, ForeignKey('account.id'), primary_key=True)
+    task_id = Column('task_id', Integer, ForeignKey('task.task_id'), primary_key=True)
 
-    def __init__(self, username, task_id):
-        self.username = username
+    account = relationship("Accounts")
+    task = relationship("Task")
+
+    def __init__(self, account_id, task_id):
+        self.account_id = account_id
         self.task_id = task_id

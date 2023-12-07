@@ -1,13 +1,17 @@
-from sqlalchemy import Column
-from sqlalchemy.types import String
+from sqlalchemy import Column, ForeignKey
+from sqlalchemy.orm import relationship
+from sqlalchemy.types import String, Integer
 
 from bdd import Base
 
+
 class Garden(Base):
     __tablename__ = 'garden'
-    garden_name = Column('garden_name', String(300), primary_key=True)
-    owner = Column('owner', String(300), nullable=False)
-    manager = Column('manager', String(300), nullable=False)
+
+    id_garden = Column('id_garden', Integer(), primary_key=True, autoincrement=True)
+    garden_name = Column('garden_name', String(300), unique=True, nullable=False)
+    owner = Column('owner', Integer(), ForeignKey('account.id'), nullable=False)
+    manager = Column('manager', Integer(), ForeignKey('account.id'), nullable=False)
     garden_type = Column('garden_type', String(300), nullable=False)
     street_address = Column('street_address', String(300), nullable=False)
     country = Column('country', String(300), nullable=False)
@@ -15,9 +19,12 @@ class Garden(Base):
     province = Column('province', String(300), nullable=False)
     postal_code = Column('postal_code', String(300), nullable=False)
 
-    def __init__(self, owner, garden_name, manager, garden_type, street_address, country, city, province, postal_code):
-        self.owner = owner
+    account = relationship("Accounts", foreign_keys=[owner])
+    accountBis = relationship("Accounts", foreign_keys=[manager])
+
+    def __init__(self, garden_name, owner, manager, garden_type, street_address, country, city, province, postal_code):
         self.garden_name = garden_name
+        self.owner = owner
         self.manager = manager
         self.garden_type = garden_type
         self.street_address = street_address

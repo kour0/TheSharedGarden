@@ -1,13 +1,18 @@
-from sqlalchemy import Column
-from sqlalchemy.types import String
+from sqlalchemy import Column, ForeignKey
+from sqlalchemy.orm import relationship
+from sqlalchemy.types import Integer
 
 from bdd import Base
 
+
 class Link(Base):
     __tablename__ = 'link'
-    username = Column('username', String(300), primary_key=True)
-    garden_name= Column('garden_name', String(300), nullable=False)
+    account_id = Column('account_id', Integer(), ForeignKey('account.id'), primary_key=True)
+    garden_id = Column('garden_id', Integer(), ForeignKey('garden.id_garden'), primary_key=True)
 
-    def __init__(self, username, garden_name):
-        self.username = username
-        self.garden_name = garden_name
+    account = relationship("Accounts")
+    garden = relationship("Garden")
+
+    def __init__(self, account_id, garden_id):
+        self.account_id = account_id
+        self.garden_id = garden_id

@@ -1,17 +1,23 @@
-from sqlalchemy import Column
+from sqlalchemy import Column, ForeignKey
+from sqlalchemy.orm import relationship
 from sqlalchemy.types import String, Integer
 
 from bdd import Base
 
+
 class Plot(Base):
     __tablename__ = 'plot'
-    plot_id = Column('plot_id', Integer, primary_key=True)
-    garden_name = Column('garden_name', String(200), nullable = False)
-    plot_state = Column('plot_state', String(300), nullable=False)
-    cultivated_vegetable = Column('cultivated_vegetable', String(300), nullable=False)
 
-    def __init__(self, plot_id, plot_state, cultivated_vegetable):
-        self.plot_id = plot_id
+    plot_id = Column('plot_id', Integer(), primary_key=True, autoincrement=True)
+    garden_id = Column('garden_id', Integer(), ForeignKey('garden.id_garden'), nullable=False)
+    plot_name = Column('plot_name', String(300))
+    plot_state = Column('plot_state', String(300))
+    plant = Column('plant', Integer(), ForeignKey('plant.id'), nullable=True)
+
+    garden = relationship("Garden")
+
+    def __init__(self, garden_id, plot_name=None, plot_state=None, plant=None):
+        self.garden_id = garden_id
+        self.plot_name = plot_name
         self.plot_state = plot_state
-        self.cultivated_vegetable = cultivated_vegetable
-
+        self.plant = plant

@@ -1,12 +1,10 @@
-import { Fragment, useEffect, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { Bars3Icon, HomeIcon, PlusIcon, UserGroupIcon, XMarkIcon } from '@heroicons/react/24/outline';
-import { Link, useNavigate } from 'react-router-dom';
-import { Logo } from '../navigation/Logo';
-import { Outlet } from 'react-router-dom';
 import Cookies from 'js-cookie';
-import PageHeader from '../pageHeader';
-import axios from 'axios';
+import { Fragment, useEffect, useState } from 'react';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { getProfile, getProfileImage } from '../../lib/profile';
+import { Logo } from '../navigation/Logo';
 
 const navigation = [
   { name: 'Mes jardins', icon: HomeIcon, href: '/app/dashboard' },
@@ -17,30 +15,27 @@ const navigation = [
 export default function SideBar() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [active, setActive] = useState(0);
+  const [profilePicture, setProfilePicture] = useState(null);
+
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!Cookies.get('Authorization')) {
+    if (!Cookies.get('token')) {
       navigate('/login');
     }
   }, []);
 
-  // Récupérer mon prénom et mon nom
-  const [username, setUsername] = useState({ firstName: '', lastName: '' });
-  useEffect(() => {
-    axios
-      .get('http://127.0.0.1:5454/api/profile', {
-        withCredentials: true,
-      })
-      .then((response) => {
-      //   On récupère le prénom et le nom de l'utilisateur
-        setUsername({ firstName: response.data.first_name, lastName: response.data.last_name });
-      }
-      );
-  }
-  , []);
+  const { isLoading, isError, data, error } = getProfile();
 
-  return (
+  const { isLoading: imageLoading, isError: imageisError, data: imageData, error: imageError } = getProfileImage();
+
+  if (!imageLoading && !imageisError) {
+    const reader = new FileReader();
+    reader.onload = (e) => setProfilePicture(e.target.result);
+    reader.readAsDataURL(imageData);
+  }
+
+  return !isError && !isLoading && !imageLoading && !imageError ? (
     <>
       <div>
         <Transition.Root show={sidebarOpen} as={Fragment}>
@@ -103,13 +98,13 @@ export default function SideBar() {
                             (index === active
                               ? 'bg-gray-100 text-gray-900'
                               : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
-                              'group flex items-center px-2 py-2 text-base font-medium rounded-md')
+                            'group flex items-center px-2 py-2 text-base font-medium rounded-md')
                           }
                         >
                           <item.icon
                             className={
                               (index === active ? 'text-gray-500' : 'text-gray-400 group-hover:text-gray-500',
-                                'mr-4 flex-shrink-0 h-6 w-6')
+                              'mr-4 flex-shrink-0 h-6 w-6')
                             }
                             aria-hidden="true"
                           />
@@ -118,23 +113,24 @@ export default function SideBar() {
                       ))}
                     </nav>
                   </div>
-                  <Link
-                    to="/app/profile"
-                    relative="path"
-                    onClick={() => setActive(-1)}
-                  >
-                    <div className={(-1 == active ? 'bg-gray-100' : '' ) + " flex flex-shrink-0 border-t border-gray-200 p-4"}>
-
+                  <Link to="/app/profile" relative="path" onClick={() => setActive(-1)}>
+                    <div
+                      className={
+                        (-1 == active ? 'bg-gray-100' : '') + ' flex flex-shrink-0 border-t border-gray-200 p-4'
+                      }
+                    >
                       <div className="flex items-center">
                         <div>
                           <img
                             className="inline-block h-10 w-10 rounded-full"
-                            src="http://127.0.0.1:5454/api/profile/picture"
+                            src="https://i.seadn.io/gae/Tg1-LZaAv95ggi3IqUkKcdiMbyQinuKs5paMhCFj4lS8liodkI6Tt5_Sexlucsa2byQyv1cPriRLKDkAuoLqqTxg89gypPrXBXn4MCs?auto=format&w=1000"
                             alt=""
                           />
                         </div>
                         <div className="ml-3">
-                          <p className="text-base font-medium text-gray-700 group-hover:text-gray-900">{username.firstName + ' ' + username.lastName}</p>
+                          <p className="text-base font-medium text-gray-700 group-hover:text-gray-900">
+                            {data.first_name + ' ' + data.last_name}
+                          </p>
                           <p className="text-sm font-medium text-gray-500 group-hover:text-gray-700">View profile</p>
                         </div>
                       </div>
@@ -181,22 +177,16 @@ export default function SideBar() {
               </nav>
             </div>
 
-            <Link
-              to="/app/profile"
-              relative="path"
-              onClick={() => setActive(-1)}
-            >
-              <div className={(-1 == active ? 'bg-gray-100' : '' ) + " flex flex-shrink-0 border-t border-gray-200 p-4"}>
+            <Link to="/app/profile" relative="path" onClick={() => setActive(-1)}>
+              <div className={(-1 == active ? 'bg-gray-100' : '') + ' flex flex-shrink-0 border-t border-gray-200 p-4'}>
                 <div className="flex items-center">
                   <div>
-                    <img
-                      className="inline-block h-9 w-9 rounded-full"
-                      src="http://127.0.0.1:5454/api/profile/picture"
-                      alt=""
-                    />
+                    <img className="inline-block h-9 w-9 rounded-full" src={profilePicture} alt="" />
                   </div>
                   <div className="ml-3">
-                    <p className="text-sm font-medium text-gray-700 group-hover:text-gray-900">{username.firstName + ' ' + username.lastName}</p>
+                    <p className="text-sm font-medium text-gray-700 group-hover:text-gray-900">
+                      {data.first_name + ' ' + data.last_name}
+                    </p>
                     <p className="text-xs font-medium text-gray-500 group-hover:text-gray-700">View profile</p>
                   </div>
                 </div>
@@ -221,5 +211,7 @@ export default function SideBar() {
         </div>
       </div>
     </>
+  ) : (
+    <></>
   );
 }

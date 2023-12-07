@@ -13,3 +13,4 @@ export function isOdd(value) {
 export function getDateWithUnixTimestamp(unixTimestamp) {
   return new Date(unixTimestamp).toLocaleDateString();
 }
+

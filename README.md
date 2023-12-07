@@ -20,7 +20,3 @@ Les enjeux climatiques n’ont jamais été aussi élevés. Notre planète arriv
 En effet, un mode de vie plus judicieux écologiquement serait de revenir à des productions locales en passant directement par les producteurs. Certaines personnes ont une surface de production( jardin, verger) mais n’ont pas le temps ou les moyens de s’en occuper. Tandis que d’autres personnes, n’ont pas de terrain mais sont prêtes à donner de leur temps pour pouvoir consommer localement.
 
 Notre solution : utiliser les technologies modernes du web pour proposer une application permettant à n’importe qui de créer/rejoindre un jardin mais surtout de pouvoir gérer facilement un jardin sur lequel vont agir plusieurs personnes.
-
-## Crédits
-
-Générateur de la documentation de l'API : <<https://apidocjs.com>>
