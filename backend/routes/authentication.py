@@ -89,6 +89,7 @@ def signout():
         response.set_cookie('token', '', expires=0)
         return response
     except Exception as e:
+        session.rollback()
         return {'message': str(e)}, 500
 
 
